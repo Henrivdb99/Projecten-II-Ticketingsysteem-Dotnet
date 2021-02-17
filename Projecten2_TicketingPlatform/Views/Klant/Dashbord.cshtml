@@ -1,0 +1,30 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <h1>Welkom @User.Identity.Name</h1><br/>
+    <li class="nav-item">
+        <a class="btn btn-outline-primary" asp-area="" asp-controller="Klant" asp-action="Contracten">Contracten</a>
+    </li><br/>
+    <li class="nav-item">
+        <a class="btn btn-outline-primary" asp-area="" asp-controller="Klant" asp-action="KnowledgeBase">Knowledge base</a>
+    </li><br />
+    <li class="nav-item">
+        <a class="btn btn-outline-primary" asp-area="" asp-controller="Klant" asp-action="NieuwTicket">Nieuw ticket</a>
+    </li><br />
+    <li class="nav-item">
+        <a class="btn btn-outline-primary" asp-area="" asp-controller="Klant" asp-action="OpenstaandeTickets">Openstaande tickets</a>
+    </li><br />
+    <li class="nav-item">
+        <a class="btn btn-outline-primary" asp-area="" asp-controller="Klant" asp-action="AfgehandeldeTickets">Afgehandelde tickets</a>
+    </li><br />
+    <li class="nav-item">
+        <a class="btn btn-outline-primary" asp-area="" asp-controller="Klant" asp-action="Statistieken">Statistieken</a>
+    </li>
+
+}
