@@ -7,5 +7,7 @@ namespace Project_21_22
 {
     public enum Status
     {
+        Beschikbaar,
+        Geblokkeerd
     }
 }
