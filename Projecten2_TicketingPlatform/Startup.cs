@@ -12,6 +12,7 @@ using Projecten2_TicketingPlatform.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Projecten2_TicketingPlatform
@@ -31,14 +32,22 @@ namespace Projecten2_TicketingPlatform
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("klant", policy => policy.RequireClaim(ClaimTypes.Role, "klant"));
+            });
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            services.AddScoped<TicketingPlatformDataInitializer>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, TicketingPlatformDataInitializer ticketingPlatformDataInitializer)
         {
             if (env.IsDevelopment())
             {
@@ -69,6 +78,8 @@ namespace Projecten2_TicketingPlatform
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+
+            ticketingPlatformDataInitializer.InitializeData().Wait();
         }
     }
 }
