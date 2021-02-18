@@ -5,7 +5,12 @@ VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Projecten2_TicketingPlatform", "Projecten2_TicketingPlatform\Projecten2_TicketingPlatform.csproj", "{ADEA9A04-5BBA-4FFE-8D93-5C2FB1752CD0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Projecten2_TicketingPlatform.Tests", "Projecten2_TicketingPlatform.Tests\Projecten2_TicketingPlatform.Tests.csproj", "{8D9D408E-458E-4437-B855-6CF0320A6B62}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Projecten2_TicketingPlatform.Tests", "Projecten2_TicketingPlatform.Tests\Projecten2_TicketingPlatform.Tests.csproj", "{8D9D408E-458E-4437-B855-6CF0320A6B62}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DB257AD7-A71E-4949-97EB-70483C646C60}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
