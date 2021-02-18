@@ -10,28 +10,29 @@
     <h1>Welkom @User.Identity.Name</h1>
 
     <div class="container">
-        <div class="row mt-5">
+        <div class="row mt-5 row justify-content-around">
             <div class="col-sm-6 col-md-4">
-                <a class="btn btn-outline-primary btn-lg" asp-area="" asp-controller="Klant" asp-action="Contracten">Contracten</a>
+                <a class="btn btn-outline-primary btn-lg btn-block" asp-area="" asp-controller="Klant" asp-action="Contracten">Contracten</a>
             </div>
             <div class="col-sm-6 col-md-4">
-                <a class="btn btn-outline-primary btn-lg" asp-area="" asp-controller="Klant" asp-action="KnowledgeBase">Knowledge base</a>
+                <a class="btn btn-outline-primary btn-lg btn-block" asp-area="" asp-controller="Klant" asp-action="KnowledgeBase">Knowledge base</a>
+            </div>           
+        </div>
+        <div class="row mt-5 row justify-content-around">
+            <div class="col-sm-6 col-md-4">
+                <a class="btn btn-outline-primary btn-lg btn-block" asp-area="" asp-controller="Klant" asp-action="Statistieken">Statistieken</a>
             </div>
             <div class="col-sm-6 col-md-4">
-                <a class="btn btn-outline-primary btn-lg" asp-area="" asp-controller="Klant" asp-action="Statistieken">Statistieken</a>
+                <a class="btn btn-outline-primary btn-lg btn-block" asp-area="" asp-controller="Klant" asp-action="NieuwTicket">Nieuw ticket</a>
             </div>
         </div>
-        <div class="row mt-5">
+        <div class="row mt-5 row justify-content-around">
             <div class="col-sm-6 col-md-4">
-                <a class="btn btn-outline-primary btn-lg" asp-area="" asp-controller="Klant" asp-action="NieuwTicket">Nieuw ticket</a>
+                <a class="btn btn-outline-primary btn-lg btn-block" asp-area="" asp-controller="Klant" asp-action="OpenstaandeTickets">Openstaande tickets</a>
             </div>
             <div class="col-sm-6 col-md-4">
-                <a class="btn btn-outline-primary btn-lg" asp-area="" asp-controller="Klant" asp-action="OpenstaandeTickets">Openstaande tickets</a>
-            </div>
-            <div class="col-sm-6 col-md-4">
-                <a class="btn btn-outline-primary btn-lg" asp-area="" asp-controller="Klant" asp-action="AfgehandeldeTickets">Afgehandelde tickets</a>
+                <a class="btn btn-outline-primary btn-lg btn-block" asp-area="" asp-controller="Klant" asp-action="AfgehandeldeTickets">Afgehandelde tickets</a>
             </div>
         </div>
     </div>
-
 }
