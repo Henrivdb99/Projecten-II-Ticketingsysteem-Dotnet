@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
-  <Class Name="Project_21_22.Gebruiker">
+  <Class Name="Projecten2_TicketingPlatform.Models.Domein.Gebruiker">
     <Position X="3.75" Y="0.75" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAEAAAAAAAAAAAAAACAAAAAAAIAAAAAAAAAAAA=</HashCode>
@@ -10,7 +10,7 @@
       <Property Name="Status" />
     </ShowAsAssociation>
   </Class>
-  <Class Name="Project_21_22.Klant">
+  <Class Name="Projecten2_TicketingPlatform.Models.Domein.Klant">
     <Position X="1.5" Y="3" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
@@ -20,46 +20,56 @@
       <Property Name="Tickets" />
     </ShowAsCollectionAssociation>
   </Class>
-  <Class Name="Project_21_22.Technieker">
+  <Class Name="Projecten2_TicketingPlatform.Models.Domein.Technieker">
     <Position X="3.25" Y="3" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Domein\Technieker.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Project_21_22.SupportManager">
+  <Class Name="Projecten2_TicketingPlatform.Models.Domein.SupportManager">
     <Position X="5" Y="3" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Domein\SupportManager.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Project_21_22.Administrator">
+  <Class Name="Projecten2_TicketingPlatform.Models.Domein.Administrator">
     <Position X="6.75" Y="3" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Domein\Administrator.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Projecten2_TicketingPlatform.Models.Domein.Ticket" Collapsed="true">
-    <Position X="5" Y="4.5" Width="1.5" />
+  <Class Name="Projecten2_TicketingPlatform.Models.Domein.Ticket">
+    <Position X="5" Y="4.5" Width="4.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>gAAAAACEAAAAgEAAAAAAAAAAEAAAAAAAAAAAIEBQAAA=</HashCode>
       <FileName>Models\Domein\Ticket.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Status" />
+    </ShowAsAssociation>
   </Class>
-  <Interface Name="Projecten2_TicketingPlatform.IGebruikerRepository">
+  <Interface Name="Projecten2_TicketingPlatform.Models.Domein.IGebruikerRepository">
     <Position X="0.5" Y="0.75" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Domein\IGebruikerRepository.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Enum Name="Project_21_22.Status">
+  <Enum Name="Projecten2_TicketingPlatform.Models.Domein.Status">
     <Position X="6.75" Y="0.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAABAAAAACAAAAAAAAAA=</HashCode>
       <FileName>Models\Domein\Status.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Projecten2_TicketingPlatform.Models.Domein.TicketStatus">
+    <Position X="11.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAIAAAEAAAAAAAAAAAAAAAAAIBAAABAAEA=</HashCode>
+      <FileName>Models\Domein\TicketStatus.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Font Name="Segoe UI" Size="9" />
