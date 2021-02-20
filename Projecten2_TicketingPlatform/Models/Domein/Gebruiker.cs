@@ -8,15 +8,26 @@ namespace Projecten2_TicketingPlatform.Models.Domein
 {
     public abstract class Gebruiker
     {
-        private String _gebruikersnaam;
+        private string _gebruikersnaam;
         private int _wachtwoord;
 
-        public Status Status
+        public string Gebruikersnaam
         {
-            get => default;
-            set
+            get
             {
+                return _gebruikersnaam;
+            }
+            private set
+            {
+                _gebruikersnaam = value;
             }
         }
+        public Status Status
+        {
+            get;
+            set;
+        }
+
+
     }
 }

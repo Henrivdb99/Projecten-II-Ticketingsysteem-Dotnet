@@ -7,7 +7,8 @@ namespace Projecten2_TicketingPlatform.Models.Domein
 {
     public enum Status
     {
-        Beschikbaar,
-        Geblokkeerd
+        Actief,
+        Geblokkeerd,
+        NonActief
     }
 }
