@@ -7,7 +7,7 @@ using Projecten2_TicketingPlatform.Models;
 
 namespace Projecten2_TicketingPlatform.Controllers
 {
-    public class DashBordController : Controller
+    public class DashbordController : Controller
     {
         public IActionResult Index()
         {

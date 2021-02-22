@@ -74,7 +74,7 @@ namespace Projecten2_TicketingPlatform.Areas.Identity.Pages.Account
                   
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl = returnUrl ?? Url.Content("~/Klant/Dashbord");
+            returnUrl = returnUrl ?? Url.Content("~/Dashbord/Index");
 
             if (ModelState.IsValid)
             {
