@@ -7,9 +7,9 @@ using Projecten2_TicketingPlatform.Models;
 
 namespace Projecten2_TicketingPlatform.Controllers
 {
-    public class KlantController : Controller
+    public class DashBordController : Controller
     {
-        public IActionResult Dashbord()
+        public IActionResult Index()
         {
             return View();
         }
