@@ -1,7 +1,5 @@
 ﻿using Projecten2_TicketingPlatform.Models.Domein;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace Projecten2_TicketingPlatform.Tests.Models.Domein

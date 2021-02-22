@@ -13,7 +13,7 @@ namespace Projecten2_TicketingPlatform.Models.Domein
         public DateTime DatumAanmaken { get; set; }
         public string Omschrijving { get; set; }
         public int TypeTicket { get; set; }
-        public string Klant { get; set; }
+        public string KlantId { get; set; }
         public string Technieker { get; set; }
         public string[] Opmerkingen { get; set; }
         public string Bijlage { get; set; }
@@ -26,7 +26,7 @@ namespace Projecten2_TicketingPlatform.Models.Domein
             DatumAanmaken = date;
             Omschrijving = omschrijving;
             TypeTicket = typeTicket;
-            Klant = klantId;
+            KlantId = klantId;
             Technieker = technieker;
             Opmerkingen = opmerkingen;
             Bijlage = bijlage;
