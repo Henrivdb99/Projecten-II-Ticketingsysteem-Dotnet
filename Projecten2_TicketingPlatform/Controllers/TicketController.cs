@@ -19,19 +19,45 @@ namespace Projecten2_TicketingPlatform.Controllers
 
         public IActionResult Index()
         {
-            IEnumerable<Ticket> tickets = null;
+            IEnumerable<Ticket> tickets = _ticketRepository.GetAllByClientId('1');
             return View(tickets);
-            throw new NotImplementedException();
         }
         #region == Create Methodes ==
         public IActionResult Create()
         {
-            throw new NotImplementedException();
+            return View(new EditViewModel());
         }
         [HttpPost]
         public IActionResult Create(EditViewModel ticketVm)
         {
-            throw new NotImplementedException();
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    Ticket ticket = new Ticket
+                    {
+                        DatumAanmaken = ticketVm.DatumAanmaken,
+                        Titel = ticketVm.Titel,
+                        Omschrijving = ticketVm.Omschrijving,
+                        TypeTicket = ticketVm.TypeTicket,
+                        Technieker = ticketVm.Technieker,
+                        Opmerkingen = ticketVm.Opmerkingen,
+                        Bijlage = ticketVm.Bijlage,
+                        KlantId = "1" //!!!!!!!!!!!!!!!!
+                    };
+                    ticket.Status = TicketStatus.Aangemaakt;
+                    ticket.Valideer();
+                    _ticketRepository.Add(ticket);
+                    _ticketRepository.SaveChanges();
+                }
+                catch (ArgumentException e)
+                {
+                    //nada
+                }
+                return RedirectToAction(nameof(Index)); 
+            }
+            return View(ticketVm);
+
         }
         #endregion
 

@@ -18,6 +18,10 @@ namespace Projecten2_TicketingPlatform.Models.Domein
         public string Opmerkingen { get; set; }
         public string Bijlage { get; set; }
 
+        public Ticket()
+        {
+                
+        }
         public Ticket(string titel, int ticketId, TicketStatus ticketStatus, DateTime date, string omschrijving, int typeTicket, string klantId, string technieker, string opmerkingen, string bijlage)
         {
             Titel = titel;
@@ -30,6 +34,13 @@ namespace Projecten2_TicketingPlatform.Models.Domein
             Technieker = technieker;
             Opmerkingen = opmerkingen;
             Bijlage = bijlage;
+            Valideer();
+        }
+
+        public void Valideer()
+        {
+            if (Titel == null || DatumAanmaken == null || Omschrijving == null || TypeTicket == null)
+                throw new ArgumentException("Datum aanmaken, titel, omschrijving en type zijn verplicht.");
         }
 
         //Nice to have
