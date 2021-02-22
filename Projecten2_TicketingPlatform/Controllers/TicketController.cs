@@ -25,6 +25,7 @@ namespace Projecten2_TicketingPlatform.Controllers
         #region == Create Methodes ==
         public IActionResult Create()
         {
+            ViewData["IsEdit"] = false;
             return View(new EditViewModel());
         }
         [HttpPost]
@@ -46,7 +47,6 @@ namespace Projecten2_TicketingPlatform.Controllers
                         KlantId = "1" //!!!!!!!!!!!!!!!!
                     };
                     ticket.Status = TicketStatus.Aangemaakt;
-                    ticket.Valideer();
                     _ticketRepository.Add(ticket);
                     _ticketRepository.SaveChanges();
                 }
@@ -56,6 +56,7 @@ namespace Projecten2_TicketingPlatform.Controllers
                 }
                 return RedirectToAction(nameof(Index)); 
             }
+            ViewData["IsEdit"] = false;
             return View(ticketVm);
 
         }
@@ -64,12 +65,17 @@ namespace Projecten2_TicketingPlatform.Controllers
         #region == Edit Methodes ==
         public IActionResult Edit(int ticketId)
         {
-            throw new NotImplementedException();
+            Ticket ticket = _ticketRepository.GetById(ticketId);
+            ViewData["IsEdit"] = true;
+            return View(new EditViewModel(ticket));
         }
         [HttpPost]
-        public IActionResult Edit(int ticketId, EditViewModel editViewModel)
+        public IActionResult Edit(int ticketId, EditViewModel ticketVm)
         {
-            throw new NotImplementedException();
+            Ticket ticket = _ticketRepository.GetById(ticketId);
+            ticket.EditTicket(ticketVm.DatumAanmaken, ticketVm.Titel, ticketVm.Omschrijving, ticketVm.TypeTicket, ticketVm.Technieker, ticketVm.Opmerkingen, ticketVm.Bijlage, "1"); //!!!!!
+            _ticketRepository.SaveChanges();
+            return RedirectToAction(nameof(Index));
         } 
         #endregion
     }
