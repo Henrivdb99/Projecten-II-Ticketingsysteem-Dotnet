@@ -15,10 +15,10 @@ namespace Projecten2_TicketingPlatform.Models.Domein
         public int TypeTicket { get; set; }
         public string KlantId { get; set; }
         public string Technieker { get; set; }
-        public string[] Opmerkingen { get; set; }
+        public string Opmerkingen { get; set; }
         public string Bijlage { get; set; }
 
-        public Ticket(string titel, int ticketId, TicketStatus ticketStatus, DateTime date, string omschrijving, int typeTicket, string klantId, string technieker, string[] opmerkingen, string bijlage)
+        public Ticket(string titel, int ticketId, TicketStatus ticketStatus, DateTime date, string omschrijving, int typeTicket, string klantId, string technieker, string opmerkingen, string bijlage)
         {
             Titel = titel;
             Ticketid = ticketId;
