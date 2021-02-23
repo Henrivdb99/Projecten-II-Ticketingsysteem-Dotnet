@@ -57,16 +57,32 @@ namespace Projecten2_TicketingPlatform.Controllers
         public IActionResult Edit(int ticketId)
         {
             Ticket ticket = _ticketRepository.GetById(ticketId);
+            if (ticket == null)
+                return new NotFoundResult();
             ViewData["IsEdit"] = true;
             return View(new EditViewModel(ticket));
         }
         [HttpPost]
         public IActionResult Edit(int ticketId, EditViewModel ticketVm)
         {
-            Ticket ticket = _ticketRepository.GetById(ticketId);
-            ticket.EditTicket(ticketVm.DatumAanmaken, ticketVm.Titel, ticketVm.Omschrijving, ticketVm.TypeTicket, ticketVm.Technieker, ticketVm.Opmerkingen, ticketVm.Bijlage, "1"); //!!!!!
-            _ticketRepository.SaveChanges();
-            return RedirectToAction(nameof(Index));
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    Ticket ticket = _ticketRepository.GetById(ticketId);
+                    if (ticket == null)
+                        return new NotFoundResult();
+                    ticket.EditTicket(ticketVm.DatumAanmaken, ticketVm.Titel, ticketVm.Omschrijving, ticketVm.TypeTicket, ticketVm.Technieker, ticketVm.Opmerkingen, ticketVm.Bijlage, "1"); //!!!!!
+                    _ticketRepository.SaveChanges();
+                }
+                catch (ArgumentException)
+                {
+                    //nada
+                }
+                return RedirectToAction(nameof(Index)); 
+            }
+            ViewData["IsEdit"] = true;
+            return View(ticketVm);
         } 
         #endregion
     }

@@ -121,8 +121,8 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
             var ticketVm = new EditViewModel(_dummyContext.Ticket) { Titel = null };
             var result = Assert.IsType<RedirectToActionResult>(_ticketController.Edit(1, ticketVm));
             var ticket = _dummyContext.Ticket;
-            Assert.Equal("Jan de technieker ", ticket.Technieker);
-            Assert.Equal("Ticket20", ticket.Titel);
+            Assert.Equal("Jan de technieker", ticket.Technieker);
+            Assert.Equal("Ticket20", ticket.Titel); // Titel is toch null?
             Assert.Equal("Index", result?.ActionName);
             _mockTicketRepository.Verify(m => m.SaveChanges(), Times.Never());
         }
@@ -137,10 +137,10 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
         public void EditHttpPost_ModelStateErrors_DoesNotChangeNorPersistTicket()
         {
             var ticketVm = new EditViewModel(_dummyContext.Ticket);
-            var result = _ticketController.Edit(1, ticketVm);
             _ticketController.ModelState.AddModelError("", "Any error");
-            Assert.Equal("Ticket20", ticketVm.Titel);
-            Assert.Equal(1, ticketVm.TypeTicket);
+            var result = _ticketController.Edit(1, ticketVm);
+            Assert.Equal("Ticket20", ticketVm.Titel); //wat is hier het nut van?
+            Assert.Equal(1, ticketVm.TypeTicket); //hetzelfde hier, het ticketVm wordt volledig door de testen bepaald
             _mockTicketRepository.Verify(m => m.SaveChanges(), Times.Never());
         }
         [Fact]
