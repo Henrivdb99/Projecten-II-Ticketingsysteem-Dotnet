@@ -35,22 +35,13 @@ namespace Projecten2_TicketingPlatform.Controllers
             {
                 try
                 {
-                    Ticket ticket = new Ticket
-                    {
-                        DatumAanmaken = ticketVm.DatumAanmaken,
-                        Titel = ticketVm.Titel,
-                        Omschrijving = ticketVm.Omschrijving,
-                        TypeTicket = ticketVm.TypeTicket,
-                        Technieker = ticketVm.Technieker,
-                        Opmerkingen = ticketVm.Opmerkingen,
-                        Bijlage = ticketVm.Bijlage,
-                        KlantId = "1" //!!!!!!!!!!!!!!!!
-                    };
-                    ticket.Status = TicketStatus.Aangemaakt;
+                    Ticket ticket = new Ticket();
+                    ticket.EditTicket(ticketVm.DatumAanmaken, ticketVm.Titel, ticketVm.Omschrijving, ticketVm.TypeTicket, ticketVm.Technieker, ticketVm.Opmerkingen, ticketVm.Bijlage, "1"); //!!!!!
+                    ticket.Status = TicketStatus.Aangemaakt;  
                     _ticketRepository.Add(ticket);
                     _ticketRepository.SaveChanges();
                 }
-                catch (ArgumentException e)
+                catch (ArgumentException)
                 {
                     //nada
                 }
