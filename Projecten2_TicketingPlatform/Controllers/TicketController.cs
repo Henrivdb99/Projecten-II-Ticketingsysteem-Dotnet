@@ -45,7 +45,7 @@ namespace Projecten2_TicketingPlatform.Controllers
                 try
                 {
                     Ticket ticket = new Ticket();
-                    ticket.EditTicket(ticketVm.DatumAanmaken, ticketVm.Titel, ticketVm.Omschrijving, ticketVm.TypeTicket, ticketVm.Technieker, ticketVm.Opmerkingen, ticketVm.Bijlage, _userManager.GetUserId(User)); //!!!!!
+                    ticket.EditTicket(ticketVm.DatumAanmaken, ticketVm.Titel, ticketVm.Omschrijving, ticketVm.TypeTicket, /*ticketVm.Technieker, ticketVm.Opmerkingen,*/ ticketVm.Bijlage, _userManager.GetUserId(User)); //!!!!!
                     ticket.Status = TicketStatus.Aangemaakt;  
                     _ticketRepository.Add(ticket);
                     _ticketRepository.SaveChanges();
@@ -82,7 +82,7 @@ namespace Projecten2_TicketingPlatform.Controllers
                     Ticket ticket = _ticketRepository.GetById(ticketId);
                     if (ticket == null)
                         return new NotFoundResult();
-                    ticket.EditTicket(ticketVm.DatumAanmaken, ticketVm.Titel, ticketVm.Omschrijving, ticketVm.TypeTicket, ticketVm.Technieker, ticketVm.Opmerkingen, ticketVm.Bijlage, _userManager.GetUserId(User)); 
+                    ticket.EditTicket(ticketVm.DatumAanmaken, ticketVm.Titel, ticketVm.Omschrijving, ticketVm.TypeTicket, /*ticketVm.Technieker, ticketVm.Opmerkingen,*/ ticketVm.Bijlage, _userManager.GetUserId(User)); 
                     _ticketRepository.SaveChanges();
                     TempData["Boodschap"] = "Bewerken ticket gelukt!";
                 }

@@ -50,14 +50,14 @@ namespace Projecten2_TicketingPlatform.Models.Domein
             Valideer();
         }
 
-        public void EditTicket(DateTime date, string titel, string omschrijving, int typeTicket, string technieker, string opmerkingen, string bijlage, string klantId)
+        public void EditTicket(DateTime date, string titel, string omschrijving, int typeTicket, /*string technieker, string opmerkingen,*/ string bijlage, string klantId)
         {
             DatumAanmaken = date;
             Titel = titel;
             Omschrijving = omschrijving;
             TypeTicket = typeTicket;
-            Technieker = technieker;
-            Opmerkingen = opmerkingen;
+            /*Technieker = technieker;
+            Opmerkingen = opmerkingen;*/
             Bijlage = bijlage;
             KlantId = klantId;
             Valideer();
