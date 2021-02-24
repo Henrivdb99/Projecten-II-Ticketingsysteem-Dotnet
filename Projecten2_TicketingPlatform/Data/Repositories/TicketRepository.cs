@@ -1,4 +1,5 @@
-﻿using Projecten2_TicketingPlatform.Models.Domein;
+﻿using Microsoft.EntityFrameworkCore;
+using Projecten2_TicketingPlatform.Models.Domein;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +9,18 @@ namespace Projecten2_TicketingPlatform.Data.Repositories
 {
     public class TicketRepository : ITicketRepository
     {
+        private readonly ApplicationDbContext _context;
+        private readonly DbSet<Ticket> _tickets;
+
+        public TicketRepository(ApplicationDbContext context)
+        {
+            _context = context;
+            _tickets = context.Tickets;
+        }
+
         public void Add(Ticket ticket)
         {
-            throw new NotImplementedException();
+            _tickets.Add(ticket);
         }
 
         public void Delete(Ticket ticket)
@@ -20,17 +30,17 @@ namespace Projecten2_TicketingPlatform.Data.Repositories
 
         public IEnumerable<Ticket> GetAllByClientId(int klantId)
         {
-            throw new NotImplementedException();
+            return _tickets.Where(t => t.KlantId.Equals(klantId)).OrderBy(t => t.DatumAanmaken).AsNoTracking().ToList();
         }
 
         public Ticket GetById(int ticketId)
         {
-            throw new NotImplementedException();
+            return _tickets.SingleOrDefault(p => p.Ticketid == ticketId);
         }
 
         public void SaveChanges()
         {
-            throw new NotImplementedException();
+            _context.SaveChanges();
         }
     }
 }
