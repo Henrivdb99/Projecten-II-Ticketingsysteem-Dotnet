@@ -49,9 +49,9 @@ namespace Projecten2_TicketingPlatform.Controllers
                     _ticketRepository.Add(ticket);
                     _ticketRepository.SaveChanges();
                 }
-                catch (ArgumentException)
+                catch (Exception ex)
                 {
-                    //nada
+                    TempData["error"] = ex.Message;
                 }
                 return RedirectToAction(nameof(Index)); 
             }

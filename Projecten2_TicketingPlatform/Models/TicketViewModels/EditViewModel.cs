@@ -8,19 +8,19 @@ namespace Projecten2_TicketingPlatform.Models.TicketViewModels
 {
     public class EditViewModel
     {
-        public DateTime DatumAanmaken;
-        public string Titel;
-        public string Omschrijving;
-        public int TypeTicket;
-        public string Technieker;
-        public string Opmerkingen;
-        public string Bijlage;
+        public DateTime DatumAanmaken { get; set; }
+        public string Titel { get; set; }
+        public string Omschrijving { get; set; }
+        public int TypeTicket { get; set; }
+        public string Technieker { get; set; }
+        public string Opmerkingen { get; set; }
+        public string Bijlage { get; set; }
 
         public EditViewModel()
         {
         }
 
-        public EditViewModel(Ticket ticket)
+        public EditViewModel(Ticket ticket) : this()
         {
             DatumAanmaken = ticket.DatumAanmaken;
             Titel = ticket.Titel;
