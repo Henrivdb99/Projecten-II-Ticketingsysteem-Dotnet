@@ -7,7 +7,19 @@ namespace Projecten2_TicketingPlatform.Models.Domein
 {
     public class Ticket
     {
-        public string Titel { get; set; }
+        private string _titel;
+
+        public string Titel
+        {
+            get => _titel;
+            private set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentException("Ticket must have a name");
+                _titel = value;
+            }
+        }
+
         public int Ticketid { get; set; }
         public TicketStatus Status { get; set; }
         public DateTime DatumAanmaken { get; set; }
