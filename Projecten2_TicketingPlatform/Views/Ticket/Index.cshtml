@@ -58,7 +58,7 @@
                 @Html.DisplayFor(modelItem => item.Status)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DatumAanmaken)
+                @(item.DatumAanmaken.ToString("dd/MM/yyyy"))
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Omschrijving)
