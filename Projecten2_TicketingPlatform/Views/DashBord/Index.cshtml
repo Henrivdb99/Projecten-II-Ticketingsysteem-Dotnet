@@ -5,34 +5,78 @@
     ViewData["Title"] = "Home Page";
 }
 
-@if (SignInManager.IsSignedIn(User))
-{
-    <h1>Welkom @User.Identity.Name</h1>
+<h1>Welkom @User.Identity.Name</h1>
 
+@if (this.User.IsInRole("klant"))
+{
     <div class="container">
         <div class="row mt-5 row justify-content-around">
             <div class="col-sm-6 col-md-4">
-                <a class="btn btn-outline-primary btn-lg btn-block" asp-area="" asp-controller="Klant" asp-action="Contracten">Contracten</a>
+                <a class="btn btn-outline-primary btn-lg btn-block" asp-area="" asp-controller="Contract" asp-action="Contracten">Contracten Beheren</a>
             </div>
             <div class="col-sm-6 col-md-4">
-                <a class="btn btn-outline-primary btn-lg btn-block" asp-area="" asp-controller="Klant" asp-action="KnowledgeBase">Knowledge base</a>
-            </div>           
-        </div>
-        <div class="row mt-5 row justify-content-around">
-            <div class="col-sm-6 col-md-4">
-                <a class="btn btn-outline-primary btn-lg btn-block" asp-area="" asp-controller="Klant" asp-action="Statistieken">Statistieken</a>
-            </div>
-            <div class="col-sm-6 col-md-4">
-                <a class="btn btn-outline-primary btn-lg btn-block" asp-area="" asp-controller="Klant" asp-action="NieuwTicket">Nieuw ticket</a>
+                <a class="btn btn-outline-primary btn-lg btn-block" asp-area="" asp-controller="Knowledgebase" asp-action="KnowledgeBase">Knowledge base</a>
             </div>
         </div>
         <div class="row mt-5 row justify-content-around">
             <div class="col-sm-6 col-md-4">
-                <a class="btn btn-outline-primary btn-lg btn-block" asp-area="" asp-controller="Klant" asp-action="OpenstaandeTickets">Openstaande tickets</a>
+                <a class="btn btn-outline-primary btn-lg btn-block" asp-area="" asp-controller="Statistieken" asp-action="Statistieken">Statistieken</a>
             </div>
             <div class="col-sm-6 col-md-4">
-                <a class="btn btn-outline-primary btn-lg btn-block" asp-area="" asp-controller="Klant" asp-action="AfgehandeldeTickets">Afgehandelde tickets</a>
+                <a class="btn btn-outline-primary btn-lg btn-block" asp-area="" asp-controller="Ticket" asp-action="TicketsBeheren">Tickets Beheren</a>
             </div>
         </div>
     </div>
+}
+
+@if (this.User.IsInRole("technieker"))
+{
+<div class="container">
+    <div class="row mt-5 row justify-content-around">
+        <div class="col-sm-6 col-md-4">
+            <a class="btn btn-outline-primary btn-lg btn-block" asp-area="" asp-controller="Ticket" asp-action="TicketsBeheren">Tickets Beheren</a>
+        </div>
+        <div class="col-sm-6 col-md-4">
+            <a class="btn btn-outline-primary btn-lg btn-block" asp-area="" asp-controller="Knowledgebase" asp-action="KnowledgeBase">Knowledge Base</a>
+        </div>
+    </div>
+    <div class="row mt-5 row justify-content-around">
+        <div class="col-sm-6 col-md-4">
+            <a class="btn btn-outline-primary btn-lg btn-block" asp-area="" asp-controller="Statistieken" asp-action="Statistieken">Statistieken</a>
+        </div>
+    </div>
+</div>
+}
+
+@if (this.User.IsInRole("supportmanager"))
+{
+<div class="container">
+    <div class="row mt-5 row justify-content-around">
+        <div class="col-sm-6 col-md-4">
+            <a class="btn btn-outline-primary btn-lg btn-block" asp-area="" asp-controller="Ticket" asp-action="Tickets">Tickets Beheren</a>
+        </div>
+        <div class="col-sm-6 col-md-4">
+            <a class="btn btn-outline-primary btn-lg btn-block" asp-area="" asp-controller="Knowledgebase" asp-action="KnowledgeBase">Knowledge Base</a>
+        </div>
+    </div>
+    <div class="row mt-5 row justify-content-around">
+        <div class="col-sm-6 col-md-4">
+            <a class="btn btn-outline-primary btn-lg btn-block" asp-area="" asp-controller="Statistieken" asp-action="Statistieken">Statistieken</a>
+        </div>
+    </div>
+</div>
+}
+
+@if (this.User.IsInRole("administrator"))
+{
+<div class="container">
+    <div class="row mt-5 row justify-content-around">
+        <div class="col-sm-6 col-md-4">
+            <a class="btn btn-outline-primary btn-lg btn-block" asp-area="" asp-controller="Klant" asp-action="Klanten">Klanten Beheren</a>
+        </div>
+        <div class="col-sm-6 col-md-4">
+            <a class="btn btn-outline-primary btn-lg btn-block" asp-area="" asp-controller="Werknemers" asp-action="WerknemersBeheren">Werknemers Beheren</a>
+        </div>
+    </div>
+</div>
 }
