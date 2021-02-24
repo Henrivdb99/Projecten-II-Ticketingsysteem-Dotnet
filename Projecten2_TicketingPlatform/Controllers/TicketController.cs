@@ -35,6 +35,7 @@ namespace Projecten2_TicketingPlatform.Controllers
         {
             ViewData["IsEdit"] = false;
             return View("Edit", new EditViewModel());
+
         }
         [HttpPost]
         public IActionResult Create(EditViewModel ticketVm)
@@ -48,10 +49,11 @@ namespace Projecten2_TicketingPlatform.Controllers
                     ticket.Status = TicketStatus.Aangemaakt;  
                     _ticketRepository.Add(ticket);
                     _ticketRepository.SaveChanges();
+                    TempData["Boodschap"] = "Aanmaken ticket gelukt!";
                 }
-                catch (Exception ex)
+                catch (ArgumentException ae)
                 {
-                    TempData["error"] = ex.Message;
+                    TempData["Boodschap"] = "Aanmaken ticket mislukt. " + ae.Message;
                 }
                 return RedirectToAction(nameof(Index)); 
             }
@@ -71,7 +73,7 @@ namespace Projecten2_TicketingPlatform.Controllers
             return View(new EditViewModel(ticket));
         }
         [HttpPost]
-        public IActionResult Edit(int ticketId, EditViewModel ticketVm)
+        public IActionResult Edit(EditViewModel ticketVm, int ticketId)
         {
             if (ModelState.IsValid)
             {
@@ -82,10 +84,11 @@ namespace Projecten2_TicketingPlatform.Controllers
                         return new NotFoundResult();
                     ticket.EditTicket(ticketVm.DatumAanmaken, ticketVm.Titel, ticketVm.Omschrijving, ticketVm.TypeTicket, ticketVm.Technieker, ticketVm.Opmerkingen, ticketVm.Bijlage, _userManager.GetUserId(User)); 
                     _ticketRepository.SaveChanges();
+                    TempData["Boodschap"] = "Bewerken ticket gelukt!";
                 }
-                catch (ArgumentException)
+                catch (ArgumentException ae)
                 {
-                    //nada
+                    TempData["Boodschap"] = "Bewerken ticket mislukt. " + ae.Message;
                 }
                 return RedirectToAction(nameof(Index)); 
             }

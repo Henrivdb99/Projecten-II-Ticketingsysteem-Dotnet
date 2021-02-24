@@ -107,7 +107,7 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
                 Titel = "TitelTicket20Gewijzigd",
                 TypeTicket = 3
             };
-            var result = Assert.IsType<RedirectToActionResult>(_ticketController.Edit(1, ticketVm));
+            var result = Assert.IsType<RedirectToActionResult>(_ticketController.Edit(ticketVm, 1));
             Assert.Equal("TitelTicket20Gewijzigd", _ticket.Titel);
             Assert.Equal(3, _ticket.TypeTicket);
             Assert.Equal("Jan de technieker", _ticket.Technieker);
@@ -119,7 +119,7 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
         {
             _mockTicketRepository.Setup(m => m.GetById(1)).Returns(_dummyContext.Ticket);
             var ticketVm = new EditViewModel(_dummyContext.Ticket) { Titel = null };
-            var result = Assert.IsType<RedirectToActionResult>(_ticketController.Edit(1, ticketVm));
+            var result = Assert.IsType<RedirectToActionResult>(_ticketController.Edit(ticketVm , 1));
             var ticket = _dummyContext.Ticket;
             Assert.Equal("Jan de technieker", ticket.Technieker);
             Assert.Equal("Ticket20", ticket.Titel); // Titel is toch null?
@@ -130,7 +130,7 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
         public void EditHttpPost_TicketNotFound_ReturnsNotFoundResult()
         {
             var ticketVm = new EditViewModel(_dummyContext.Ticket);
-            var result = _ticketController.Edit(_onbestaandeId, ticketVm);
+            var result = _ticketController.Edit(ticketVm, _onbestaandeId);
             Assert.IsType<NotFoundResult>(result);
         }
         [Fact]
@@ -138,7 +138,7 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
         {
             var ticketVm = new EditViewModel(_dummyContext.Ticket);
             _ticketController.ModelState.AddModelError("", "Any error");
-            var result = _ticketController.Edit(1, ticketVm);
+            var result = _ticketController.Edit(ticketVm, 1);
             Assert.Equal("Ticket20", ticketVm.Titel); //wat is hier het nut van?
             Assert.Equal(1, ticketVm.TypeTicket); //hetzelfde hier, het ticketVm wordt volledig door de testen bepaald
             _mockTicketRepository.Verify(m => m.SaveChanges(), Times.Never());
@@ -149,7 +149,7 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
 
             var ticketVm = new EditViewModel(_dummyContext.Ticket);
             _ticketController.ModelState.AddModelError("", "Any error");
-            var result = Assert.IsType<ViewResult>(_ticketController.Edit(1, ticketVm));
+            var result = Assert.IsType<ViewResult>(_ticketController.Edit(ticketVm, 1));
             ticketVm = Assert.IsType<EditViewModel>(result.Model);
             Assert.Equal("Ticket20", ticketVm.Titel);
         } 
