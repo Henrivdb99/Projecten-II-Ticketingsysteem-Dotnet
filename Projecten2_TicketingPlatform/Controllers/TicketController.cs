@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Projecten2_TicketingPlatform.Models.Domein;
 using Projecten2_TicketingPlatform.Models.TicketViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Projecten2_TicketingPlatform.Controllers
@@ -11,15 +13,17 @@ namespace Projecten2_TicketingPlatform.Controllers
     public class TicketController : Controller
     {
         private readonly ITicketRepository _ticketRepository;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public TicketController(ITicketRepository ticketRepository)
+        public TicketController(ITicketRepository ticketRepository, UserManager<IdentityUser> userManager)
         {
             _ticketRepository = ticketRepository;
+            _userManager = userManager;
         }
-
+        
         public IActionResult Index()
         {
-            IEnumerable<Ticket> tickets = _ticketRepository.GetAllByClientId('1');
+            IEnumerable<Ticket> tickets = _ticketRepository.GetAllByClientId(int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out var id) ? id : 0);
             return View(tickets);
         }
         #region == Create Methodes ==
