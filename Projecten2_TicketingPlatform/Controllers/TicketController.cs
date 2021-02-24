@@ -10,7 +10,7 @@ namespace Projecten2_TicketingPlatform.Controllers
 {
     public class TicketController : Controller
     {
-        private ITicketRepository _ticketRepository;
+        private readonly ITicketRepository _ticketRepository;
 
         public TicketController(ITicketRepository ticketRepository)
         {

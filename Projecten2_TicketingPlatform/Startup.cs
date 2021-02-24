@@ -9,6 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Projecten2_TicketingPlatform.Data;
+using Projecten2_TicketingPlatform.Data.Repositories;
+using Projecten2_TicketingPlatform.Models.Domein;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,6 +45,8 @@ namespace Projecten2_TicketingPlatform
             services.AddRazorPages();
 
             services.AddScoped<TicketingPlatformDataInitializer>();
+            services.AddScoped<ITicketRepository, TicketRepository>();
+
 
             services.Configure<IdentityOptions>(options =>
             {
