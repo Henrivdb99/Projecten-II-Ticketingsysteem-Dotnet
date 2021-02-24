@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,7 +20,7 @@ namespace Projecten2_TicketingPlatform.Models.Domein
                 _titel = value;
             }
         }
-
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Ticketid { get; set; }
         public TicketStatus Status { get; set; }
         public DateTime DatumAanmaken { get; set; }
@@ -34,7 +35,7 @@ namespace Projecten2_TicketingPlatform.Models.Domein
         {
 
         }
-        public Ticket(string titel, int ticketId, TicketStatus ticketStatus, DateTime date, string omschrijving, int typeTicket, string klantId, string technieker, string opmerkingen, string bijlage)
+        public Ticket(string titel, int ticketId, TicketStatus ticketStatus, DateTime date, string omschrijving, int typeTicket, string klantId, string technieker ="Geen technieker", string opmerkingen = "Geen opmerkingen", string bijlage = "Geen Bijlage")
         {
             Titel = titel;
             Ticketid = ticketId;
