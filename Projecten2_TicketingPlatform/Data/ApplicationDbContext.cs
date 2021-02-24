@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Projecten2_TicketingPlatform.Data.Mappers;
 using Projecten2_TicketingPlatform.Models.Domein;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Projecten2_TicketingPlatform.Data
 {
@@ -18,7 +16,8 @@ namespace Projecten2_TicketingPlatform.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            
+            builder.ApplyConfiguration(new TicketConfiguration());
+
         }
     }
 }
