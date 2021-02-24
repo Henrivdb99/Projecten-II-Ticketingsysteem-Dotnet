@@ -23,10 +23,10 @@ namespace Projecten2_TicketingPlatform.Controllers
         
         public IActionResult Index()
         {
-            IEnumerable<Ticket> tickets = _ticketRepository.GetAllByClientId(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            IEnumerable<Ticket> tickets = _ticketRepository.GetAllByClientId(_userManager.GetUserId(User));
             if (tickets.Count() == 0)
             {
-                TempData["GeenTickets"] = "Uw account beschikt niet over tickets";
+                TempData["GeenTickets"] = $"Uw account met ID {_userManager.GetUserId(User)} beschikt niet over tickets";
             }
             return View(tickets);
         }
