@@ -3,18 +3,53 @@
 @{
     ViewData["Title"] = (bool)ViewData["IsEdit"] ? "Bewerk Ticket" : "Maak Ticket aan";
 }
-}
+
 
 <h1>@ViewData["Title"]</h1>
 
-<h4>EditViewModel</h4>
+<h4>Ticket</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <label asp-for="Titel" class="control-label"></label>
+                <input asp-for="Titel" class="form-control" />
+                <span asp-validation-for="Titel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DatumAanmaken" class="control-label"></label>
+                <input asp-for="DatumAanmaken" class="form-control" />
+                <span asp-validation-for="DatumAanmaken" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Omschrijving" class="control-label"></label>
+                <input asp-for="Omschrijving" class="form-control" />
+                <span asp-validation-for="Omschrijving" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TypeTicket" class="control-label"></label>
+                <input asp-for="TypeTicket" class="form-control" />
+                <span asp-validation-for="TypeTicket" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Technieker" class="control-label"></label>
+                <input asp-for="Technieker" class="form-control" />
+                <span asp-validation-for="Technieker" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Opmerkingen" class="control-label"></label>
+                <input asp-for="Opmerkingen" class="form-control" />
+                <span asp-validation-for="Opmerkingen" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Bijlage" class="control-label"></label>
+                <input asp-for="Bijlage" class="form-control" />
+                <span asp-validation-for="Bijlage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary" type="submit">Save</button>
             </div>
         </form>
     </div>
