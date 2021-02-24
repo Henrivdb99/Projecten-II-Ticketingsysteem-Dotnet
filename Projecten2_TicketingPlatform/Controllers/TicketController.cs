@@ -34,7 +34,7 @@ namespace Projecten2_TicketingPlatform.Controllers
         public IActionResult Create()
         {
             ViewData["IsEdit"] = false;
-            return View(new EditViewModel());
+            return View("Edit", new EditViewModel());
         }
         [HttpPost]
         public IActionResult Create(EditViewModel ticketVm)
@@ -56,7 +56,7 @@ namespace Projecten2_TicketingPlatform.Controllers
                 return RedirectToAction(nameof(Index)); 
             }
             ViewData["IsEdit"] = false;
-            return View(ticketVm);
+            return View("Edit", ticketVm);
 
         }
         #endregion
