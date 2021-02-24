@@ -24,6 +24,10 @@ namespace Projecten2_TicketingPlatform.Controllers
         public IActionResult Index()
         {
             IEnumerable<Ticket> tickets = _ticketRepository.GetAllByClientId(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            if (tickets.Count() == 0)
+            {
+                TempData["GeenTickets"] = "Uw account beschikt niet over tickets";
+            }
             return View(tickets);
         }
         #region == Create Methodes ==
