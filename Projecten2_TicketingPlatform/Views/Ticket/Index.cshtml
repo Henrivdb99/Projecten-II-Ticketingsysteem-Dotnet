@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<Projecten2_TicketingPlatform.Models.Domein.Ticket>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Tickets beheren";
 }
 
-<h1>Index</h1>
+<h1>@ViewData["Title"]</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Nieuw Ticket</a>
 </p>
 <table class="table">
     <thead>
@@ -79,8 +79,8 @@
                 @Html.DisplayFor(modelItem => item.Bijlage)
             </td>
             <td>
-                <a asp-controller="Ticket" asp-action="Edit" asp-route-ticketId="@item.Ticketid">Edit</a> |
-                <a asp-controller="Ticket" asp-action="Delete" asp-route-ticketId="@item.Ticketid">Delete</a>
+                <a asp-controller="Ticket" asp-action="Edit" asp-route-ticketId="@item.Ticketid">Bewerken</a> |
+                <a asp-controller="Ticket" asp-action="Delete" asp-route-ticketId="@item.Ticketid">Verwijderen</a>
             </td>
         </tr>
 }
