@@ -23,7 +23,7 @@ namespace Projecten2_TicketingPlatform.Controllers
         
         public IActionResult Index()
         {
-            IEnumerable<Ticket> tickets = _ticketRepository.GetAllByClientId(int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out var id) ? id : 0);
+            IEnumerable<Ticket> tickets = _ticketRepository.GetAllByClientId(User.FindFirstValue(ClaimTypes.NameIdentifier));
             return View(tickets);
         }
         #region == Create Methodes ==

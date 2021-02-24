@@ -28,7 +28,7 @@ namespace Projecten2_TicketingPlatform.Data.Repositories
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Ticket> GetAllByClientId(int klantId)
+        public IEnumerable<Ticket> GetAllByClientId(string klantId)
         {
             return _tickets.Where(t => t.KlantId.Equals(klantId)).OrderBy(t => t.DatumAanmaken).AsNoTracking().ToList();
         }
