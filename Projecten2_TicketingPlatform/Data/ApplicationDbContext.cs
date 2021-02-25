@@ -8,6 +8,8 @@ namespace Projecten2_TicketingPlatform.Data
     public class ApplicationDbContext : IdentityDbContext
     {
         public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<Contract> Contract { get; internal set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
