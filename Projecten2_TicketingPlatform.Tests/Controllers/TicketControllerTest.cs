@@ -16,8 +16,7 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
         private readonly Ticket _ticket;
         private readonly DummyApplicationDbContext _dummyContext;
         private readonly int _onbestaandeId;
-
-
+        private readonly Mock<UserManager<IdentityUser>> _mockUser;
 
         public TicketControllerTest()
         {
@@ -27,7 +26,10 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
             _mockTicketRepository.Setup(p => p.GetById(1)).Returns(_dummyContext.Ticket);
             _ticket = _dummyContext.Ticket;
             _onbestaandeId = 9999;
-            _ticketController = new TicketController(_mockTicketRepository.Object);
+            _mockUser = new Mock<UserManager<IdentityUser>>();
+            //_mockUser.Setup(p => p.GetUserId().Returns("bff6a934 - 0dca - 4965 - b9fc - 91c3290792c8");
+            _ticketController = new TicketController(_mockTicketRepository.Object, _mockUser.Object);
+
 
         }
         //Nog eventuele wijziging in verband met een actief of niet actief contract. Moet besproken worden waar dit wordt getest
