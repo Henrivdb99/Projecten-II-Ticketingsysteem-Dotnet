@@ -5,6 +5,8 @@ using Projecten2_TicketingPlatform.Controllers;
 using Projecten2_TicketingPlatform.Models.Domein;
 using Projecten2_TicketingPlatform.Models.TicketViewModels;
 using Projecten2_TicketingPlatform.Tests.Data;
+using System;
+using System.Security.Claims;
 using Xunit;
 
 namespace Projecten2_TicketingPlatform.Tests.Controllers
@@ -27,7 +29,7 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
             _ticket = _dummyContext.Ticket;
             _onbestaandeId = 9999;
             _mockUser = new Mock<UserManager<IdentityUser>>();
-            //_mockUser.Setup(p => p.GetUserId().Returns("bff6a934 - 0dca - 4965 - b9fc - 91c3290792c8");
+            //_mockUser.Setup(p => p.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns("bff6a934 - 0dca - 4965 - b9fc - 91c3290792c8");
             _ticketController = new TicketController(_mockTicketRepository.Object, _mockUser.Object);
 
 
@@ -155,7 +157,26 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
             var result = Assert.IsType<ViewResult>(_ticketController.Edit(ticketVm, 1));
             ticketVm = Assert.IsType<EditViewModel>(result.Model);
             Assert.Equal("Ticket20", ticketVm.Titel);
+        }
+        #endregion
+
+        #region == Annuleer Methodes ==
+        [Fact]
+        public void AnulleerHttpGet_ValidTicketId_ReturnsView()
+        {
+            _mockTicketRepository.Setup(p => p.GetById(1)).Returns(_dummyContext.Ticket);
+            var result = Assert.IsType<ViewResult>(_ticketController.Edit(1));
+        }
+
+        [Fact]
+        public void AnnuleerHttpPost_ValidTicketId_TicketGeannuleerdAndRedirectsToActionIndex()
+        {
+            _mockTicketRepository.Setup(p => p.GetById(1)).Returns(_dummyContext.Ticket);
+            var result = Assert.IsType<RedirectToActionResult>(_ticketController.AnnuleerConfirmed(1));
+            Assert.Equal(TicketStatus.Geannuleerd, _ticket.Status);
+            _mockTicketRepository.Verify(m => m.SaveChanges(), Times.Once);
         } 
         #endregion
+
     }
 }

@@ -5,7 +5,7 @@ using Projecten2_TicketingPlatform.Controllers;
 using Projecten2_TicketingPlatform.Models.Domein;
 using Projecten2_TicketingPlatform.Tests.Data;
 using Xunit;
-
+/*
 namespace Projecten2_TicketingPlatform.Tests.Controllers
 {
     public class ContractControllerTest
@@ -39,3 +39,4 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
         }
     }
 }
+*/
