@@ -9,19 +9,19 @@ namespace Projecten2_TicketingPlatform.Models.TicketViewModels
 {
     public class EditViewModel
     {
-        [Required]
+        [Required(ErrorMessage ="U moet een startdatum kiezen.")]
         [DataType(DataType.Date)]
         [Display(Name = "Datum aanmaken")]
         public DateTime DatumAanmaken { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "U moet een titel ingeven.")]
         public string Titel { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "U moet een omschrijving ingeven.")]
         public string Omschrijving { get; set; }
 
-        [Required]
-        [Range(1, 3)]
+        [Required(ErrorMessage = "U moet een type kiezen.")]
+        [Range(1, 3, ErrorMessage = "U moet type 1, 2 of 3 kiezen.")]
         [Display(Name = "Type")]
         public int TypeTicket { get; set; }
 

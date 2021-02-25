@@ -44,13 +44,15 @@ namespace Projecten2_TicketingPlatform.Areas.Identity.Pages.Account
         {
             [Required]
             [EmailAddress]
+            [Display(Name = "E-mailadres")]
             public string Email { get; set; }
 
             [Required]
             [DataType(DataType.Password)]
+            [Display(Name = "Wachtwoord")]
             public string Password { get; set; }
 
-            [Display(Name = "Remember me?")]
+            [Display(Name = "Mij onthouden")]
             public bool RememberMe { get; set; }
         }
 
