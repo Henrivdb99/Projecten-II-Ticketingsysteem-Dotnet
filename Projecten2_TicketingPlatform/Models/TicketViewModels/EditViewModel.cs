@@ -21,7 +21,7 @@ namespace Projecten2_TicketingPlatform.Models.TicketViewModels
         public string Omschrijving { get; set; }
 
         [Required]
-        [Range(1, 10)]
+        [Range(1, 3)]
         [Display(Name = "Type")]
         public int TypeTicket { get; set; }
 
