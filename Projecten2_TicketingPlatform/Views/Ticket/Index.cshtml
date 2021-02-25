@@ -9,6 +9,9 @@
 <p>
     <a asp-action="Create">Nieuw Ticket</a>
 </p>
+<p>
+    <a asp-action="Index" asp-route-toonGeanulleerd="true">Toon alle tickets</a>
+</p>
 <table class="table">
     <thead>
         <tr>
@@ -79,8 +82,8 @@
                 @Html.DisplayFor(modelItem => item.Bijlage)
             </td>
             <td>
-                <a asp-controller="Ticket" asp-action="Edit" asp-route-ticketId="@item.Ticketid">Bewerken</a> |
-                <a asp-controller="Ticket" asp-action="Delete" asp-route-ticketId="@item.Ticketid">Verwijderen</a>
+                <a asp-controller="Ticket" asp-action="Edit" asp-route-ticketId="@item.Ticketid">Bewerken</a>|
+                <a asp-controller="Ticket" asp-action="Annuleer" asp-route-ticketId="@item.Ticketid">Annuleren</a>
             </td>
         </tr>
 }

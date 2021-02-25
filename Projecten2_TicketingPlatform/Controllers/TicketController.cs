@@ -22,9 +22,15 @@ namespace Projecten2_TicketingPlatform.Controllers
             _userManager = userManager;
         }
         
-        public IActionResult Index()
+        public IActionResult Index(bool toonGeanulleerd = false)
         {
-            IEnumerable<Ticket> tickets = _ticketRepository.GetAllByClientId(_userManager.GetUserId(User));
+            IEnumerable<Ticket> tickets;
+            if (!toonGeanulleerd) {
+                tickets = _ticketRepository.GetAllByClientId(_userManager.GetUserId(User));
+            } else
+            {
+                tickets = _ticketRepository.GetAllByClientIdIncludingAnnuled(_userManager.GetUserId(User));
+            }
             if (tickets.Count() == 0)
             {
                 TempData["GeenTickets"] = $"Uw account met ID {_userManager.GetUserId(User)} beschikt niet over tickets";
@@ -35,8 +41,6 @@ namespace Projecten2_TicketingPlatform.Controllers
         public IActionResult Create()
         {
             ViewData["IsEdit"] = false;
-            ViewData["Types"] = new SelectList(new List<string>({"Gewoon", "Serieus", "Zeer serieus"}),
-                nameof(Ticket.TypeTicket), nameof(Ticket.TypeTicket), 0);
             return View("Edit", new EditViewModel());
 
         }
@@ -97,7 +101,22 @@ namespace Projecten2_TicketingPlatform.Controllers
             }
             ViewData["IsEdit"] = true;
             return View(ticketVm);
-        } 
+        }
+
+        public IActionResult Annuleer(int ticketId) {
+            Ticket ticket = _ticketRepository.GetById(ticketId);
+            return View(ticket);
+        }
+
+        [HttpPost] 
+        public IActionResult AnnuleerConfirmed(int ticketId)
+        {
+            Ticket ticket = _ticketRepository.GetById(ticketId);
+            ticket.Status = TicketStatus.Geannuleerd;
+            _ticketRepository.SaveChanges();
+            TempData["Boodschap"] = "Ticket is geannuleerd";
+            return RedirectToAction(nameof(Index));
+        }
         #endregion
     }
 }
