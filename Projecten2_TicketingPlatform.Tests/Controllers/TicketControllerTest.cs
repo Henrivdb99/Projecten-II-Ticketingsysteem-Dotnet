@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Projecten2_TicketingPlatform.Controllers;
 using Projecten2_TicketingPlatform.Models.Domein;
@@ -16,8 +17,11 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
         private readonly DummyApplicationDbContext _dummyContext;
         private readonly int _onbestaandeId;
 
+
+
         public TicketControllerTest()
         {
+
             _dummyContext = new DummyApplicationDbContext();
             _mockTicketRepository = new Mock<ITicketRepository>();
             _mockTicketRepository.Setup(p => p.GetById(1)).Returns(_dummyContext.Ticket);
@@ -46,7 +50,6 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
             var ticketVm = new EditViewModel()
             {
                 Titel = "Fout2098 Fase7",
-                Technieker = "Jan de Nul",
                 Omschrijving = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                 TypeTicket = 1
             };
@@ -62,7 +65,6 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
             var ticketVm = new EditViewModel()
             {
                 Titel = null,
-                Technieker = "Jan de Nul",
                 Omschrijving = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                 TypeTicket = 1
             };
@@ -110,7 +112,6 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
             var result = Assert.IsType<RedirectToActionResult>(_ticketController.Edit(ticketVm, 1));
             Assert.Equal("TitelTicket20Gewijzigd", _ticket.Titel);
             Assert.Equal(3, _ticket.TypeTicket);
-            Assert.Equal("Jan de technieker", _ticket.Technieker);
             Assert.Equal("Index", result.ActionName);
             _mockTicketRepository.Verify(m => m.SaveChanges(), Times.Once);
         }

@@ -21,7 +21,11 @@ namespace Projecten2_TicketingPlatform.Controllers
             _ticketRepository = ticketRepository;
             _userManager = userManager;
         }
-        
+        public TicketController(ITicketRepository ticketRepository)
+        {
+            _ticketRepository = ticketRepository;
+        }
+
         public IActionResult Index(bool toonGeanulleerd = false)
         {
             IEnumerable<Ticket> tickets;
