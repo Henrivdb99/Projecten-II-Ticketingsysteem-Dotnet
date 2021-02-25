@@ -83,17 +83,17 @@ namespace Projecten2_TicketingPlatform.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation(DateTime.Now + _userManager.GetUserName(User) + " Gelukt");
+                    _logger.LogInformation(DateTime.Now + Input.Email + " Gelukt");
                     return LocalRedirect(returnUrl);
                 }                
                 if (result.IsLockedOut)
                 {
-                    _logger.LogWarning(DateTime.Now + _userManager.GetUserName(User) + " Mislukt");
+                    _logger.LogWarning(DateTime.Now + Input.Email + " Mislukt");
                     return RedirectToPage("./Lockout");
                 }
                 else
                 {
-                    _logger.LogInformation(DateTime.Now + _userManager.GetUserName(User) + " Mislukt");
+                    _logger.LogInformation(DateTime.Now + Input.Email + " Mislukt");
                     ModelState.AddModelError(string.Empty, "Ongeldige inlogpoging.");
                     return Page();
                 }
