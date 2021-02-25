@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Projecten2_TicketingPlatform.Models.Domein;
 using Projecten2_TicketingPlatform.Models.TicketViewModels;
 using System;
@@ -34,6 +35,8 @@ namespace Projecten2_TicketingPlatform.Controllers
         public IActionResult Create()
         {
             ViewData["IsEdit"] = false;
+            ViewData["Types"] = new SelectList(new List<string>({"Gewoon", "Serieus", "Zeer serieus"}),
+                nameof(Ticket.TypeTicket), nameof(Ticket.TypeTicket), 0);
             return View("Edit", new EditViewModel());
 
         }

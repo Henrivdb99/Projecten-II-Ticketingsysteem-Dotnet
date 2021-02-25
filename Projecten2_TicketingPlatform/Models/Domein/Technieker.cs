@@ -5,7 +5,4 @@ using System.Text;
 
 namespace Projecten2_TicketingPlatform.Models.Domein
 {
-    public class Technieker : Gebruiker
-    {
-    }
 }
