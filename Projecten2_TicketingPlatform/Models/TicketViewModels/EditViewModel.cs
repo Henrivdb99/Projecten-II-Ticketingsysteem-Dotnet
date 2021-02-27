@@ -21,7 +21,6 @@ namespace Projecten2_TicketingPlatform.Models.TicketViewModels
         public string Omschrijving { get; set; }
 
         [Required(ErrorMessage = "U moet een type kiezen.")]
-        [Range(1, 3, ErrorMessage = "U moet type 1, 2 of 3 kiezen.")]
         [Display(Name = "Type")]
         public int TypeTicket { get; set; }
 

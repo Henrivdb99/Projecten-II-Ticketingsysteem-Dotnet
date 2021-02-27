@@ -42,6 +42,7 @@ namespace Projecten2_TicketingPlatform.Controllers
         public IActionResult Create()
         {
             ViewData["IsEdit"] = false;
+            ViewData["TicketType"] = TicketTypesAsSelectList();
             return View("Edit", new EditViewModel());
 
         }
@@ -119,5 +120,21 @@ namespace Projecten2_TicketingPlatform.Controllers
             return RedirectToAction(nameof(Index));
         }
         #endregion
+
+        private SelectList TicketTypesAsSelectList(int selected = 0)
+        {
+            SelectListItem selListItem = new SelectListItem() { Value = "1", Text = "Productie geïmpacteerd" };
+            SelectListItem selListItem2 = new SelectListItem() { Value = "2", Text = "Productie zal binnen een tijd stilvallen" };
+            SelectListItem selListItem3 = new SelectListItem() { Value = "3", Text = "Geen productie impact" };
+
+            List<SelectListItem> newList = new List<SelectListItem>
+            {
+                selListItem,
+                selListItem2,
+                selListItem3
+            };
+
+            return new SelectList(newList, "Value", "Text", selected); ;
+        }
     }
 }
