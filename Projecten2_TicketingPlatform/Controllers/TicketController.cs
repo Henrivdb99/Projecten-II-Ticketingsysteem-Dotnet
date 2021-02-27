@@ -79,6 +79,8 @@ namespace Projecten2_TicketingPlatform.Controllers
             if (ticket == null)
                 return new NotFoundResult();
             ViewData["IsEdit"] = true;
+            ViewData["TicketType"] = TicketTypesAsSelectList();
+
             return View(new EditViewModel(ticket));
         }
         [HttpPost]
@@ -102,6 +104,7 @@ namespace Projecten2_TicketingPlatform.Controllers
                 return RedirectToAction(nameof(Index)); 
             }
             ViewData["IsEdit"] = true;
+            ViewData["TicketType"] = TicketTypesAsSelectList();
             return View(ticketVm);
         }
 
