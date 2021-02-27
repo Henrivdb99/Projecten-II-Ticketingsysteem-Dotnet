@@ -28,11 +28,11 @@ namespace Projecten2_TicketingPlatform.Data
                 ////Nog aan te vullen verdere data later in project.
                 var tickets = new List<Ticket>
             {
-                     new Ticket("TitelTicket4", 22, TicketStatus.Geannuleerd, DateTime.Today.AddDays(-4), "Hoe maak ik een ticket aan?", 1, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105", "Jef de Technieker"),
-                     new Ticket("TitelTicket1", 123, TicketStatus.Aangemaakt, DateTime.Today.AddDays(-3), "Blijkbaar heb ik een probleem", 1, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105", "Jef de Technieker"),
-                     new Ticket("TitelTicket2", 1234, TicketStatus.Aangemaakt, DateTime.Today.AddDays(-2), "Nog steeds hetzelfde probleem", 1, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105", "Jef de Technieker"),
-                     new Ticket("TitelTicket3", 12345, TicketStatus.Aangemaakt, DateTime.Today.AddDays(-1), "Het gaat niet weg", 1, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105", "Bram de Technieker"),
-                     new Ticket("TitelTicket4", 123456, TicketStatus.Aangemaakt, DateTime.Today, "Zijn jullie daar?", 1, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105", "Jef de Technieker")
+                     new Ticket("TitelTicket4", 22, TicketStatus.Geannuleerd, DateTime.Today.AddDays(-4), "Hoe maak ik een ticket aan?", "1", "210771fc - 21f2 - 47e4 - a902 - 986e2d199105", "Jef de Technieker"),
+                     new Ticket("TitelTicket1", 123, TicketStatus.Aangemaakt, DateTime.Today.AddDays(-3), "Blijkbaar heb ik een probleem", "1", "210771fc - 21f2 - 47e4 - a902 - 986e2d199105", "Jef de Technieker"),
+                     new Ticket("TitelTicket2", 1234, TicketStatus.Aangemaakt, DateTime.Today.AddDays(-2), "Nog steeds hetzelfde probleem", "1", "210771fc - 21f2 - 47e4 - a902 - 986e2d199105", "Jef de Technieker"),
+                     new Ticket("TitelTicket3", 12345, TicketStatus.Aangemaakt, DateTime.Today.AddDays(-1), "Het gaat niet weg", "1", "210771fc - 21f2 - 47e4 - a902 - 986e2d199105", "Bram de Technieker"),
+                     new Ticket("TitelTicket4", 123456, TicketStatus.Aangemaakt, DateTime.Today, "Zijn jullie daar?", "1", "210771fc - 21f2 - 47e4 - a902 - 986e2d199105", "Jef de Technieker")
             };
 
                 _dbcontext.Tickets.AddRange(tickets);

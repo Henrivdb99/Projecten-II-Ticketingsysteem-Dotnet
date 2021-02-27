@@ -35,14 +35,14 @@ namespace Projecten2_TicketingPlatform.Models.Domein
         {
 
         }
-        public Ticket(string titel, int ticketId, TicketStatus ticketStatus, DateTime date, string omschrijving, int typeTicket, string klantId, string technieker ="Geen technieker", string opmerkingen = "Geen opmerkingen", string bijlage = "Geen Bijlage")
+        public Ticket(string titel, int ticketId, TicketStatus ticketStatus, DateTime date, string omschrijving, string typeTicket, string klantId, string technieker ="Geen technieker", string opmerkingen = "Geen opmerkingen", string bijlage = "Geen Bijlage")
         {
             Titel = titel;
             Ticketid = ticketId;
             Status = ticketStatus;
             DatumAanmaken = date;
             Omschrijving = omschrijving;
-            TypeTicket = typeTicket;
+            TypeTicket = Int32.Parse(typeTicket);
             KlantId = klantId;
             Technieker = technieker;
             Opmerkingen = opmerkingen;
