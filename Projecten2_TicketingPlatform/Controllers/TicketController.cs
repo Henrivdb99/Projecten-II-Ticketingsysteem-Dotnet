@@ -54,8 +54,15 @@ namespace Projecten2_TicketingPlatform.Controllers
                 try
                 {
                     Ticket ticket = new Ticket();
-                    ticket.EditTicket(ticketVm.DatumAanmaken, ticketVm.Titel, ticketVm.Omschrijving, ticketVm.TypeTicket, /*ticketVm.Technieker, ticketVm.Opmerkingen,*/ ticketVm.Bijlage, _userManager.GetUserId(User)); //!!!!!
-                    ticket.Status = TicketStatus.Aangemaakt;  
+                    ticket.DatumAanmaken = ticketVm.DatumAanmaken;
+                    ticket.Titel = ticketVm.Titel;
+                    ticket.Omschrijving = ticketVm.Omschrijving;
+                    ticket.TypeTicket = ticketVm.TypeTicket;
+                    /*ticketVm.Technieker, ticketVm.Opmerkingen,*/
+                    ticket.Bijlage = ticketVm.Bijlage;
+                    ticket.KlantId = _userManager.GetUserId(User); //!!!!!
+                    ticket.Status = TicketStatus.Aangemaakt;
+                    
                     _ticketRepository.Add(ticket);
                     _ticketRepository.SaveChanges();
                     TempData["Boodschap"] = "Aanmaken ticket gelukt!";
@@ -93,7 +100,14 @@ namespace Projecten2_TicketingPlatform.Controllers
                     Ticket ticket = _ticketRepository.GetById(ticketId);
                     if (ticket == null)
                         return new NotFoundResult();
-                    ticket.EditTicket(ticketVm.DatumAanmaken, ticketVm.Titel, ticketVm.Omschrijving, ticketVm.TypeTicket, /*ticketVm.Technieker, ticketVm.Opmerkingen,*/ ticketVm.Bijlage, _userManager.GetUserId(User)); 
+                    ticket.DatumAanmaken = ticketVm.DatumAanmaken;
+                    ticket.Titel = ticketVm.Titel;
+                    ticket.Omschrijving = ticketVm.Omschrijving;
+                    ticket.TypeTicket = ticketVm.TypeTicket;
+                    /*ticketVm.Technieker, ticketVm.Opmerkingen,*/
+                    ticket.Bijlage = ticketVm.Bijlage;
+                    //ticket.KlantId = _userManager.GetUserId(User); //niet nodig denk ik, verandert niet
+                    ticket.Status = TicketStatus.Aangemaakt; 
                     _ticketRepository.SaveChanges();
                     TempData["Boodschap"] = "Bewerken ticket gelukt!";
                 }

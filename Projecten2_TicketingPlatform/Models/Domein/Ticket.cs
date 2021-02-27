@@ -9,23 +9,52 @@ namespace Projecten2_TicketingPlatform.Models.Domein
     public class Ticket
     {
         private string _titel;
+        private DateTime _datumAanmaken;
+        private string _omschrijving;
+        private int _typeTicket;
 
         public string Titel
         {
             get => _titel;
-            private set
+            set
             {
                 if (string.IsNullOrWhiteSpace(value))
-                    throw new ArgumentException("Ticket must have a name");
+                    throw new ArgumentException("Ticket moet een naam hebben");
                 _titel = value;
             }
         }
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Ticketid { get; set; }
         public TicketStatus Status { get; set; }
-        public DateTime DatumAanmaken { get; set; }
-        public string Omschrijving { get; set; }
-        public int TypeTicket { get; set; }
+        public DateTime DatumAanmaken {
+            get => _datumAanmaken; 
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Ticket moet een datum bevatten");
+                _datumAanmaken = value;
+            }
+        }
+        public string Omschrijving
+        {
+            get => _omschrijving;
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Ticket moet een omschrijving bevatten");
+                _omschrijving = value;
+            }
+        }
+        public int TypeTicket
+        {
+            get => _typeTicket;
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Ticket moet een type bevatten");
+                _typeTicket = value;
+            }
+        }
         public string KlantId { get; set; }
         public string Technieker { get; set; }
         public string Opmerkingen { get; set; }
@@ -47,26 +76,6 @@ namespace Projecten2_TicketingPlatform.Models.Domein
             Technieker = technieker;
             Opmerkingen = opmerkingen;
             Bijlage = bijlage;
-            Valideer();
-        }
-
-        public void EditTicket(DateTime date, string titel, string omschrijving, int typeTicket, /*string technieker, string opmerkingen,*/ string bijlage, string klantId)
-        {
-            DatumAanmaken = date;
-            Titel = titel;
-            Omschrijving = omschrijving;
-            TypeTicket = typeTicket;
-            /*Technieker = technieker;
-            Opmerkingen = opmerkingen;*/
-            Bijlage = bijlage;
-            KlantId = klantId;
-            Valideer();
-        }
-
-        public void Valideer()
-        {
-            if (Titel == null || DatumAanmaken == null || Omschrijving == null || TypeTicket == null)
-                throw new ArgumentException("Datum aanmaken, titel, omschrijving en type zijn verplicht.");
         }
 
         //Nice to have
