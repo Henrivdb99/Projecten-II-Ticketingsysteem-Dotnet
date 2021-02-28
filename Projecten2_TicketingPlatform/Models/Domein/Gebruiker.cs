@@ -11,6 +11,8 @@ namespace Projecten2_TicketingPlatform.Models.Domein
         private string _gebruikersnaam;
         private int _wachtwoord;
 
+        public IEnumerable<Ticket> Tickets { get; set; }
+
         public string Gebruikersnaam
         {
             get

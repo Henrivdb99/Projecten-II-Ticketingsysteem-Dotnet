@@ -13,6 +13,8 @@ namespace Projecten2_TicketingPlatform.Models.Domein
         public DateTime EindDatum { get; set; }
         public string ClientId { get; set; }
 
+        public ContractStatus ContractStatus { get; set;  }
+
         public Contract() 
         {
         }

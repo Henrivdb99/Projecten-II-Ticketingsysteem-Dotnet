@@ -3,37 +3,64 @@
   <Class Name="Projecten2_TicketingPlatform.Models.Domein.Gebruiker">
     <Position X="1.25" Y="0.5" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAAQAEAAAAAAAAAAAAAACAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAQAAQAEAAAAAAAAAAAAAACAAAAAAAIAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Domein\Gebruiker.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="Status" />
     </ShowAsAssociation>
-  </Class>
-  <Class Name="Projecten2_TicketingPlatform.Models.Domein.Klant">
-    <Position X="1.5" Y="3" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Models\Domein\Klant.cs</FileName>
-    </TypeIdentifier>
     <ShowAsCollectionAssociation>
       <Property Name="Tickets" />
     </ShowAsCollectionAssociation>
   </Class>
+  <Class Name="Projecten2_TicketingPlatform.Models.Domein.Klant">
+    <Position X="1.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAA=</HashCode>
+      <FileName>Models\Domein\Klant.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Contract" />
+    </ShowAsAssociation>
+  </Class>
   <Class Name="Projecten2_TicketingPlatform.Models.Domein.Ticket">
     <Position X="5" Y="4.5" Width="4.75" />
     <TypeIdentifier>
-      <HashCode>gAAAAACEAAAAQEAAAAgAAgAAEAIAAAAAAAAAIEBQAAA=</HashCode>
+      <HashCode>gAAAAACGAAAAwMAAAAgAAAAAEAAAAAAAAAAAIEBQIAA=</HashCode>
       <FileName>Models\Domein\Ticket.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="Status" />
+      <Property Name="Technieker" />
+      <Property Name="Klant" />
     </ShowAsAssociation>
+  </Class>
+  <Class Name="Projecten2_TicketingPlatform.Models.Domein.Contract">
+    <Position X="1" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAACAAEAIAAgAABAAAAAA=</HashCode>
+      <FileName>Models\Domein\Contract.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ContractStatus" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Projecten2_TicketingPlatform.Models.Domein.Technieker">
+    <Position X="3.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Domein\Technieker.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="System.String" Collapsed="true">
+    <Position X="12" Y="4.75" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
   </Class>
   <Interface Name="Projecten2_TicketingPlatform.Models.Domein.ITicketRepository">
     <Position X="9.5" Y="0.5" Width="3.5" />
     <TypeIdentifier>
-      <HashCode>gAIAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAoA=</HashCode>
+      <HashCode>gAIAAAAAAAAAAAEAAAAAAAAAAAEAAAAAAAAAAAAAAoA=</HashCode>
       <FileName>Models\Domein\ITicketRepository.cs</FileName>
     </TypeIdentifier>
   </Interface>
@@ -49,6 +76,13 @@
     <TypeIdentifier>
       <HashCode>AAAAAACAAAAIAAAEAAAAAAAAAAAAAAAAAIBAAABAAEA=</HashCode>
       <FileName>Models\Domein\TicketStatus.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Projecten2_TicketingPlatform.ContractStatus" Collapsed="true">
+    <Position X="4.5" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAgAABAAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>Models\Domein\ContractStatus.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Font Name="Segoe UI" Size="9" />
