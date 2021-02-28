@@ -8,7 +8,7 @@ namespace Projecten2_TicketingPlatform.Models.Domein
 {
     public class Klant : Gebruiker
     {
-        public Contract Contract { get; set; }
+        public IEnumerable<Contract> Contract { get; set; }
     }
 
 }
