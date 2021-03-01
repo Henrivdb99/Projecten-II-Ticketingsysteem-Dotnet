@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,17 +37,20 @@ namespace Projecten2_TicketingPlatform
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-
+                       
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("klant", policy => policy.RequireClaim(ClaimTypes.Role, "klant"));
             });
-            services.AddControllersWithViews();
+            services.AddControllersWithViews(options =>
+            {
+                // This pushes users to login if not authenticated
+                options.Filters.Add(new AuthorizeFilter());
+            });
             services.AddRazorPages();
 
             services.AddScoped<TicketingPlatformDataInitializer>();
             services.AddScoped<ITicketRepository, TicketRepository>();
-
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -86,7 +90,7 @@ namespace Projecten2_TicketingPlatform
 
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Dashbord}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
 
