@@ -42,5 +42,17 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
                 viewResult.ViewData.Model);
             Assert.Equal(2, model.Count());
         }
+
+        [Fact]
+        public void Index_NoContracts_ReturnsNoContracts()
+        {
+            _mockContractRepository.Setup(r => r.GetAllByClientId("bff6a934 - 0dca - 4965 - b9fc - onbestaande id"))
+                .Returns(_contracts);
+            var result = _contractController.Index();
+            var viewResult = Assert.IsType<ViewResult>(result);
+            var model = Assert.IsAssignableFrom<IEnumerable<Contract>>(
+                viewResult.ViewData.Model);
+            Assert.Empty(model);
+        }
     }
 }
