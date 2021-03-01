@@ -56,7 +56,7 @@ namespace Projecten2_TicketingPlatform.Models.Domein
             }
         }
         public string KlantId { get; set; }
-        public string Technieker { get; set; }
+        public string TechniekerId { get; set; }
         public string Opmerkingen { get; set; }
         public string Bijlage { get; set; }
 
@@ -65,7 +65,7 @@ namespace Projecten2_TicketingPlatform.Models.Domein
         {
 
         }
-        public Ticket(string titel, int ticketId, TicketStatus ticketStatus, DateTime date, string omschrijving, string typeTicket, string klantId, string technieker ="Geen technieker", string opmerkingen = "Geen opmerkingen", string bijlage = "Geen Bijlage")
+        public Ticket(string titel, int ticketId, TicketStatus ticketStatus, DateTime date, string omschrijving, string typeTicket, string klantId, string techniekerId = "Geen technieker", string opmerkingen = "Geen opmerkingen", string bijlage = "Geen Bijlage")
         {
             Titel = titel;
             Ticketid = ticketId;
@@ -74,7 +74,7 @@ namespace Projecten2_TicketingPlatform.Models.Domein
             Omschrijving = omschrijving;
             TypeTicket = Int32.Parse(typeTicket);
             KlantId = klantId;
-            Technieker = technieker;
+            TechniekerId = techniekerId;
             Opmerkingen = opmerkingen;
             Bijlage = bijlage;
         }
