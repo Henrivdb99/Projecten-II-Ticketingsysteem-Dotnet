@@ -60,7 +60,7 @@ namespace Projecten2_TicketingPlatform.Models.Domein
         public string Opmerkingen { get; set; }
         public string Bijlage { get; set; }
 
-        public Klant Klant { get; set; }
+        /*public Klant Klant { get; set; }*/
         public Ticket()
         {
 
