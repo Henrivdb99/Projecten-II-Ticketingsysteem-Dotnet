@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Projecten2_TicketingPlatform.Models.ContractViewModels;
 using Projecten2_TicketingPlatform.Models.Domein;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,19 @@ namespace Projecten2_TicketingPlatform.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+            IEnumerable<Contract> contracten = _contractRepository.GetAllByClientId(_userManager.GetUserId(User));
+            return View(contracten);
         }
+
+        public IActionResult Create()
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpPost]
+        public IActionResult Create(EditViewModel viewModel) {
+            throw new NotImplementedException();
+        }
+
     }
 }
