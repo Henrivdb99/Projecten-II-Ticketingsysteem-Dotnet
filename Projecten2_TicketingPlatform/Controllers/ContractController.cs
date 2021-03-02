@@ -50,8 +50,43 @@ namespace Projecten2_TicketingPlatform.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(EditViewModel viewModel) {
-            throw new NotImplementedException();
+        public IActionResult Create(EditViewModel contractVm) {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    //Een klant kan per contracttype maar één contract met de status “in behandeling” of  “actief” hebben 
+                    Contract contract = new Contract
+                    {
+                        StartDatum = contractVm.Startdatum,
+                        ContractType = contractVm.ContractType
+                    };
+                    contract.Doorlooptijd = contract.Doorlooptijd;
+                    contract.ClientId = _userManager.GetUserId(User);
+
+                    IEnumerable<Contract> contracten = _contractRepository.GetByStatusByClientId(_userManager.GetUserId(User), new List<ContractStatus> { ContractStatus.Actief, ContractStatus.InBehandeling });
+
+                    if (contracten.Any(c => c.ContractType == contractVm.ContractType))
+                    {
+                        throw new ArgumentException("Er is al een contract van dit type in behandeling");
+                    }
+                    else
+                    {
+                        _contractRepository.Add(contract);
+                        _contractRepository.SaveChanges();
+                        TempData["Boodschap"] = "Aanmaken contract gelukt!";
+
+                    }
+                }
+                catch (ArgumentException ae)
+                {
+                    TempData["Boodschap"] = "Aanmaken ticket mislukt. " + ae.Message;
+                }
+                return RedirectToAction(nameof(Index));
+
+            }
+            return View("Create", contractVm);
+
         }
 
     }
