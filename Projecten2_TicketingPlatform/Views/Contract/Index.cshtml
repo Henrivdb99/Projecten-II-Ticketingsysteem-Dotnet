@@ -5,10 +5,18 @@
 }
 
 <h1>@ViewData["Title"]</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<form>
+    <div class="form-inline">
+        <div class="form-group">
+            <label for="contractStatus"></label>
+            <select id="contractStatus" name="contractStatus" asp-items="@(ViewData["ContractStatussen"] as SelectList)" class="form-control">
+                <option value="">-- Alle Statussen --</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-secondary ml-1">Verstuur</button>
+        <a asp-controller="Contract" asp-action="Create" class="btn btn-secondary text-right ml-5">Nieuw Contract</a>
+    </div>
+</form>
 <table class="table">
     <thead>
         <tr>

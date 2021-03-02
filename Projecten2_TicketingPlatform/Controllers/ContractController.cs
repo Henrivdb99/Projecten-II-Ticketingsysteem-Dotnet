@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Projecten2_TicketingPlatform.Models.ContractViewModels;
 using Projecten2_TicketingPlatform.Models.Domein;
 using System;
@@ -19,9 +20,18 @@ namespace Projecten2_TicketingPlatform.Controllers
             _contractRepository = contractRepository;
             _userManager = userManager;
         }
-        public IActionResult Index()
+        public IActionResult Index(ContractStatus contractStatus = ContractStatus.Standaard)
         {
-            IEnumerable<Contract> contracten = _contractRepository.GetByStatusByClientId(_userManager.GetUserId(User), new List<ContractStatus> {ContractStatus.Actief, ContractStatus.InBehandeling } );
+            IEnumerable<Contract> contracten;
+            if (contractStatus== ContractStatus.Standaard)
+            {
+                contracten = _contractRepository.GetByStatusByClientId(_userManager.GetUserId(User), new List<ContractStatus> {ContractStatus.Actief, ContractStatus.InBehandeling } );
+            }
+            else
+            {
+                contracten = _contractRepository.GetByStatusByClientId(_userManager.GetUserId(User), new List<ContractStatus> { contractStatus });
+            }
+            ViewData["ContractStatussen"] = new SelectList(new List<ContractStatus> { ContractStatus.Actief, ContractStatus.Afgelopen, ContractStatus.InBehandeling, ContractStatus.NietActief, ContractStatus.Stopgezet });       
             return View(contracten);
         }
 

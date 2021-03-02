@@ -10,6 +10,7 @@ namespace Projecten2_TicketingPlatform
         Actief,
         Afgelopen,
         Stopgezet,
-        NietActief
+        NietActief,
+        Standaard
     }
 }
