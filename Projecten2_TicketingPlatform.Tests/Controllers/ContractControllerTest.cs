@@ -5,6 +5,7 @@ using Projecten2_TicketingPlatform.Controllers;
 using Projecten2_TicketingPlatform.Models.ContractViewModels;
 using Projecten2_TicketingPlatform.Models.Domein;
 using Projecten2_TicketingPlatform.Tests.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
@@ -85,59 +86,82 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
 
         }
 
+
+        
         [Fact]
-        public void CreateHttpGet_ActiveContract_PassesNoDetailsOfANewTicketInEditViewModelToView()
+        public void CreateHttpPost_ValidTicket_AddsNewContractToRepositoryAndRedirectsToIndex()
         {
-            _mockContractRepository.Setup(p => p.GetAllByClientId("bff6a934 - 0dca - 4965 - b9fc - 91c3290792c8")).Returns(_contracts);
-
-            var result = Assert.IsType<ViewResult>(_contractController.Create());
-            var contractVm = Assert.IsType<EditViewModel>(result.Model);
-            Assert.Equal(0, contractVm.Doorlooptijd);
-            _mockContractRepository.Verify(mock => mock.GetAllByClientId("bff6a934 - 0dca - 4965 - b9fc - 91c3290792c8"), Times.Once);
-
-        }
-
-        /*
-        [Fact]
-        public void CreateHttpPost_ValidTicket_AddsNewTicketToRepositoryAndRedirectsToIndex()
-        {
-            _mockTicketRepository.Setup(p => p.Add(It.IsNotNull<Ticket>()));
-            var ticketVm = new EditViewModel()
+            _mockContractRepository.Setup(p => p.Add(It.IsNotNull<Contract>()));
+            _mockContractRepository.Setup(p => p.GetByStatusByClientId(It.IsNotNull<string>(), new List<ContractStatus> { ContractStatus.Actief, ContractStatus.InBehandeling }))
+                .Returns(_contracts);
+            var contractVm = new EditViewModel()
             {
-                Titel = "Fout2098 Fase7",
-                Omschrijving = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                TypeTicket = 1
+                Startdatum = DateTime.Today,
+                ContractType = 3,
+                Doorlooptijd = 2
             };
-            var result = Assert.IsType<RedirectToActionResult>(_ticketController.Create(ticketVm));
+            var result = Assert.IsType<RedirectToActionResult>(_contractController.Create(contractVm));
             Assert.Equal("Index", result.ActionName);
-            _mockTicketRepository.Verify(m => m.Add(It.IsNotNull<Ticket>()), Times.Once);
-            _mockTicketRepository.Verify(m => m.SaveChanges(), Times.Once);
+            _mockContractRepository.Verify(m => m.Add(It.IsNotNull<Contract>()), Times.Once);
+            _mockContractRepository.Verify(m => m.GetByStatusByClientId(It.IsNotNull<string>(), new List<ContractStatus> { ContractStatus.Actief, ContractStatus.InBehandeling }), Times.Once);
+            _mockContractRepository.Verify(m => m.SaveChanges(), Times.Once);
         }
+
+        
         [Fact]
-        public void CreateHttpPost_InvalidTicket_DoesNotCreateNorPersistsTicketAndRedirectsToActionIndex()
+        public void CreateHttpPost_InvalidContract_DoesNotCreateNorPersistsContractAndRedirectsToActionIndex()
         {
-            _mockTicketRepository.Setup(m => m.Add(It.IsAny<Ticket>()));
-            var ticketVm = new EditViewModel()
+            _mockContractRepository.Setup(p => p.Add(It.IsNotNull<Contract>()));
+            _mockContractRepository.Setup(p => p.GetByStatusByClientId(It.IsNotNull<string>(), new List<ContractStatus> { ContractStatus.Actief, ContractStatus.InBehandeling }))
+                .Returns(_contracts);
+            var contractVm = new EditViewModel()
             {
-                Titel = null,
-                Omschrijving = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                TypeTicket = 1
+                Startdatum = DateTime.Today,
+                ContractType = 3,
+                Doorlooptijd = 20000 //fout
             };
-            var action = Assert.IsType<RedirectToActionResult>(_ticketController.Create(ticketVm));
-            Assert.Equal("Index", action?.ActionName);
-            _mockTicketRepository.Verify(m => m.SaveChanges(), Times.Never());
-            _mockTicketRepository.Verify(m => m.Add(It.IsAny<Ticket>()), Times.Never());
+            var result = Assert.IsType<RedirectToActionResult>(_contractController.Create(contractVm));
+            Assert.Equal("Index", result.ActionName);
+            _mockContractRepository.Verify(m => m.Add(It.IsNotNull<Contract>()), Times.Never);
+            _mockContractRepository.Verify(m => m.SaveChanges(), Times.Never);
         }
+
+        
         [Fact]
-        public void CreateHttpPost_ModelStateErrors_DoesNotChangeNorPersistTicket()
+        public void CreateHttpPost_ModelStateErrors_DoesNotChangeNorPersistContract()
         {
-            var ticketVm = new EditViewModel(_ticket);
-            _ticketController.ModelState.AddModelError("", "Any error");
-            _ticketController.Create(ticketVm);
-            Assert.Equal("Ticket20", ticketVm.Titel);
-            Assert.Equal(1, ticketVm.TypeTicket);
-            _mockTicketRepository.Verify(m => m.SaveChanges(), Times.Never);
-        } */
+            var contractVm = new EditViewModel(_contract1);
+            _contractController.ModelState.AddModelError("", "Any error");
+
+            _contractController.Create(contractVm);
+
+            Assert.Equal(_contract1.ContractType, contractVm.ContractType);
+            Assert.Equal(_contract1.StartDatum, contractVm.Startdatum);
+            Assert.Equal(_contract1.Doorlooptijd, contractVm.Doorlooptijd);
+            _mockContractRepository.Verify(m => m.Add(It.IsNotNull<Contract>()), Times.Never);
+            _mockContractRepository.Verify(m => m.SaveChanges(), Times.Never);
+        }
+
+        [Fact]
+        public void CreateHttpPost_DomainErrors_AlreadyTwoContractsSameType_DoesNotPersistContract()
+        {
+            _contracts.Add(new Contract(DateTime.Now, 1, 1, "bff6a934 - 0dca - 4965 - b9fc - 91c3290792c8", ContractStatus.InBehandeling));
+
+            _mockContractRepository.Setup(p => p.Add(It.IsNotNull<Contract>()));
+            _mockContractRepository.Setup(p => p.GetByStatusByClientId(It.IsNotNull<string>(), new List<ContractStatus> { ContractStatus.Actief, ContractStatus.InBehandeling }))
+                .Returns(_contracts);
+            var contractVm = new EditViewModel()
+            {
+                Startdatum = DateTime.Today,
+                ContractType = 3,
+                Doorlooptijd = 2
+            };
+            var result = Assert.IsType<RedirectToActionResult>(_contractController.Create(contractVm));
+            Assert.Equal("Index", result.ActionName);
+            _mockContractRepository.Verify(m => m.Add(It.IsNotNull<Contract>()), Times.Never);
+            _mockContractRepository.Verify(m => m.GetByStatusByClientId(It.IsNotNull<string>(), new List<ContractStatus> { ContractStatus.Actief, ContractStatus.InBehandeling }), Times.Once);
+            _mockContractRepository.Verify(m => m.SaveChanges(), Times.Never);
+        }
 
         #endregion
     }
