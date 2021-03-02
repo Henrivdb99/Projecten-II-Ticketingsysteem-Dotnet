@@ -57,13 +57,7 @@ namespace Projecten2_TicketingPlatform.Controllers
                 try
                 {
                     //Een klant kan per contracttype maar één contract met de status “in behandeling” of  “actief” hebben 
-                    Contract contract = new Contract
-                    {
-                        StartDatum = contractVm.Startdatum,
-                        ContractType = contractVm.ContractType
-                    };
-                    contract.Doorlooptijd = contract.Doorlooptijd;
-                    contract.ClientId = _userManager.GetUserId(User);
+                    Contract contract = new Contract(contractVm.Startdatum, contractVm.ContractType, contractVm.Doorlooptijd, _userManager.GetUserId(User));
 
                     IEnumerable<Contract> contracten = _contractRepository.GetByStatusByClientId(_userManager.GetUserId(User), new List<ContractStatus> { ContractStatus.Actief, ContractStatus.InBehandeling });
 
@@ -81,7 +75,7 @@ namespace Projecten2_TicketingPlatform.Controllers
                 }
                 catch (ArgumentException ae)
                 {
-                    TempData["Boodschap"] = "Aanmaken ticket mislukt. " + ae.Message;
+                    TempData["Boodschap"] = "Aanmaken contract mislukt. " + ae.Message;
                 }
                 return RedirectToAction(nameof(Index));
 
