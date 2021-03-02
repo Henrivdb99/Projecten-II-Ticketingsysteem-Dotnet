@@ -39,6 +39,7 @@ namespace Projecten2_TicketingPlatform.Controllers
         {
             IEnumerable<Contract> contracten = _contractRepository.GetAllByClientId(_userManager.GetUserId(User));
 
+            //als er al een contract
             if (contracten.Any(c=> c.ContractStatus.Equals(ContractStatus.Actief) || c.ContractStatus.Equals(ContractStatus.InBehandeling)))
             {
                 return View(new EditViewModel());
