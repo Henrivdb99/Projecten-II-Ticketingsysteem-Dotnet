@@ -37,7 +37,16 @@ namespace Projecten2_TicketingPlatform.Controllers
 
         public IActionResult Create()
         {
-            throw new NotImplementedException();
+            IEnumerable<Contract> contracten = _contractRepository.GetAllByClientId(_userManager.GetUserId(User));
+
+            if (contracten.Any(c=> c.ContractStatus.Equals(ContractStatus.Actief) || c.ContractStatus.Equals(ContractStatus.InBehandeling)))
+            {
+                return View(new EditViewModel());
+            }
+            else
+            {
+                return View(new EditViewModel(contracten.FirstOrDefault()));
+            }
         }
 
         [HttpPost]
