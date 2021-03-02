@@ -37,7 +37,6 @@ namespace Projecten2_TicketingPlatform.Models.Domein
         {
             StartDatum = startDatum;
             ContractType = contractType;
-            Doorlooptijd = doorlooptijd;
             EindDatum = startDatum.AddYears(doorlooptijd);
             ClientId = clientId;
             ContractStatus = status;
