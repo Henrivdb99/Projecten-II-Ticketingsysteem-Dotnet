@@ -33,13 +33,13 @@ namespace Projecten2_TicketingPlatform.Models.Domein
         {
         }
 
-        public Contract(int contractId, DateTime startDatum, int contractType, int doorlooptijd, string clientId)
+        public Contract(DateTime startDatum, int contractType, int doorlooptijd, string clientId, ContractStatus status = ContractStatus.Actief)
         {
-            ContractId = contractId;
             StartDatum = startDatum;
             ContractType = contractType;
             EindDatum = startDatum.AddYears(doorlooptijd);
             ClientId = clientId;
+            ContractStatus = status;
         }
     }
 }

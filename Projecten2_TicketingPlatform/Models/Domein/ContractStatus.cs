@@ -8,6 +8,8 @@ namespace Projecten2_TicketingPlatform
     {
         InBehandeling,
         Actief,
-        Afgelopen
+        Afgelopen,
+        Stopgezet,
+        NietActief
     }
 }
