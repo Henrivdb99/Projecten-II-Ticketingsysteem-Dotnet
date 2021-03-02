@@ -25,7 +25,7 @@ namespace Projecten2_TicketingPlatform.Data.Repositories
 
         public IEnumerable<Contract> GetAllByClientId(string klantId)
         {
-            return _contracten.Where(t => t.ClientId.Equals(klantId)).OrderByDescending(c => c.StartDatum).AsNoTracking().ToList();
+            return _contracten.Where(t => t.ClientId.Equals(klantId)).OrderByDescending(c => c.EindDatum).AsNoTracking().ToList();
         }
 
         public Contract GetById(int contractId)
@@ -35,7 +35,7 @@ namespace Projecten2_TicketingPlatform.Data.Repositories
 
         public IEnumerable<Contract> GetByStatusByClientId(string klantId, IEnumerable<ContractStatus> contractStatuses)
         {
-            return _contracten.Where(t => t.ClientId.Equals(klantId)).Where(p => contractStatuses.Contains(p.ContractStatus)).OrderByDescending(p => p.StartDatum).AsNoTracking().ToList();
+            return _contracten.Where(t => t.ClientId.Equals(klantId)).Where(p => contractStatuses.Contains(p.ContractStatus)).OrderByDescending(p => p.EindDatum).AsNoTracking().ToList();
         }
 
         public void SaveChanges()
