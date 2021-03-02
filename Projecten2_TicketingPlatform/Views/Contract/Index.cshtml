@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<Projecten2_TicketingPlatform.Models.Domein.Contract>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Contracten";
 }
 
-<h1>Index</h1>
+<h1>@ViewData["Title"]</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -15,22 +15,20 @@
             <th>
                 @Html.DisplayNameFor(model => model.ContractId)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StartDatum)
-            </th>
+
             <th>
                 @Html.DisplayNameFor(model => model.ContractType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartDatum)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.EindDatum)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ClientId)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.ContractStatus)
             </th>
-            <th></th>
+            @*<th></th>*@
         </tr>
     </thead>
     <tbody>
@@ -40,25 +38,22 @@
                 @Html.DisplayFor(modelItem => item.ContractId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.StartDatum)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.ContractType)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.EindDatum)
+                @(item.StartDatum.ToString("dd/MM/yyyy"))
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ClientId)
+                @(item.EindDatum.ToString("dd/MM/yyyy"))
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ContractStatus)
             </td>
-            <td>
+            @*<td>
                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
                 @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
                 @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
+            </td>*@
         </tr>
 }
     </tbody>
