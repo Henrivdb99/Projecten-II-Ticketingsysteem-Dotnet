@@ -15,7 +15,7 @@ namespace Projecten2_TicketingPlatform.Data.Repositories
         public ContractRepository(ApplicationDbContext context)
         {
             _context = context;
-            _contracten = context.Contract;
+            _contracten = context.Contracten;
         }
 
         public void Add(Contract contract)
@@ -31,6 +31,11 @@ namespace Projecten2_TicketingPlatform.Data.Repositories
         public Contract GetById(int contractId)
         {
             return _contracten.SingleOrDefault(c => c.ContractId == contractId);
+        }
+
+        public IEnumerable<Contract> GetByStatusByClientId(string klantId, IEnumerable<ContractStatus> contractStatuses)
+        {
+            return _contracten.Where(t => t.ClientId.Equals(klantId)).Where(p => contractStatuses.Contains(p.ContractStatus)).OrderByDescending(p => p.StartDatum).AsNoTracking().ToList();
         }
 
         public void SaveChanges()

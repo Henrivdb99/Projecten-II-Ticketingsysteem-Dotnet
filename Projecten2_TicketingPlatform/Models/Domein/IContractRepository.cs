@@ -11,5 +11,6 @@ namespace Projecten2_TicketingPlatform.Models.Domein
         IEnumerable<Contract> GetAllByClientId(string clientId);
         void Add(Contract contract);
         void SaveChanges();
+        IEnumerable<Contract> GetByStatusByClientId(string clientId, IEnumerable<ContractStatus> contractStatuses);
     }
 }
