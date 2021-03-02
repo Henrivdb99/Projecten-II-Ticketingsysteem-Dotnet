@@ -127,6 +127,12 @@ namespace Projecten2_TicketingPlatform.Controllers
             return View(ticket);
         }
 
+        public IActionResult Details (int ticketId)
+        {
+            Ticket ticket = _ticketRepository.GetById(ticketId);
+            return View(ticket);
+        }
+
         [HttpPost] 
         public IActionResult AnnuleerConfirmed(int ticketId)
         {

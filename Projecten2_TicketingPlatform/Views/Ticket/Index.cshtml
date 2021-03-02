@@ -24,7 +24,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Status)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.DatumAanmaken)
             </th>
             <th>
@@ -44,7 +44,7 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Bijlage)
-            </th>
+            </th>*@
             <th></th>
         </tr>
     </thead>
@@ -60,7 +60,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Status)
             </td>
-            <td>
+            @*<td>
                 @(item.DatumAanmaken.ToString("dd/MM/yyyy"))
             </td>
             <td>
@@ -80,11 +80,12 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Bijlage)
-            </td>
-            <td>
-                <a asp-controller="Ticket" asp-action="Edit" asp-route-ticketId="@item.Ticketid">Bewerken</a>|
-                <a asp-controller="Ticket" asp-action="Annuleer" asp-route-ticketId="@item.Ticketid">Annuleren</a>
-            </td>
+            </td>*@
+        <td>
+            <a asp-controller="Ticket" asp-action="Edit" asp-route-ticketId="@item.Ticketid">Bewerken</a> |
+            <a asp-controller="Ticket" asp-action="Annuleer" asp-route-ticketId="@item.Ticketid">Annuleren</a> | 
+            <a asp-controller="Ticket" asp-action="Details" asp-route-ticketId="@item.Ticketid">Details</a>
+        </td>
         </tr>
 }
     </tbody>
