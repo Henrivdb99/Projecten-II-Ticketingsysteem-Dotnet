@@ -6,12 +6,20 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<p>
-    <a asp-action="Create">Nieuw Ticket</a>
-</p>
-<p>
-    <a asp-action="Index" asp-route-toonGeanulleerd="true">Toon alle tickets</a>
-</p>
+
+<form>
+    <div class="form-inline">
+        <div class="form-group">
+            <label for="ticketStatus"></label>
+            <select id="ticketStatus" name="ticketStatus" asp-items="@(ViewData["TicketStatussen"] as SelectList)" class="form-control">
+                <option value="">-- Standaard --</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-secondary ml-1">Filter</button>
+        <a asp-controller="Ticket" asp-action="Create" class="btn btn-secondary text-right ml-5">Nieuw Ticket</a>
+        @*<a asp-action="Index" asp-route-toonGeanulleerd="true">Toon alle tickets</a>    </div>*@
+    </div>
+</form>
 <table class="table">
     <thead>
         <tr>

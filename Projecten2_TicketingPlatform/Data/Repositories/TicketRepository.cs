@@ -30,12 +30,12 @@ namespace Projecten2_TicketingPlatform.Data.Repositories
 
         public IEnumerable<Ticket> GetAllByClientId(string klantId)
         {
-            return _tickets.Where(t => t.KlantId.Equals(klantId)).Where(t => t.Status != TicketStatus.Geannuleerd).OrderBy(t => t.DatumAanmaken).AsNoTracking().ToList();
+            return _tickets.Where(t => t.KlantId.Equals(klantId)).OrderBy(t => t.DatumAanmaken).AsNoTracking().ToList();
         }
 
-        public IEnumerable<Ticket> GetAllByClientIdIncludingAnnuled(string klantId)
+        public IEnumerable<Ticket> GetAllByClientIdByTicketStatus(string klantId, IEnumerable<TicketStatus> ticketStatussen)
         {
-            return _tickets.Where(t => t.KlantId.Equals(klantId)).OrderBy(t => t.DatumAanmaken).AsNoTracking().ToList();
+            return _tickets.Where(t => t.KlantId.Equals(klantId)).Where(t => ticketStatussen.Contains(t.Status)).OrderBy(t => t.DatumAanmaken).AsNoTracking().ToList();
         }
 
         public Ticket GetById(int ticketId)

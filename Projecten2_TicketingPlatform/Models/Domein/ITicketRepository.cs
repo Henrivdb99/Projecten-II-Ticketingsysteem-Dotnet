@@ -9,9 +9,9 @@ namespace Projecten2_TicketingPlatform.Models.Domein
     {
         Ticket GetById(int ticketId);
         IEnumerable<Ticket> GetAllByClientId(string klantId);
-        IEnumerable<Ticket> GetAllByClientIdIncludingAnnuled(string klantId);
+        IEnumerable<Ticket> GetAllByClientIdByTicketStatus(string v, IEnumerable<TicketStatus> lists);
+
         void Add(Ticket ticket);
         void Delete(Ticket ticket);
-        void SaveChanges();
-    }
+        void SaveChanges();    }
 }

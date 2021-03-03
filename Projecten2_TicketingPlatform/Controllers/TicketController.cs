@@ -23,19 +23,22 @@ namespace Projecten2_TicketingPlatform.Controllers
         }
     
 
-        public IActionResult Index(bool toonGeanulleerd = false)
+        public IActionResult Index(TicketStatus ticketStatus = TicketStatus.Standaard)
         {
             IEnumerable<Ticket> tickets;
-            if (!toonGeanulleerd) {
-                tickets = _ticketRepository.GetAllByClientId(_userManager.GetUserId(User));
+            if (ticketStatus == TicketStatus.Standaard) {
+                tickets = _ticketRepository.GetAllByClientIdByTicketStatus(_userManager.GetUserId(User), 
+                    new List<TicketStatus> { TicketStatus.Aangemaakt, TicketStatus.InBehandeling });
             } else
             {
-                tickets = _ticketRepository.GetAllByClientIdIncludingAnnuled(_userManager.GetUserId(User));
+                tickets = _ticketRepository.GetAllByClientIdByTicketStatus(_userManager.GetUserId(User),
+                    new List<TicketStatus> {  ticketStatus });
             }
             if (tickets.Count() == 0)
             {
                 TempData["GeenTickets"] = $"Uw account met ID {_userManager.GetUserId(User)} beschikt niet over tickets";
             }
+            ViewData["TicketStatussen"] = new SelectList(new List<TicketStatus> { TicketStatus.Aangemaakt, TicketStatus.InBehandeling, TicketStatus.Afgehandeld, TicketStatus.Geannuleerd, TicketStatus.WachtenOpInformatieKlant, TicketStatus.InformatieKlantOntvangen, TicketStatus.InDevelopment });
             return View(tickets);
         }
         #region == Create Methodes ==

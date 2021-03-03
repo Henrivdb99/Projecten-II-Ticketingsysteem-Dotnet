@@ -18,6 +18,7 @@ namespace Projecten2_TicketingPlatform.Models.Domein
         [Display(Name = "Informatie klant ontvangen")]
         InformatieKlantOntvangen,
         [Display(Name = "In development")]
-        InDevelopment
+        InDevelopment,
+        Standaard
     }
 }
