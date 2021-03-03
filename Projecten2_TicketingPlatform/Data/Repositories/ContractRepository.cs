@@ -30,7 +30,7 @@ namespace Projecten2_TicketingPlatform.Data.Repositories
 
         public Boolean HasActiveContracts(string klantId)
         {
-            if (_contracten.Where(t => t.ClientId.Equals(klantId)).Where(t => t.ContractStatus.Actief).Count() != 0)
+            if (_contracten.Where(t => t.ClientId.Equals(klantId)).Where(t => t.ContractStatus.Equals(ContractStatus.Actief)).Count() != 0)
                 return true;
             else
                 return false;
