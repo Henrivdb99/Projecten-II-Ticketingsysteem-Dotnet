@@ -26,12 +26,20 @@ namespace Projecten2_TicketingPlatform.Controllers
             if (contractStatus== ContractStatus.Standaard)
             {
                 contracten = _contractRepository.GetByStatusByClientId(_userManager.GetUserId(User), new List<ContractStatus> {ContractStatus.Actief, ContractStatus.InBehandeling } );
+            }else
+            if (contractStatus == ContractStatus.Alle)
+            {
+                contracten = _contractRepository.GetByStatusByClientId(_userManager.GetUserId(User), new List<ContractStatus> { ContractStatus.Actief, ContractStatus.Afgelopen, ContractStatus.InBehandeling, ContractStatus.NietActief, ContractStatus.Stopgezet });
             }
             else
             {
                 contracten = _contractRepository.GetByStatusByClientId(_userManager.GetUserId(User), new List<ContractStatus> { contractStatus });
             }
-            ViewData["ContractStatussen"] = new SelectList(new List<ContractStatus> { ContractStatus.Actief, ContractStatus.Afgelopen, ContractStatus.InBehandeling, ContractStatus.NietActief, ContractStatus.Stopgezet });       
+            if (contracten.Count() == 0)
+            {
+                TempData["GeenContracten"] = $"Uw account beschikt niet over contracten met status {contractStatus}";
+            }
+            ViewData["ContractStatussen"] = new SelectList(new List<ContractStatus> { ContractStatus.Alle, ContractStatus.Standaard, ContractStatus.Actief, ContractStatus.Afgelopen, ContractStatus.InBehandeling, ContractStatus.NietActief, ContractStatus.Stopgezet });       
             return View(contracten);
         }
 

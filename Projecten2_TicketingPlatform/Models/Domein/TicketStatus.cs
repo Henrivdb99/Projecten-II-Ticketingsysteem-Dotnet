@@ -19,6 +19,8 @@ namespace Projecten2_TicketingPlatform.Models.Domein
         InformatieKlantOntvangen,
         [Display(Name = "In development")]
         InDevelopment,
-        Standaard
+        Standaard,
+        [Display(Name = "Alle tickets")]
+        Alle
     }
 }

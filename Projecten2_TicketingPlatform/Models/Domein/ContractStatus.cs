@@ -1,16 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace Projecten2_TicketingPlatform
 { 
     public enum ContractStatus
     {
+        [Display(Name = "In behandeling")]
         InBehandeling,
         Actief,
         Afgelopen,
         Stopgezet,
+        [Display(Name = "Niet actief")]
         NietActief,
-        Standaard
+        Standaard,
+        [Display(Name = "Alle tickets")]
+        Alle
     }
 }

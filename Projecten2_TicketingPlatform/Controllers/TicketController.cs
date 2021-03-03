@@ -30,13 +30,18 @@ namespace Projecten2_TicketingPlatform.Controllers
                 tickets = _ticketRepository.GetAllByClientIdByTicketStatus(_userManager.GetUserId(User), 
                     new List<TicketStatus> { TicketStatus.Aangemaakt, TicketStatus.InBehandeling });
             } else
+            if (ticketStatus == TicketStatus.Alle)
+            {
+                tickets = _ticketRepository.GetAllByClientId(_userManager.GetUserId(User));
+            }
+            else
             {
                 tickets = _ticketRepository.GetAllByClientIdByTicketStatus(_userManager.GetUserId(User),
                     new List<TicketStatus> {  ticketStatus });
             }
             if (tickets.Count() == 0)
             {
-                TempData["GeenTickets"] = $"Uw account met ID {_userManager.GetUserId(User)} beschikt niet over tickets met status {ticketStatus}";
+                TempData["GeenTickets"] = $"Uw account beschikt niet over tickets met status {ticketStatus}";
             }
             ViewData["TicketStatussen"] = new SelectList(new List<TicketStatus> { TicketStatus.Aangemaakt, TicketStatus.InBehandeling, TicketStatus.Afgehandeld, TicketStatus.Geannuleerd, TicketStatus.WachtenOpInformatieKlant, TicketStatus.InformatieKlantOntvangen, TicketStatus.InDevelopment });
             return View(tickets);
