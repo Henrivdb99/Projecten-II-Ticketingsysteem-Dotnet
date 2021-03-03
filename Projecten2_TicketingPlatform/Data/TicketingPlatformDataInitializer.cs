@@ -63,6 +63,11 @@ namespace Projecten2_TicketingPlatform.Data
             await _userManager.CreateAsync(user1, "P@ssword1");
             await _userManager.AddClaimAsync(user1, new Claim(ClaimTypes.Role, "klant"));
 
+            string eMailAddress1a = "klant2@hogent.be";
+            IdentityUser user1a = new IdentityUser { UserName = eMailAddress1a, Email = eMailAddress1a, Id = "210771fc - 5d15 - 4e7c - a902 - a3a2fd4e2815" };
+            await _userManager.CreateAsync(user1a, "P@ssword1");
+            await _userManager.AddClaimAsync(user1a, new Claim(ClaimTypes.Role, "klant"));
+
             string eMailAddress2 = "technieker@hogent.be";
             IdentityUser user2 = new IdentityUser { UserName = eMailAddress2, Email = eMailAddress2, Id= "ff3bc350-5d15-47da-bb68-69ad26e059ae" };
             await _userManager.CreateAsync(user2, "P@ssword1");
