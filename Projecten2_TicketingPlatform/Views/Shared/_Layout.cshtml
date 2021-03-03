@@ -50,7 +50,10 @@
             {
                 <div class="alert alert-warning">@TempData["Boodschap"]</div>
             }
-            @RenderBody()
+            @if (TempData["GeenActieveContracten"] != null)
+            {
+                <div class="alert alert-warning">@TempData["GeenActieveContracten"]</div>
+            }            @RenderBody()
         </main>
     </div>
 

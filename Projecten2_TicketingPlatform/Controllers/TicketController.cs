@@ -51,10 +51,10 @@ namespace Projecten2_TicketingPlatform.Controllers
         #region == Create Methodes ==
         public IActionResult Create()
         {
-            if (_contractRepository.HasActiveContracts(_userManager.GetUserId(User)))
+            if (!_contractRepository.HasActiveContracts(_userManager.GetUserId(User)))
             {
                 TempData["GeenActieveContracten"] = $"Uw account beschikt niet over actieve contracten";
-                return View("Index");
+                return RedirectToAction("Index");
             }
             else
             {
