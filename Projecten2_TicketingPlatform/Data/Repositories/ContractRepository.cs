@@ -28,7 +28,7 @@ namespace Projecten2_TicketingPlatform.Data.Repositories
             return _contracten.Where(t => t.ClientId.Equals(klantId)).OrderByDescending(c => c.EindDatum).AsNoTracking().ToList();
         }
 
-        public Boolean HasActiveContracts(string klantId)
+        public bool HasActiveContracts(string klantId)
         {
             if (_contracten.Where(t => t.ClientId.Equals(klantId)).Where(t => t.ContractStatus.Equals(ContractStatus.Actief)).Count() != 0)
                 return true;
