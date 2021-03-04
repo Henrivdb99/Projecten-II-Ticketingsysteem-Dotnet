@@ -148,18 +148,23 @@ namespace Projecten2_TicketingPlatform.Controllers
             return View(ticketVm);
         }
 
-        public IActionResult Annuleer(int ticketId) {
-            Ticket ticket = _ticketRepository.GetById(ticketId);
-            return View(ticket);
-        }
+        #endregion
 
-        public IActionResult Details (int ticketId)
+        #region == Delete Methodes ==
+        public IActionResult Annuleer(int ticketId)
         {
             Ticket ticket = _ticketRepository.GetById(ticketId);
+            if(ticket.Status.Equals(TicketStatus.Geannuleerd))
+            {
+                TempData["Boodschap"] = "Dit ticket is reeds geannuleerd";
+                return RedirectToAction(nameof(Index));
+            }
             return View(ticket);
         }
 
-        [HttpPost] 
+
+
+        [HttpPost]
         public IActionResult AnnuleerConfirmed(int ticketId)
         {
             Ticket ticket = _ticketRepository.GetById(ticketId);
@@ -167,8 +172,14 @@ namespace Projecten2_TicketingPlatform.Controllers
             _ticketRepository.SaveChanges();
             TempData["Boodschap"] = "Ticket is geannuleerd";
             return RedirectToAction(nameof(Index));
-        }
+        } 
         #endregion
+
+        public IActionResult Details(int ticketId)
+        {
+            Ticket ticket = _ticketRepository.GetById(ticketId);
+            return View(ticket);
+        }
 
         private SelectList TicketTypesAsSelectList(int selected = 0)
         {
