@@ -11,7 +11,7 @@ namespace Projecten2_TicketingPlatform.Models.Domein
 
         public int ContractId { get; set; }
         public DateTime StartDatum { get; set; }
-        public int ContractType { get; set; }
+        public string ContractType { get; set; }
         public DateTime EindDatum { get; set; }
         public string ClientId { get; set; }
         //public int Doorlooptijd { get; set; }
@@ -38,7 +38,7 @@ namespace Projecten2_TicketingPlatform.Models.Domein
         {
         }
 
-        public Contract(DateTime startDatum, int contractType, int doorlooptijd, string clientId, ContractStatus status = ContractStatus.InBehandeling)
+        public Contract(DateTime startDatum, string contractType, int doorlooptijd, string clientId, ContractStatus status = ContractStatus.InBehandeling)
         {
             StartDatum = startDatum;
             ContractType = contractType;

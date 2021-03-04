@@ -39,13 +39,13 @@ namespace Projecten2_TicketingPlatform.Data
 
                 var contractenVoorKlant = new List<Contract>
                 {
-                    new Contract(DateTime.Today.AddMonths(-13), 1, 1, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105",ContractStatus.Afgelopen),
-                    new Contract( DateTime.Today.AddMonths(-8), 2, 1, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105", ContractStatus.InBehandeling),
-                    new Contract(DateTime.Today.AddMonths(-1), 3, 2, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105"),
-                    new Contract(DateTime.Today.AddMonths(-26), 3, 2, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105", ContractStatus.Afgelopen),
-                    new Contract(DateTime.Today.AddMonths(-3), 4, 2, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105", ContractStatus.Actief),
-                    new Contract(DateTime.Today, 5, 3, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105"),
-                    new Contract(DateTime.Today.AddMonths(-4), 6, 3, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105")
+                    new Contract(DateTime.Today.AddMonths(-13), "type 1", 1, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105",ContractStatus.Afgelopen),
+                    new Contract( DateTime.Today.AddMonths(-8), "type 2", 1, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105", ContractStatus.InBehandeling),
+                    new Contract(DateTime.Today.AddMonths(-1), "type 1", 2, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105"),
+                    new Contract(DateTime.Today.AddMonths(-26), "type 1", 2, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105", ContractStatus.Afgelopen),
+                    new Contract(DateTime.Today.AddMonths(-3), "type 1", 2, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105", ContractStatus.Actief),
+                    new Contract(DateTime.Today, "type 4", 3, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105"),
+                    new Contract(DateTime.Today.AddMonths(-4), "type 3", 3, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105")
                 };
                 _dbcontext.Contracten.AddRange(contractenVoorKlant);
 
