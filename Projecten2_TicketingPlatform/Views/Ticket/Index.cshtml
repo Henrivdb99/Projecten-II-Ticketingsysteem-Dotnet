@@ -55,7 +55,8 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model)
+{
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Titel)
@@ -88,15 +89,14 @@
                 @Html.DisplayFor(modelItem => item.Bijlage)
             </td>*@
         <td>
-            <a asp-controller="Ticket" asp-action="Edit" asp-route-ticketId="@item.Ticketid">Bewerken</a> |
-            @if (!item.Status.Equals("Geannuleerd"))
-            {
-        <div>
-            <a asp-controller="Ticket" asp-action="Annuleer" asp-route-ticketId="@item.Ticketid">Annuleren</a> |
-        </div>
+            @if (!(item.Status == Projecten2_TicketingPlatform.Models.Domein.TicketStatus.Geannuleerd || item.Status == Projecten2_TicketingPlatform.Models.Domein.TicketStatus.Afgehandeld))
+            {<div>
+                    <a asp-controller="Ticket" asp-action="Edit" asp-route-ticketId="@item.Ticketid">Bewerken</a> |
+                    <a asp-controller="Ticket" asp-action="Annuleer" asp-route-ticketId="@item.Ticketid">Annuleren</a> |
+             </div>
             }
-            <a asp-controller="Ticket" asp-action="Details" asp-route-ticketId="@item.Ticketid">Details</a>
-        </td>
+                <a asp-controller="Ticket" asp-action="Details" asp-route-ticketId="@item.Ticketid">Details</a>
+            </td>
         </tr>
 }
     </tbody>
