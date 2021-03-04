@@ -71,7 +71,7 @@
             @Html.DisplayFor(model => model.Bijlage)
         </dd>
     </dl>
-    @if (!(@Model.Status == Projecten2_TicketingPlatform.Models.Domein.TicketStatus.Geannuleerd || item.Status == Projecten2_TicketingPlatform.Models.Domein.TicketStatus.Afgehandeld))
+    @if (!(@Model.Status == Projecten2_TicketingPlatform.Models.Domein.TicketStatus.Geannuleerd || @Model.Status == Projecten2_TicketingPlatform.Models.Domein.TicketStatus.Afgehandeld))
     {<div>
             <a asp-controller="Ticket" asp-action="Edit" asp-route-ticketId="@Model.Ticketid">Bewerken</a> | 
             <a asp-controller="Ticket" asp-action="Annuleer" asp-route-ticketId="@Model.Ticketid">Annuleren</a> |
