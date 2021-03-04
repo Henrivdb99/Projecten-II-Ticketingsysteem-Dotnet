@@ -11,9 +11,9 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="Projecten2_TicketingPlatform.Models.Domein.Contract">
-    <Position X="1.25" Y="1" Width="1.5" />
+    <Position X="1.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAACAAEAIAAgAABAAAAAA=</HashCode>
+      <HashCode>AAAAAAAACAAAAAAAgAAAAAAAACAAEAKAAgAABAAAAAA=</HashCode>
       <FileName>Models\Domein\Contract.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -23,21 +23,21 @@
   <Interface Name="Projecten2_TicketingPlatform.Models.Domein.ITicketRepository">
     <Position X="6.25" Y="0.5" Width="3.5" />
     <TypeIdentifier>
-      <HashCode>gAIAAAAAAAAAAAEAAAAAAAAAAAEAAAAAAAAAAAAAAoA=</HashCode>
+      <HashCode>gAIAAAAAAAAAAAAAAAAAAAAAAAEAAABAAAAAAAAAAoA=</HashCode>
       <FileName>Models\Domein\ITicketRepository.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Enum Name="Projecten2_TicketingPlatform.Models.Domein.TicketStatus">
     <Position X="6.75" Y="3.75" Width="3.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAACAAAAIAAAEAAAAAAAAAAAAAAAAAIBAAABAAEA=</HashCode>
+      <HashCode>AAAAAACAAAAYAAAEAAAAAAAAAAAAAAQAAIBAAABAAEA=</HashCode>
       <FileName>Models\Domein\TicketStatus.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="Projecten2_TicketingPlatform.ContractStatus" Collapsed="true">
-    <Position X="3.75" Y="1.25" Width="1.5" />
+    <Position X="3.75" Y="0.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAgAABAAAAAAAAAAAABAAAA=</HashCode>
+      <HashCode>AgAACAAAAAAQAAAAAAAAAAgAABAAAAQAAAAAAABAAAA=</HashCode>
       <FileName>Models\Domein\ContractStatus.cs</FileName>
     </TypeIdentifier>
   </Enum>

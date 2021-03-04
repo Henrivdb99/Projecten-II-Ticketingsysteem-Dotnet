@@ -11,8 +11,8 @@
     <div class="form-inline">
         <div class="form-group">
             <label for="ticketStatus"></label>
-            <select id="ticketStatus" name="ticketStatus" asp-items="@(ViewData["TicketStatussen"] as SelectList)" class="form-control" onchange="this.form.submit()">
-                <option value="">--Ticket status--</option>
+            <select id="ticketStatus" name="ticketStatus" asp-items="Html.GetEnumSelectList<TicketStatus>()" class="form-control" onchange="this.form.submit()">
+                <option selected="selected" value="">-- Ticket status --</option>
             </select>
         </div>
         <a asp-controller="Ticket" asp-action="Create" class="btn btn-primary text-right ml-5">Nieuw Ticket</a>
@@ -89,7 +89,7 @@
                 @Html.DisplayFor(modelItem => item.Bijlage)
             </td>*@
         <td>
-            @if (!(item.Status == Projecten2_TicketingPlatform.Models.Domein.TicketStatus.Geannuleerd || item.Status == Projecten2_TicketingPlatform.Models.Domein.TicketStatus.Afgehandeld))
+            @if (!(item.Status == TicketStatus.Geannuleerd || item.Status == TicketStatus.Afgehandeld))
             {<div>
                     <a asp-controller="Ticket" asp-action="Edit" asp-route-ticketId="@item.Ticketid">Bewerken</a> |
                     <a asp-controller="Ticket" asp-action="Annuleer" asp-route-ticketId="@item.Ticketid">Annuleren</a> |

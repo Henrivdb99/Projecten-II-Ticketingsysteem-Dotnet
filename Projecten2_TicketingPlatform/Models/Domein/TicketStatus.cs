@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Projecten2_TicketingPlatform.Models.Domein
+namespace Projecten2_TicketingPlatform
 {
     public enum TicketStatus
     {

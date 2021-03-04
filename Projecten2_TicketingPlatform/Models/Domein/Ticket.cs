@@ -84,5 +84,4 @@ namespace Projecten2_TicketingPlatform.Models.Domein
         //public bool ViaKnowledgebase { get; set; }
         //public bool SupportNodig { get; set; }
     }
-
 }
