@@ -21,13 +21,13 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
+            <th style="width: 25%">
                 @Html.DisplayNameFor(model => model.Titel)
             </th>
-            <th>
+            <th style="width: 20%">
                 @Html.DisplayNameFor(model => model.Ticketid)
             </th>
-            <th>
+            <th style="width: 25%">
                 @Html.DisplayNameFor(model => model.Status)
             </th>
             @*<th>
@@ -51,7 +51,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Bijlage)
             </th>*@
-            <th></th>
+            <th style="width: 30%"></th>
         </tr>
     </thead>
     <tbody>
@@ -88,14 +88,13 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Bijlage)
             </td>*@
-        <td>
+        <td style="text-align:right">
             @if (!(item.Status == TicketStatus.Geannuleerd || item.Status == TicketStatus.Afgehandeld))
-            {<div>
-                    <a asp-controller="Ticket" asp-action="Edit" asp-route-ticketId="@item.Ticketid">Bewerken</a> |
-                    <a asp-controller="Ticket" asp-action="Annuleer" asp-route-ticketId="@item.Ticketid">Annuleren</a> |
-             </div>
+            {<span><a asp-controller="Ticket" asp-action="Edit" asp-route-ticketId="@item.Ticketid">Bewerken</a> | </span>
+             <span><a asp-controller="Ticket" asp-action="Annuleer" asp-route-ticketId="@item.Ticketid">Annuleren</a> | </span>
             }
-                <a asp-controller="Ticket" asp-action="Details" asp-route-ticketId="@item.Ticketid">Details</a>
+            <span><a asp-controller="Ticket" asp-action="Details" asp-route-ticketId="@item.Ticketid">Details</a></span>
+                
             </td>
         </tr>
 }
