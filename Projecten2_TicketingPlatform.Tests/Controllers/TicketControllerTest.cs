@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Projecten2_TicketingPlatform.Controllers;
@@ -6,7 +7,9 @@ using Projecten2_TicketingPlatform.Models.Domein;
 using Projecten2_TicketingPlatform.Models.TicketViewModels;
 using Projecten2_TicketingPlatform.Tests.Data;
 using System;
+using System.Collections.Generic;
 using System.Security.Claims;
+using System.Security.Principal;
 using Xunit;
 
 namespace Projecten2_TicketingPlatform.Tests.Controllers
@@ -18,7 +21,9 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
         private readonly Ticket _ticket;
         private readonly DummyApplicationDbContext _dummyContext;
         private readonly int _onbestaandeId;
-        private readonly Mock<UserManager<IdentityUser>> _mockUser;
+        //private readonly Mock<UserManager<IdentityUser>> _mockUser;
+
+        public static readonly string USERID = "bff6a934 - 0dca - 4965 - b9fc - 91c3290792c8";
 
         public TicketControllerTest()
         {
@@ -28,11 +33,31 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
             _mockTicketRepository.Setup(p => p.GetById(1)).Returns(_dummyContext.Ticket);
             _ticket = _dummyContext.Ticket;
             _onbestaandeId = 9999;
-            _mockUser = new Mock<UserManager<IdentityUser>>();
+            //_mockUser = new Mock<UserManager<IdentityUser>>();
             //_mockUser.Setup(p => p.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns("bff6a934 - 0dca - 4965 - b9fc - 91c3290792c8");
-            _ticketController = new TicketController(_mockTicketRepository.Object, _mockUser.Object);
 
+            var user = new IdentityUser() { UserName = "JanMetDePet", Id = USERID };
 
+            var claims = new List<Claim>()
+            {
+                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.NameIdentifier, user.Id),
+                new Claim("name", user.UserName),
+            };
+            var identity = new ClaimsIdentity(claims, "Test");
+            var claimsPrincipal = new ClaimsPrincipal(identity);
+
+            var mockPrincipal = new Mock<IPrincipal>();
+            mockPrincipal.Setup(x => x.Identity).Returns(identity);
+            mockPrincipal.Setup(x => x.IsInRole(It.IsAny<string>())).Returns(true);
+
+            var mockHttpContext = new Mock<HttpContext>();
+            mockHttpContext.Setup(m => m.User).Returns(claimsPrincipal);
+            //mock trainen:
+            Mock<UserManager<IdentityUser>> userMgr = new Mock<UserManager<IdentityUser>>();
+            userMgr.Setup(x => x.FindByNameAsync(It.IsAny<string>())).ReturnsAsync(user);
+
+            _ticketController = new TicketController(_mockTicketRepository.Object, null, userMgr.Object);
         }
         //Nog eventuele wijziging in verband met een actief of niet actief contract. Moet besproken worden waar dit wordt getest
         #region == Create Methodes ==

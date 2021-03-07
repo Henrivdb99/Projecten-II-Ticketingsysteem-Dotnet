@@ -22,10 +22,11 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
         private readonly Mock<UserManager<IdentityUser>> _mockUser;
         private readonly List<Contract> _contracts;
 
+        public static readonly string USERID = "bff6a934 - 0dca - 4965 - b9fc - 91c3290792c8";
+
         public ContractControllerTest()
         {
             _dummyContext = new DummyApplicationDbContext();
-            _mockContractRepository = new Mock<IContractRepository>();
             _contract1 = _dummyContext.Contract1;
             _contract2 = _dummyContext.Contract2;
             _mockUser = new Mock<UserManager<IdentityUser>>();
