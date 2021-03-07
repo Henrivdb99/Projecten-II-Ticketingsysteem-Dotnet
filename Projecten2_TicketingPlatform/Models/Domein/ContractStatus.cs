@@ -15,7 +15,7 @@ namespace Projecten2_TicketingPlatform
         [Display(Name = "Niet actief")]
         NietActief,
         Standaard,
-        [Display(Name = "Alle tickets")]
+        [Display(Name = "Alle contracten")]
         Alle
     }
 }

@@ -37,7 +37,7 @@ namespace Projecten2_TicketingPlatform.Controllers
             }
             if (contracten.Count() == 0)
             {
-                TempData["GeenContracten"] = $"Uw account beschikt niet over contracten met status {contractStatus}";
+                TempData["GeenContracten"] = $"Uw account beschikt niet over contracten met status {contractStatus.GetDisplayAttributeFrom(typeof(ContractStatus))}";
             }
             ViewData["ContractStatussen"] = new SelectList(new List<ContractStatus> { ContractStatus.Alle, ContractStatus.Standaard, ContractStatus.Actief, ContractStatus.Afgelopen, ContractStatus.InBehandeling, ContractStatus.NietActief, ContractStatus.Stopgezet });       
             return View(contracten);

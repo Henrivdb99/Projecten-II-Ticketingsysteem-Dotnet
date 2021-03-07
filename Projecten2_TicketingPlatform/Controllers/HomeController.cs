@@ -20,7 +20,7 @@ namespace Projecten2_TicketingPlatform.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return new RedirectResult(url: "/Dashbord/Index");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

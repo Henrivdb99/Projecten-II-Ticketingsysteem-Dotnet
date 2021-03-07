@@ -143,8 +143,9 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
         }
 
         [Fact]
-        public void CreateHttpPost_DomainErrors_AlreadyTwoContractsSameType_DoesNotPersistContract()
+        public void CreateHttpPost_DomainErrors_AlreadyAnActiveContractsSameType_DoesNotPersistContract()
         {
+            //dit zorgt ervoor dat er geen contracten van type1 mogen gemaakt worden
             _contracts.Add(new Contract(DateTime.Now, 1, 1, "bff6a934 - 0dca - 4965 - b9fc - 91c3290792c8", ContractStatus.InBehandeling));
 
             _mockContractRepository.Setup(p => p.Add(It.IsNotNull<Contract>()));
@@ -153,7 +154,7 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
             var contractVm = new EditViewModel()
             {
                 Startdatum = DateTime.Today,
-                ContractType = 3,
+                ContractType = 1,
                 Doorlooptijd = 2
             };
             var result = Assert.IsType<RedirectToActionResult>(_contractController.Create(contractVm));

@@ -14,11 +14,13 @@ namespace Projecten2_TicketingPlatform.Controllers
     public class TicketController : Controller
     {
         private readonly ITicketRepository _ticketRepository;
+        private readonly IContractRepository _contractRepository;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public TicketController(ITicketRepository ticketRepository, UserManager<IdentityUser> userManager)
+        public TicketController(ITicketRepository ticketRepository, IContractRepository contractRepository, UserManager<IdentityUser> userManager)
         {
             _ticketRepository = ticketRepository;
+            _contractRepository = contractRepository;
             _userManager = userManager;
         }
     
@@ -41,7 +43,7 @@ namespace Projecten2_TicketingPlatform.Controllers
             }
             if (tickets.Count() == 0)
             {
-                TempData["GeenTickets"] = $"Uw account beschikt niet over tickets met status {ticketStatus}";
+                TempData["GeenTickets"] = $"Uw account beschikt niet over tickets met status {ticketStatus.GetDisplayAttributeFrom(typeof(TicketStatus))}";
             }
             ViewData["TicketStatussen"] = new SelectList(new List<TicketStatus> { TicketStatus.Aangemaakt, TicketStatus.InBehandeling, TicketStatus.Afgehandeld, TicketStatus.Geannuleerd, TicketStatus.WachtenOpInformatieKlant, TicketStatus.InformatieKlantOntvangen, TicketStatus.InDevelopment });
             return View(tickets);
@@ -49,9 +51,18 @@ namespace Projecten2_TicketingPlatform.Controllers
         #region == Create Methodes ==
         public IActionResult Create()
         {
-            ViewData["IsEdit"] = false;
-            ViewData["TicketType"] = TicketTypesAsSelectList();
-            return View("Edit", new EditViewModel());
+            if (!_contractRepository.HasActiveContracts(_userManager.GetUserId(User)))
+            {
+                TempData["GeenActieveContracten"] = $"Uw account beschikt niet over actieve contracten";
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                ViewData["IsEdit"] = false;
+                ViewData["TicketType"] = TicketTypesAsSelectList();
+                return View("Edit", new EditViewModel());
+            }
+
 
         }
         [HttpPost]
@@ -61,19 +72,26 @@ namespace Projecten2_TicketingPlatform.Controllers
             {
                 try
                 {
-                    Ticket ticket = new Ticket();
-                    ticket.DatumAanmaken = ticketVm.DatumAanmaken;
-                    ticket.Titel = ticketVm.Titel;
-                    ticket.Omschrijving = ticketVm.Omschrijving;
-                    ticket.TypeTicket = ticketVm.TypeTicket;
-                    /*ticketVm.Technieker, ticketVm.Opmerkingen,*/
-                    ticket.Bijlage = ticketVm.Bijlage;
-                    ticket.KlantId = _userManager.GetUserId(User); //!!!!!
-                    ticket.Status = TicketStatus.Aangemaakt;
-                    
-                    _ticketRepository.Add(ticket);
-                    _ticketRepository.SaveChanges();
-                    TempData["Boodschap"] = "Aanmaken ticket gelukt!";
+                    if (_contractRepository.HasActiveContracts(_userManager.GetUserId(User)))
+                    {
+                        throw new ArgumentException("Dit account heeft geen actieve contracten.");
+                    }
+                    else
+                    {
+                        Ticket ticket = new Ticket();
+                        ticket.DatumAanmaken = ticketVm.DatumAanmaken;
+                        ticket.Titel = ticketVm.Titel;
+                        ticket.Omschrijving = ticketVm.Omschrijving;
+                        ticket.TypeTicket = ticketVm.TypeTicket;
+                        /*ticketVm.Technieker, ticketVm.Opmerkingen,*/
+                        ticket.Bijlage = ticketVm.Bijlage;
+                        ticket.KlantId = _userManager.GetUserId(User); //!!!!!
+                        ticket.Status = TicketStatus.Aangemaakt;
+
+                        _ticketRepository.Add(ticket);
+                        _ticketRepository.SaveChanges();
+                        TempData["Boodschap"] = "Aanmaken ticket gelukt!";
+                    }
                 }
                 catch (ArgumentException ae)
                 {
@@ -130,18 +148,23 @@ namespace Projecten2_TicketingPlatform.Controllers
             return View(ticketVm);
         }
 
-        public IActionResult Annuleer(int ticketId) {
-            Ticket ticket = _ticketRepository.GetById(ticketId);
-            return View(ticket);
-        }
+        #endregion
 
-        public IActionResult Details (int ticketId)
+        #region == Delete Methodes ==
+        public IActionResult Annuleer(int ticketId)
         {
             Ticket ticket = _ticketRepository.GetById(ticketId);
+            if(ticket.Status.Equals(TicketStatus.Geannuleerd))
+            {
+                TempData["Boodschap"] = "Dit ticket is reeds geannuleerd";
+                return RedirectToAction(nameof(Index));
+            }
             return View(ticket);
         }
 
-        [HttpPost] 
+
+
+        [HttpPost]
         public IActionResult AnnuleerConfirmed(int ticketId)
         {
             Ticket ticket = _ticketRepository.GetById(ticketId);
@@ -149,8 +172,14 @@ namespace Projecten2_TicketingPlatform.Controllers
             _ticketRepository.SaveChanges();
             TempData["Boodschap"] = "Ticket is geannuleerd";
             return RedirectToAction(nameof(Index));
-        }
+        } 
         #endregion
+
+        public IActionResult Details(int ticketId)
+        {
+            Ticket ticket = _ticketRepository.GetById(ticketId);
+            return View(ticket);
+        }
 
         private SelectList TicketTypesAsSelectList(int selected = 0)
         {

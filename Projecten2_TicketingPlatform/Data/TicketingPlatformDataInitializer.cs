@@ -39,13 +39,13 @@ namespace Projecten2_TicketingPlatform.Data
 
                 var contractenVoorKlant = new List<Contract>
                 {
-                    new Contract(DateTime.Today.AddMonths(-13), 1, 1, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105",ContractStatus.Afgelopen),
-                    new Contract( DateTime.Today.AddMonths(-8), 2, 1, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105", ContractStatus.InBehandeling),
-                    new Contract(DateTime.Today.AddMonths(-1), 3, 2, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105"),
-                    new Contract(DateTime.Today.AddMonths(-26), 3, 2, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105", ContractStatus.Afgelopen),
-                    new Contract(DateTime.Today.AddMonths(-3), 4, 2, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105", ContractStatus.InBehandeling),
-                    new Contract(DateTime.Today, 5, 3, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105"),
-                    new Contract(DateTime.Today.AddMonths(-4), 6, 3, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105")
+                    new Contract(DateTime.Today.AddMonths(-13), "type 1", 1, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105",ContractStatus.Afgelopen),
+                    new Contract( DateTime.Today.AddMonths(-8), "type 2", 1, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105", ContractStatus.InBehandeling),
+                    new Contract(DateTime.Today.AddMonths(-1), "type 1", 2, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105"),
+                    new Contract(DateTime.Today.AddMonths(-26), "type 1", 2, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105", ContractStatus.Afgelopen),
+                    new Contract(DateTime.Today.AddMonths(-3), "type 1", 2, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105", ContractStatus.Actief),
+                    new Contract(DateTime.Today, "type 4", 3, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105"),
+                    new Contract(DateTime.Today.AddMonths(-4), "type 3", 3, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105")
                 };
                 _dbcontext.Contracten.AddRange(contractenVoorKlant);
 
@@ -62,6 +62,11 @@ namespace Projecten2_TicketingPlatform.Data
             IdentityUser user1 = new IdentityUser { UserName = eMailAddress1, Email = eMailAddress1, Id = "210771fc - 21f2 - 47e4 - a902 - 986e2d199105" };
             await _userManager.CreateAsync(user1, "P@ssword1");
             await _userManager.AddClaimAsync(user1, new Claim(ClaimTypes.Role, "klant"));
+
+            string eMailAddress1a = "klant2@hogent.be";
+            IdentityUser user1a = new IdentityUser { UserName = eMailAddress1a, Email = eMailAddress1a, Id = "210771fc - 5d15 - 4e7c - a902 - a3a2fd4e2815" };
+            await _userManager.CreateAsync(user1a, "P@ssword1");
+            await _userManager.AddClaimAsync(user1a, new Claim(ClaimTypes.Role, "klant"));
 
             string eMailAddress2 = "technieker@hogent.be";
             IdentityUser user2 = new IdentityUser { UserName = eMailAddress2, Email = eMailAddress2, Id= "ff3bc350-5d15-47da-bb68-69ad26e059ae" };
