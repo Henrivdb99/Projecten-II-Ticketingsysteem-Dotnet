@@ -22,5 +22,14 @@ namespace Projecten2_TicketingPlatform.Tests.Models.Domein
             Assert.Equal(startDatum.AddDays(1*365), contract.EindDatum);
             Assert.Equal("bff6a934 - 0dca - 4965 - b9fc - 91c3290792c8", contract.ClientId);
         }
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(4)]
+        public void Nieuw_Contract_FoutDoorlooptijd(int doorlooptijd)
+        {
+            Assert.Throws<ArgumentException>(() => new Contract(DateTime.Now, doorlooptijd, doorlooptijd, "bff6a934 - 0dca - 4965 - b9fc - 91c3290792c8"));
+        }
+
     }
 }
