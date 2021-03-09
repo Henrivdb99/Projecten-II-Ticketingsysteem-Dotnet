@@ -1,4 +1,5 @@
 ﻿using Projecten2_TicketingPlatform.Models.Domein;
+using Projecten2_TicketingPlatform.Tests.Data;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -27,7 +28,18 @@ namespace Projecten2_TicketingPlatform.Tests.Models.Domein
         [InlineData(4)]
         public void Nieuw_Contract_FoutDoorlooptijd(int doorlooptijd)
         {
-            Assert.Throws<ArgumentException>(() => new Contract(DateTime.Now, doorlooptijd, doorlooptijd, "bff6a934 - 0dca - 4965 - b9fc - 91c3290792c8"));
+            Assert.Throws<ArgumentException>(() => new Contract(DateTime.Now, "1", doorlooptijd, "bff6a934 - 0dca - 4965 - b9fc - 91c3290792c8"));
+        }
+
+        [Fact]
+        public void StopzettenContract_VerlooptCorrect()
+        {
+            //Arrange
+            Contract contract = new DummyApplicationDbContext().Contract1;
+            //Act
+            contract.zetStop();
+            //Assert
+            Assert.Equal(ContractStatus.Stopgezet, contract.ContractStatus);
         }
 
     }

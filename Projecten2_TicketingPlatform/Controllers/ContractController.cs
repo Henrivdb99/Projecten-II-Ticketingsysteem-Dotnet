@@ -109,7 +109,7 @@ namespace Projecten2_TicketingPlatform.Controllers
         public IActionResult AnnuleerConfirmed(int contractId)
         {
             Contract contract = _contractRepository.GetById(contractId);
-            contract.ContractStatus = ContractStatus.Stopgezet;
+            contract.zetStop();
             _contractRepository.SaveChanges();
             TempData["Boodschap"] = "Contract is stopgezet";
             return RedirectToAction(nameof(Index));
