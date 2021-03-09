@@ -23,7 +23,6 @@ namespace Projecten2_TicketingPlatform.Models.Domein
                 _titel = value;
             }
         }
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Ticketid { get; set; }
         public TicketStatus Status { get; set; }
         public DateTime DatumAanmaken {
@@ -65,10 +64,9 @@ namespace Projecten2_TicketingPlatform.Models.Domein
         {
 
         }
-        public Ticket(string titel, int ticketId, TicketStatus ticketStatus, DateTime date, string omschrijving, string typeTicket, string klantId, string techniekerId = "Geen technieker", string opmerkingen = "Geen opmerkingen", string bijlage = "Geen Bijlage")
+        public Ticket(string titel, TicketStatus ticketStatus, DateTime date, string omschrijving, string typeTicket, string klantId, string techniekerId = "Geen technieker", string opmerkingen = "Geen opmerkingen", string bijlage = "Geen Bijlage")
         {
             Titel = titel;
-            Ticketid = ticketId;
             Status = ticketStatus;
             DatumAanmaken = date;
             Omschrijving = omschrijving;
