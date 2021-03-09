@@ -61,12 +61,12 @@ namespace Projecten2_TicketingPlatform.Data
 
         private async Task InitializeUsers()
         {
-            string eMailAddress1 = "klant@hogent.be";
+            string eMailAddress1 = "johan@actemium.be";
             IdentityUser user1 = new IdentityUser { UserName = eMailAddress1, Email = eMailAddress1, Id = "210771fc - 21f2 - 47e4 - a902 - 986e2d199105" };
             await _userManager.CreateAsync(user1, "P@ssword1");
             await _userManager.AddClaimAsync(user1, new Claim(ClaimTypes.Role, "klant"));
 
-            string eMailAddress1a = "klant2@hogent.be";
+            string eMailAddress1a = "stijn@vyncke.be";
             IdentityUser user1a = new IdentityUser { UserName = eMailAddress1a, Email = eMailAddress1a, Id = "210771fc - 5d15 - 4e7c - a902 - a3a2fd4e2815" };
             await _userManager.CreateAsync(user1a, "P@ssword1");
             await _userManager.AddClaimAsync(user1a, new Claim(ClaimTypes.Role, "klant"));
