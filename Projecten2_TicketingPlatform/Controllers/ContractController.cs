@@ -92,5 +92,29 @@ namespace Projecten2_TicketingPlatform.Controllers
 
         }
 
+
+        #region == Delete Methodes ==
+        public IActionResult Annuleer(int contractId)
+        {
+            Contract contract = _contractRepository.GetById(contractId);
+            //if (contract.ContractStatus.Equals(ContractStatus.Stopgezet))
+            //{
+            //    TempData["Boodschap"] = "Dit contract is reeds stopgezet";
+            //    return RedirectToAction(nameof(Index));
+            //}
+            return View(contract);
+        }
+
+        [HttpPost]
+        public IActionResult AnnuleerConfirmed(int contractId)
+        {
+            Contract contract = _contractRepository.GetById(contractId);
+            contract.ContractStatus = ContractStatus.Stopgezet;
+            _contractRepository.SaveChanges();
+            TempData["Boodschap"] = "Contract is stopgezet";
+            return RedirectToAction(nameof(Index));
+        }
+        #endregion
+
     }
 }

@@ -35,7 +35,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.ContractStatus)
             </th>
-            @*<th></th>*@
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -56,11 +56,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.ContractStatus)
             </td>
-            @*<td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>*@
+            <td>
+                @if (!(item.ContractStatus == ContractStatus.Stopgezet || item.ContractStatus == ContractStatus.NietActief || item.ContractStatus == ContractStatus.Afgelopen))
+                {
+                    <span><a asp-controller="Contract" asp-action="Annuleer" asp-route-contractId="@item.ContractId">Stopzetten</a></span>
+                }
+            </td>
         </tr>
 }
     </tbody>
