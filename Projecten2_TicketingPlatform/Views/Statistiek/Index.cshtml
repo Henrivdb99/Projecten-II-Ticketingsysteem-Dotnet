@@ -1,0 +1,19 @@
+﻿@using System.Web.Helpers;
+
+@{
+    ViewData["Title"] = "Statistieken";
+}
+
+<h1>@ViewData["Title"]</h1>
+<div id="chartdiv" style="width: 600px; height: 350px;">
+</div>
+
+@{
+    var myChart = new Chart(width: 600, height: 400)
+        .AddTitle("Chart Title")
+        .AddSeries(
+            name: "Employee",
+            xValue: new[] { "Peter", "Andrew", "Julie", "Mary", "Dave" },
+            yValues: new[] { "2", "6", "4", "5", "3" })
+        .Write();
+}
