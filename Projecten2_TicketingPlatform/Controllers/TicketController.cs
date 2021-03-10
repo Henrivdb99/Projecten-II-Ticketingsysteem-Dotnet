@@ -81,15 +81,17 @@ namespace Projecten2_TicketingPlatform.Controllers
                     }
                     else
                     {
-                        Ticket ticket = new Ticket();
-                        ticket.DatumAanmaken = ticketVm.DatumAanmaken;
-                        ticket.Titel = ticketVm.Titel;
-                        ticket.Omschrijving = ticketVm.Omschrijving;
-                        ticket.TypeTicket = ticketVm.TypeTicket;
-                        /*ticketVm.Technieker, ticketVm.Opmerkingen,*/
-                        ticket.Bijlage = ticketVm.Bijlage;
-                        ticket.KlantId = _userManager.GetUserId(User); //!!!!!
-                        ticket.Status = TicketStatus.Aangemaakt;
+                        Ticket ticket = new Ticket
+                        {
+                            DatumAanmaken = ticketVm.DatumAanmaken,
+                            Titel = ticketVm.Titel,
+                            Omschrijving = ticketVm.Omschrijving,
+                            TypeTicket = ticketVm.TypeTicket,
+                            /*ticketVm.Technieker, ticketVm.Opmerkingen,*/
+                            Bijlage = ticketVm.Bijlage,
+                            KlantId = _userManager.GetUserId(User), //!!!!!
+                            Status = TicketStatus.Aangemaakt
+                        };
 
                         _ticketRepository.Add(ticket);
                         _ticketRepository.SaveChanges();

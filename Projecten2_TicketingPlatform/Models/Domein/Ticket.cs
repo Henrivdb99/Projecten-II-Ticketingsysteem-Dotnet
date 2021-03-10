@@ -39,9 +39,7 @@ namespace Projecten2_TicketingPlatform.Models.Domein
             get => _omschrijving;
             set
             {
-                if (value == null)
-                    throw new ArgumentException("Ticket moet een omschrijving bevatten");
-                _omschrijving = value;
+                _omschrijving = value ?? throw new ArgumentException("Ticket moet een omschrijving bevatten");
             }
         }
         public int TypeTicket
@@ -49,8 +47,6 @@ namespace Projecten2_TicketingPlatform.Models.Domein
             get => _typeTicket;
             set
             {
-                if (value == null)
-                    throw new ArgumentException("Ticket moet een type bevatten");
                 _typeTicket = value;
             }
         }

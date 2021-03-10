@@ -37,7 +37,7 @@ namespace Projecten2_TicketingPlatform.Tests.Models.Domein
             //Arrange
             Contract contract = new DummyApplicationDbContext().Contract1;
             //Act
-            contract.zetStop();
+            contract.ZetStop();
             //Assert
             Assert.Equal(ContractStatus.Stopgezet, contract.ContractStatus);
         }

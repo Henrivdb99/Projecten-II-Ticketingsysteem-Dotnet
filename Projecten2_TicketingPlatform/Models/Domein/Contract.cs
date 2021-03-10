@@ -48,7 +48,7 @@ namespace Projecten2_TicketingPlatform.Models.Domein
             ContractStatus = status;
         }
 
-        public void zetStop()
+        public void ZetStop()
         {
             this.ContractStatus = ContractStatus.Stopgezet;
         }
