@@ -69,7 +69,7 @@ namespace Projecten2_TicketingPlatform.Controllers
 
                     IEnumerable<Contract> contracten = _contractRepository.GetByStatusByClientId(_userManager.GetUserId(User), new List<ContractStatus> { ContractStatus.Actief, ContractStatus.InBehandeling });
 
-                    if (contracten.Any(c => c.ContractType == contractVm.ContractType))
+                    if (contracten.Any(c => c.ContractType.Equals(contractVm.ContractType)))
                     {
                         throw new ArgumentException("Er is al een contract van dit type in behandeling");
                     }
