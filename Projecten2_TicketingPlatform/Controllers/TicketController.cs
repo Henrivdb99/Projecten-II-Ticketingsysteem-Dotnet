@@ -72,7 +72,7 @@ namespace Projecten2_TicketingPlatform.Controllers
             {
                 try
                 {
-                    if (_contractRepository.HasActiveContracts(_userManager.GetUserId(User)))
+                    if (!_contractRepository.HasActiveContracts(_userManager.GetUserId(User)))
                     {
                         throw new ArgumentException("Dit account heeft geen actieve contracten.");
                     }
