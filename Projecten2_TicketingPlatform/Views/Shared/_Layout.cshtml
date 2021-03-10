@@ -38,22 +38,24 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
-            @if (TempData["Boodschap"] != null)
+            @if (TempData["FoutMelding"] != null)
             {
-                <div class="alert alert-danger">@TempData["Boodschap"]</div>
+                <div class="alert alert-danger">@TempData["FoutMelding"]</div>
             }
-            @if (TempData["GeenTickets"] != null)
+            @if (TempData["Waarschuwing"] != null)
             {
-                <div class="alert alert-warning">@TempData["GeenTickets"]</div>
+                <div class="alert alert-warning">@TempData["Waarschuwing"]</div>
             }
-            @if (TempData["GeenContracten"] != null)
+            @if (TempData["Succes"] != null)
             {
-                <div class="alert alert-warning">@TempData["GeenContracten"]</div>
+                <div class="alert alert-success">@TempData["Succes"]</div>
             }
+            
             @if (TempData["GeenActieveContracten"] != null)
             {
                 <div class="alert alert-warning">@TempData["GeenActieveContracten"]</div>
-            }            @RenderBody()
+            }       
+            @RenderBody()
         </main>
     </div>
 

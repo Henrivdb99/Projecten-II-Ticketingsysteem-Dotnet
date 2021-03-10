@@ -45,7 +45,7 @@ namespace Projecten2_TicketingPlatform.Controllers
             {
                 if (!ticketStatus.Equals(TicketStatus.Standaard))
                 {
-                    TempData["GeenTickets"] = $"Uw account beschikt niet over tickets met status {ticketStatus.GetDisplayAttributeFrom(typeof(TicketStatus))}";
+                    TempData["Waarschuwing"] = $"Uw account beschikt niet over tickets met status {ticketStatus.GetDisplayAttributeFrom(typeof(TicketStatus))}";
                 }
             }
             ViewData["TicketStatussen"] = new SelectList(new List<TicketStatus> { TicketStatus.Aangemaakt, TicketStatus.InBehandeling, TicketStatus.Afgehandeld, TicketStatus.Geannuleerd, TicketStatus.WachtenOpInformatieKlant, TicketStatus.InformatieKlantOntvangen, TicketStatus.InDevelopment });
@@ -56,7 +56,7 @@ namespace Projecten2_TicketingPlatform.Controllers
         {
             if (!_contractRepository.HasActiveContracts(_userManager.GetUserId(User)))
             {
-                TempData["GeenActieveContracten"] = $"Uw account beschikt niet over actieve contracten";
+                TempData["Waarschuwing"] = $"Uw account beschikt niet over actieve contracten";
                 return RedirectToAction("Index");
             }
             else
@@ -140,11 +140,11 @@ namespace Projecten2_TicketingPlatform.Controllers
                     //ticket.KlantId = _userManager.GetUserId(User); //niet nodig denk ik, verandert niet
                     ticket.Status = TicketStatus.Aangemaakt; 
                     _ticketRepository.SaveChanges();
-                    TempData["Boodschap"] = "Bewerken ticket gelukt!";
+                    TempData["Succes"] = "Bewerken ticket gelukt!";
                 }
                 catch (ArgumentException ae)
                 {
-                    TempData["Boodschap"] = "Bewerken ticket mislukt. " + ae.Message;
+                    TempData["FoutMelding"] = "Bewerken ticket mislukt. " + ae.Message;
                 }
                 return RedirectToAction(nameof(Index)); 
             }
@@ -161,7 +161,7 @@ namespace Projecten2_TicketingPlatform.Controllers
             Ticket ticket = _ticketRepository.GetById(ticketId);
             if(ticket.Status.Equals(TicketStatus.Geannuleerd))
             {
-                TempData["Boodschap"] = "Dit ticket is reeds geannuleerd";
+                TempData["FoutMelding"] = "Dit ticket is reeds geannuleerd";
                 return RedirectToAction(nameof(Index));
             }
             return View(ticket);
@@ -175,7 +175,7 @@ namespace Projecten2_TicketingPlatform.Controllers
             Ticket ticket = _ticketRepository.GetById(ticketId);
             ticket.Status = TicketStatus.Geannuleerd;
             _ticketRepository.SaveChanges();
-            TempData["Boodschap"] = "Ticket is geannuleerd";
+            TempData["Succes"] = "Ticket is geannuleerd";
             return RedirectToAction(nameof(Index));
         } 
         #endregion
