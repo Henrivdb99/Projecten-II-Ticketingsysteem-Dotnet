@@ -8,6 +8,8 @@ using Projecten2_TicketingPlatform.Tests.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
+using System.Threading;
 using Xunit;
 
 namespace Projecten2_TicketingPlatform.Tests.Controllers
@@ -19,8 +21,8 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
         private readonly Contract _contract1;
         private readonly Contract _contract2;
         private readonly DummyApplicationDbContext _dummyContext;
-        private readonly Mock<UserManager<IdentityUser>> _mockUser;
         private readonly List<Contract> _contracts;
+        private readonly Mock<UserManager<IdentityUser>> _mockUserManager;
 
         public static readonly string USERID = "bff6a934 - 0dca - 4965 - b9fc - 91c3290792c8";
 
@@ -29,8 +31,19 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
             _dummyContext = new DummyApplicationDbContext();
             _contract1 = _dummyContext.Contract1;
             _contract2 = _dummyContext.Contract2;
-            _mockUser = new Mock<UserManager<IdentityUser>>();
-            _contractController = new ContractController(_mockContractRepository.Object, _mockUser.Object);
+
+            var store = new Mock<IUserStore<IdentityUser>>();
+            store.Setup(x => x.FindByIdAsync("123", CancellationToken.None))
+                .ReturnsAsync(new IdentityUser()
+                {
+                    UserName = "test@email.com",
+                    Id = "123"
+                });
+
+            _mockUserManager = new Mock<UserManager<IdentityUser>>(store.Object, null, null, null, null, null, null, null, null);
+            
+            _mockContractRepository = new Mock<IContractRepository>();
+            _contractController = new ContractController(_mockContractRepository.Object, _mockUserManager.Object);
             _contracts = new List<Contract>() { _contract1, _contract2 };
         }
         #region == Index Methodes ==
@@ -64,14 +77,12 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
         [Fact]
         public void CreateHttpGet_Contract_NoActiveContracts_PassesDetailsOfANewContractInEditViewModelToView()
         {
-
-            _mockContractRepository.Setup(p => p.GetAllByClientId("bff6a934 - 0dca - 4965 - b9fc - 91c3290792c8")).Returns(new List<Contract>() { _contract2 });
+            _mockUserManager.Setup(u => u.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns(USERID);
+            _mockContractRepository.Setup(p => p.GetAllByClientId(USERID)).Returns(new List<Contract>() { _contract2 });
 
             var result = Assert.IsType<ViewResult>(_contractController.Create());
             var contractVm = Assert.IsType<EditViewModel>(result.Model);
 
-            Assert.Equal(_contract2.Doorlooptijd, contractVm.Doorlooptijd);
-            Assert.Equal(_contract2.Doorlooptijd, contractVm.Doorlooptijd);
             Assert.Equal(_contract2.Doorlooptijd, contractVm.Doorlooptijd);
             _mockContractRepository.Verify(mock => mock.GetAllByClientId("bff6a934 - 0dca - 4965 - b9fc - 91c3290792c8"), Times.Once);
         }
