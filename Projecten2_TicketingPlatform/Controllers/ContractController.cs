@@ -46,15 +46,16 @@ namespace Projecten2_TicketingPlatform.Controllers
         public IActionResult Create()
         {
             IEnumerable<Contract> contracten = _contractRepository.GetAllByClientId(_userManager.GetUserId(User));
+            IEnumerable<Contract> afgelopenContracten = contracten.Where(c => c.ContractStatus.Equals(ContractStatus.Afgelopen));
 
             //als er al een contract
-            if (contracten.Any(c=> c.ContractStatus.Equals(ContractStatus.Actief) || c.ContractStatus.Equals(ContractStatus.InBehandeling) ) || contracten.Count() == 0)
+            if (contracten.Any(c=> c.ContractStatus.Equals(ContractStatus.Actief) || c.ContractStatus.Equals(ContractStatus.InBehandeling) ) || contracten.Count() == 0 || afgelopenContracten.Count() == 0)
             {
                 return View(new EditViewModel());
             }
             else
             {   //Gegevens oude laatst afgelopen contract ophalen voor nieuw contract vooraf in te vullen.
-                return View(new EditViewModel(contracten.FirstOrDefault()));
+                return View(new EditViewModel(afgelopenContracten.Last()));
             }
         }
 
