@@ -39,16 +39,20 @@ namespace Projecten2_TicketingPlatform.Data
             };
 
                 _dbcontext.Tickets.AddRange(tickets);
+               
+                   ContractType contract24_7= new ContractType("Contract24/7", ContractEnContractTypeStatus.Actief, ManierVanAanmakenTicket.EmailEnTelefonischEnApplicatie, TijdstipTicketAanmaken.Altijd, 1, 10, 100);
+                   ContractType contractWerkuren= new ContractType("ContractWerkuren", ContractEnContractTypeStatus.Actief, ManierVanAanmakenTicket.EmailEnTelefonischEnApplicatie, TijdstipTicketAanmaken.TijdensWerkdagen, 1, 10, 100);
+            
 
                 var contractenVoorKlant = new List<Contract>
                 {
-                    new Contract(DateTime.Today.AddMonths(-13), "type 1", 1, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105",ContractStatus.Afgelopen),
-                    new Contract( DateTime.Today.AddMonths(-8), "type 2", 1, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105", ContractStatus.InBehandeling),
-                    new Contract(DateTime.Today.AddMonths(-26), "type 1", 2, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105",ContractStatus.Afgelopen),
-                    new Contract(DateTime.Today.AddMonths(-28), "type 1", 2, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105", ContractStatus.Afgelopen),
-                    new Contract(DateTime.Today.AddMonths(-3), "type 1", 2, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105", ContractStatus.Actief),
-                    new Contract(DateTime.Today.AddYears(-4), "type 4", 3, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105",ContractStatus.Afgelopen),
-                    new Contract(DateTime.Today.AddMonths(-4), "type 3", 3, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105",ContractStatus.NietActief)
+                    new Contract(DateTime.Today.AddMonths(-13), contract24_7, 1, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105",ContractEnContractTypeStatus.Afgelopen),
+                    new Contract( DateTime.Today.AddMonths(-8), contract24_7, 1, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105", ContractEnContractTypeStatus.InBehandeling),
+                    new Contract(DateTime.Today.AddMonths(-26), contract24_7, 2, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105",ContractEnContractTypeStatus.Afgelopen),
+                    new Contract(DateTime.Today.AddMonths(-28), contract24_7, 2, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105", ContractEnContractTypeStatus.Afgelopen),
+                    new Contract(DateTime.Today.AddMonths(-3), contractWerkuren, 2, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105", ContractEnContractTypeStatus.Actief),
+                    new Contract(DateTime.Today.AddYears(-4), contract24_7, 3, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105",ContractEnContractTypeStatus.Afgelopen),
+                    new Contract(DateTime.Today.AddMonths(-4), contract24_7,  3, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105",ContractEnContractTypeStatus.NietActief)
                 };
                 _dbcontext.Contracten.AddRange(contractenVoorKlant);
 

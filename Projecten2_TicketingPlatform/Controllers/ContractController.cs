@@ -20,26 +20,26 @@ namespace Projecten2_TicketingPlatform.Controllers
             _contractRepository = contractRepository;
             _userManager = userManager;
         }
-        public IActionResult Index(ContractStatus contractStatus = ContractStatus.Standaard)
+        public IActionResult Index(ContractEnContractTypeStatus contractStatus = ContractEnContractTypeStatus.Standaard)
         {
             IEnumerable<Contract> contracten;
-            if (contractStatus== ContractStatus.Standaard)
+            if (contractStatus== ContractEnContractTypeStatus.Standaard)
             {
-                contracten = _contractRepository.GetByStatusByClientId(_userManager.GetUserId(User), new List<ContractStatus> {ContractStatus.Actief, ContractStatus.InBehandeling } );
+                contracten = _contractRepository.GetByStatusByClientId(_userManager.GetUserId(User), new List<ContractEnContractTypeStatus> {ContractEnContractTypeStatus.Actief, ContractEnContractTypeStatus.InBehandeling } );
             }else
-            if (contractStatus == ContractStatus.Alle)
+            if (contractStatus == ContractEnContractTypeStatus.Alle)
             {
-                contracten = _contractRepository.GetByStatusByClientId(_userManager.GetUserId(User), new List<ContractStatus> { ContractStatus.Actief, ContractStatus.Afgelopen, ContractStatus.InBehandeling, ContractStatus.NietActief, ContractStatus.Stopgezet });
+                contracten = _contractRepository.GetByStatusByClientId(_userManager.GetUserId(User), new List<ContractEnContractTypeStatus> { ContractEnContractTypeStatus.Actief, ContractEnContractTypeStatus.Afgelopen, ContractEnContractTypeStatus.InBehandeling, ContractEnContractTypeStatus.NietActief, ContractEnContractTypeStatus.Stopgezet });
             }
             else
             {
-                contracten = _contractRepository.GetByStatusByClientId(_userManager.GetUserId(User), new List<ContractStatus> { contractStatus });
+                contracten = _contractRepository.GetByStatusByClientId(_userManager.GetUserId(User), new List<ContractEnContractTypeStatus> { contractStatus });
             }
             if (contracten.Count() == 0)
             {
-                TempData["GeenContracten"] = $"Uw account beschikt niet over contracten met status {contractStatus.GetDisplayAttributeFrom(typeof(ContractStatus))}";
+                TempData["GeenContracten"] = $"Uw account beschikt niet over contracten met status {contractStatus.GetDisplayAttributeFrom(typeof(ContractEnContractTypeStatus))}";
             }
-            ViewData["ContractStatussen"] = new SelectList(new List<ContractStatus> { ContractStatus.Alle, ContractStatus.Standaard, ContractStatus.Actief, ContractStatus.Afgelopen, ContractStatus.InBehandeling, ContractStatus.NietActief, ContractStatus.Stopgezet });       
+            ViewData["ContractStatussen"] = new SelectList(new List<ContractEnContractTypeStatus> { ContractEnContractTypeStatus.Alle, ContractEnContractTypeStatus.Standaard, ContractEnContractTypeStatus.Actief, ContractEnContractTypeStatus.Afgelopen, ContractEnContractTypeStatus.InBehandeling, ContractEnContractTypeStatus.NietActief, ContractEnContractTypeStatus.Stopgezet });       
             return View(contracten);
         }
 
@@ -48,7 +48,7 @@ namespace Projecten2_TicketingPlatform.Controllers
             IEnumerable<Contract> contracten = _contractRepository.GetAllByClientId(_userManager.GetUserId(User));
 
             //als er al een contract
-            if (contracten.Any(c=> c.ContractStatus.Equals(ContractStatus.Actief) || c.ContractStatus.Equals(ContractStatus.InBehandeling) ) || contracten.Count() == 0)
+            if (contracten.Any(c=> c.ContractStatus.Equals(ContractEnContractTypeStatus.Actief) || c.ContractStatus.Equals(ContractEnContractTypeStatus.InBehandeling) ) || contracten.Count() == 0)
             {
                 return View(new EditViewModel());
             }
@@ -67,7 +67,7 @@ namespace Projecten2_TicketingPlatform.Controllers
                     //Een klant kan per contracttype maar één contract met de status “in behandeling” of  “actief” hebben 
                     Contract contract = new Contract(contractVm.Startdatum, contractVm.ContractType, contractVm.Doorlooptijd, _userManager.GetUserId(User));
 
-                    IEnumerable<Contract> contracten = _contractRepository.GetByStatusByClientId(_userManager.GetUserId(User), new List<ContractStatus> { ContractStatus.Actief, ContractStatus.InBehandeling });
+                    IEnumerable<Contract> contracten = _contractRepository.GetByStatusByClientId(_userManager.GetUserId(User), new List<ContractEnContractTypeStatus> { ContractEnContractTypeStatus.Actief, ContractEnContractTypeStatus.InBehandeling });
 
                     if (contracten.Any(c => c.ContractType == contractVm.ContractType))
                     {

@@ -9,6 +9,10 @@ namespace Projecten2_TicketingPlatform.Models.Domein
     {
         Email,
         Telefonisch,
-        Applicatie
+        Applicatie,
+        EmailEnApplicatie,
+        EmailEnTelefonisch,
+        TelefonischEnApplicatie,
+        EmailEnTelefonischEnApplicatie
     }
 }

@@ -30,7 +30,7 @@ namespace Projecten2_TicketingPlatform.Data.Repositories
 
         public bool HasActiveContracts(string klantId)
         {
-            if (_contracten.Where(t => t.ClientId.Equals(klantId)).Where(t => t.ContractStatus.Equals(ContractStatus.Actief)).Count() != 0)
+            if (_contracten.Where(t => t.ClientId.Equals(klantId)).Where(t => t.ContractStatus.Equals(ContractEnContractTypeStatus.Actief)).Count() != 0)
                 return true;
             else
                 return false;
@@ -39,10 +39,10 @@ namespace Projecten2_TicketingPlatform.Data.Repositories
 
         public Contract GetById(int contractId)
         {
-            return _contracten.SingleOrDefault(c => c.ContractId == contractId);
+            return _contracten.Include(p=>p.ContractType).SingleOrDefault(c => c.ContractId == contractId);
         }
 
-        public IEnumerable<Contract> GetByStatusByClientId(string klantId, IEnumerable<ContractStatus> contractStatuses)
+        public IEnumerable<Contract> GetByStatusByClientId(string klantId, IEnumerable<ContractEnContractTypeStatus> contractStatuses)
         {
             return _contracten.Where(t => t.ClientId.Equals(klantId)).Where(p => contractStatuses.Contains(p.ContractStatus)).OrderByDescending(p => p.EindDatum).AsNoTracking().ToList();
         }

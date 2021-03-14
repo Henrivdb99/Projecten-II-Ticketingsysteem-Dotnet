@@ -14,11 +14,12 @@ namespace Projecten2_TicketingPlatform.Tests.Models.Domein
         {
             //Arrange
             DateTime startDatum = DateTime.Now;
+            ContractType contract24_7 = new ContractType("Contract24/7", ContractEnContractTypeStatus.Actief, ManierVanAanmakenTicket.EmailEnTelefonischEnApplicatie, TijdstipTicketAanmaken.Altijd, 1, 10, 100);
             int doorlooptijd = 1; //aantal jaren
-            var contract = new Contract(startDatum, "1", doorlooptijd, "bff6a934 - 0dca - 4965 - b9fc - 91c3290792c8");
+            var contract = new Contract(startDatum, contract24_7, doorlooptijd, "bff6a934 - 0dca - 4965 - b9fc - 91c3290792c8");
             //Assert
             Assert.Equal(startDatum, contract.StartDatum);
-            Assert.Equal("2", contract.ContractType);
+            Assert.Equal("Contract24/7", contract.ContractType.Naam);
             Assert.Equal(startDatum.AddDays(1*365), contract.EindDatum);
             Assert.Equal("bff6a934 - 0dca - 4965 - b9fc - 91c3290792c8", contract.ClientId);
         }
@@ -28,7 +29,9 @@ namespace Projecten2_TicketingPlatform.Tests.Models.Domein
         [InlineData(4)]
         public void Nieuw_Contract_FoutDoorlooptijd(int doorlooptijd)
         {
-            Assert.Throws<ArgumentException>(() => new Contract(DateTime.Now, "1", doorlooptijd, "bff6a934 - 0dca - 4965 - b9fc - 91c3290792c8"));
+            ContractType contract24_7 = new ContractType("Contract24/7", ContractEnContractTypeStatus.Actief, ManierVanAanmakenTicket.EmailEnTelefonischEnApplicatie, TijdstipTicketAanmaken.Altijd, 1, 10, 100);
+
+            Assert.Throws<ArgumentException>(() => new Contract(DateTime.Now, contract24_7, doorlooptijd, "bff6a934 - 0dca - 4965 - b9fc - 91c3290792c8"));
         }
 
         [Fact]
@@ -39,7 +42,7 @@ namespace Projecten2_TicketingPlatform.Tests.Models.Domein
             //Act
             contract.ZetStop();
             //Assert
-            Assert.Equal(ContractStatus.Stopgezet, contract.ContractStatus);
+            Assert.Equal(ContractEnContractTypeStatus.Stopgezet, contract.ContractStatus);
         }
 
     }
