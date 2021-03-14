@@ -8,7 +8,7 @@ namespace Projecten2_TicketingPlatform.Models.ContractViewModels
     {
         [Required(ErrorMessage = "U moet een type kiezen.")]
         [Display(Name = "Contract type")]
-        public string ContractType { get; set; }
+        public ContractType ContractType { get; set; }
         [Required]
         [DataType(DataType.Date)]
         public DateTime Startdatum { get; set; } = DateTime.Today;
