@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Moq;
 using Projecten2_TicketingPlatform.Controllers;
 using Projecten2_TicketingPlatform.Models.ContractViewModels;
@@ -43,8 +44,12 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
             _mockUserManager = new Mock<UserManager<IdentityUser>>(store.Object, null, null, null, null, null, null, null, null);
             
             _mockContractRepository = new Mock<IContractRepository>();
-            _contractController = new ContractController(_mockContractRepository.Object, _mockUserManager.Object);
             _contracts = new List<Contract>() { _contract1, _contract2 };
+
+            _contractController = new ContractController(_mockContractRepository.Object, _mockUserManager.Object)
+            {
+                TempData = new Mock<ITempDataDictionary>().Object
+            };
         }
         #region == Index Methodes ==
 

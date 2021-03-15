@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Moq;
 using Projecten2_TicketingPlatform.Controllers;
 using Projecten2_TicketingPlatform.Models.Domein;
@@ -46,16 +47,24 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
 
             _mockContractRepository = new Mock<IContractRepository>();
 
-            _ticketController = new TicketController(_mockTicketRepository.Object, _mockContractRepository.Object, _mockUserManager.Object);
+            _ticketController = new TicketController(_mockTicketRepository.Object, _mockContractRepository.Object, _mockUserManager.Object)
+            {
+                TempData = new Mock<ITempDataDictionary>().Object
+            };
         }
         //Nog eventuele wijziging in verband met een actief of niet actief contract. Moet besproken worden waar dit wordt getest
         #region == Create Methodes ==
         [Fact]
         public void CreateHttpGet_ActiefContract_PassesDetailsOfANewTicketInEditViewModelToView()
         {
+            _mockContractRepository.Setup(m => m.HasActiveContracts(It.IsNotNull<string>())).Returns(true);
+
             var result = Assert.IsType<ViewResult>(_ticketController.Create());
+
             var ticketVm = Assert.IsType<EditViewModel>(result.Model);
             Assert.Null(ticketVm.Titel);
+            _mockContractRepository.Verify(mocks => mocks.HasActiveContracts(It.IsNotNull<string>()), Times.Once);
+
         }
         //public void CreateHttpGet_NietActiefContract_PassesNoDetailsOfANewTicketInEditViewModelToView()
         //{
