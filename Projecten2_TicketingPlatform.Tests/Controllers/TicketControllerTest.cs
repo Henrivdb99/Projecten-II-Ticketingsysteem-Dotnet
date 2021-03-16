@@ -40,11 +40,12 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
                 .ReturnsAsync(new IdentityUser()
                 {
                     UserName = "test@email.com",
-                    Id = "123"
+                    Id = USERID
                 });
 
             _mockUserManager = new Mock<UserManager<IdentityUser>>(store.Object, null, null, null, null, null, null, null, null);
-
+            _mockUserManager.Setup(mum => mum.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns(USERID); //It.IsAny zal eignelijk altijd null zijn
+            
             _mockContractRepository = new Mock<IContractRepository>();
 
             _ticketController = new TicketController(_mockTicketRepository.Object, _mockContractRepository.Object, _mockUserManager.Object)
@@ -57,13 +58,13 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
         [Fact]
         public void CreateHttpGet_ActiefContract_PassesDetailsOfANewTicketInEditViewModelToView()
         {
-            _mockContractRepository.Setup(m => m.HasActiveContracts(null)).Returns(true); //waarom is dit null?
+            _mockContractRepository.Setup(m => m.HasActiveContracts(USERID)).Returns(true); 
 
             var result = Assert.IsType<ViewResult>(_ticketController.Create());
 
             var ticketVm = Assert.IsType<EditViewModel>(result.Model);
             Assert.Null(ticketVm.Titel);
-            _mockContractRepository.Verify(mocks => mocks.HasActiveContracts(null), Times.Once);
+            _mockContractRepository.Verify(mocks => mocks.HasActiveContracts(USERID), Times.Once);
 
         }
         //public void CreateHttpGet_NietActiefContract_PassesNoDetailsOfANewTicketInEditViewModelToView()
@@ -74,7 +75,7 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
         public void CreateHttpPost_ValidTicket_AddsNewTicketToRepositoryAndRedirectsToIndex()
         {
             _mockTicketRepository.Setup(p => p.Add(It.IsNotNull<Ticket>()));
-            _mockContractRepository.Setup(m => m.HasActiveContracts(null)).Returns(true); //waarom is dit null?
+            _mockContractRepository.Setup(m => m.HasActiveContracts(USERID)).Returns(true); 
 
 
             var ticketVm = new EditViewModel()
@@ -88,7 +89,7 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
             Assert.Equal("Index", result.ActionName);
             _mockTicketRepository.Verify(m => m.Add(It.IsNotNull<Ticket>()), Times.Once);
             _mockTicketRepository.Verify(m => m.SaveChanges(), Times.Once);
-            _mockContractRepository.Verify(mocks => mocks.HasActiveContracts(null), Times.Once);
+            _mockContractRepository.Verify(mocks => mocks.HasActiveContracts(USERID), Times.Once);
 
         }
         [Fact]
