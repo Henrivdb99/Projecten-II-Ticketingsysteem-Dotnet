@@ -57,13 +57,13 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
         [Fact]
         public void CreateHttpGet_ActiefContract_PassesDetailsOfANewTicketInEditViewModelToView()
         {
-            _mockContractRepository.Setup(m => m.HasActiveContracts(It.IsNotNull<string>())).Returns(true);
+            _mockContractRepository.Setup(m => m.HasActiveContracts(null)).Returns(true); //waarom is dit null?
 
             var result = Assert.IsType<ViewResult>(_ticketController.Create());
 
             var ticketVm = Assert.IsType<EditViewModel>(result.Model);
             Assert.Null(ticketVm.Titel);
-            _mockContractRepository.Verify(mocks => mocks.HasActiveContracts(It.IsNotNull<string>()), Times.Once);
+            _mockContractRepository.Verify(mocks => mocks.HasActiveContracts(null), Times.Once);
 
         }
         //public void CreateHttpGet_NietActiefContract_PassesNoDetailsOfANewTicketInEditViewModelToView()
@@ -74,6 +74,9 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
         public void CreateHttpPost_ValidTicket_AddsNewTicketToRepositoryAndRedirectsToIndex()
         {
             _mockTicketRepository.Setup(p => p.Add(It.IsNotNull<Ticket>()));
+            _mockContractRepository.Setup(m => m.HasActiveContracts(null)).Returns(true); //waarom is dit null?
+
+
             var ticketVm = new EditViewModel()
             {
                 Titel = "Fout2098 Fase7",
@@ -81,9 +84,12 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
                 TypeTicket = 1
             };
             var result = Assert.IsType<RedirectToActionResult>(_ticketController.Create(ticketVm));
+
             Assert.Equal("Index", result.ActionName);
             _mockTicketRepository.Verify(m => m.Add(It.IsNotNull<Ticket>()), Times.Once);
             _mockTicketRepository.Verify(m => m.SaveChanges(), Times.Once);
+            _mockContractRepository.Verify(mocks => mocks.HasActiveContracts(null), Times.Once);
+
         }
         [Fact]
         public void CreateHttpPost_InvalidTicket_DoesNotCreateNorPersistsTicketAndRedirectsToActionIndex()
