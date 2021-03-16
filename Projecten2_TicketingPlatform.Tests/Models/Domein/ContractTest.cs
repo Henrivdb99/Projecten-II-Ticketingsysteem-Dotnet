@@ -35,7 +35,7 @@ namespace Projecten2_TicketingPlatform.Tests.Models.Domein
         public void StopzettenContract_VerlooptCorrect()
         {
             //Arrange
-            Contract contract = new DummyApplicationDbContext().Contract1;
+            Contract contract = new DummyApplicationDbContext().ContractActief;
             //Act
             contract.ZetStop();
             //Assert

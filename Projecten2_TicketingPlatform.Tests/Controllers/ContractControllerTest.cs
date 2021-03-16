@@ -19,8 +19,9 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
     {
         private readonly ContractController _contractController;
         private readonly Mock<IContractRepository> _mockContractRepository;
-        private readonly Contract _contract1;
-        private readonly Contract _contract2;
+        private readonly Contract _contractActief;
+        private readonly Contract _contractNietActief;
+        private readonly Contract _contractAfgelopen;
         private readonly DummyApplicationDbContext _dummyContext;
         private readonly List<Contract> _contracts;
         private readonly Mock<UserManager<IdentityUser>> _mockUserManager;
@@ -30,21 +31,24 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
         public ContractControllerTest()
         {
             _dummyContext = new DummyApplicationDbContext();
-            _contract1 = _dummyContext.Contract1;
-            _contract2 = _dummyContext.Contract2;
+            _contractActief = _dummyContext.ContractActief;
+            _contractNietActief = _dummyContext.ContractNietActief;
+            _contractAfgelopen = _dummyContext.ContractAfgelopen;
 
             var store = new Mock<IUserStore<IdentityUser>>();
             store.Setup(x => x.FindByIdAsync("123", CancellationToken.None))
                 .ReturnsAsync(new IdentityUser()
                 {
                     UserName = "test@email.com",
-                    Id = "123"
-                });
+                    Id = USERID
+                }) ;
 
             _mockUserManager = new Mock<UserManager<IdentityUser>>(store.Object, null, null, null, null, null, null, null, null);
-            
+            _mockUserManager.Setup(mum => mum.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns(USERID); //It.IsAny zal eignelijk altijd null zijn
+
+
             _mockContractRepository = new Mock<IContractRepository>();
-            _contracts = new List<Contract>() { _contract1, _contract2 };
+            _contracts = new List<Contract>() { _contractActief, _contractNietActief };
 
             _contractController = new ContractController(_mockContractRepository.Object, _mockUserManager.Object)
             {
@@ -56,19 +60,25 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
         [Fact]
         public void Index_ReturnsAViewResult_WithAListOfContracts()
         {
-            _mockContractRepository.Setup(r => r.GetAllByClientId("bff6a934 - 0dca - 4965 - b9fc - 91c3290792c8"))
+            //Arrange
+            List<ContractStatus> statussen = new List<ContractStatus> { ContractStatus.Actief, ContractStatus.InBehandeling };
+            _mockContractRepository.Setup(r => r.GetByStatusByClientId(USERID, statussen))
                 .Returns(_contracts);
+            //Act
             var result = _contractController.Index();
+            //Assert
             var viewResult = Assert.IsType<ViewResult>(result);
             var model = Assert.IsAssignableFrom<IEnumerable<Contract>>(
                 viewResult.ViewData.Model);
             Assert.Equal(2, model.Count());
+            //Verify
+            _mockContractRepository.Verify(r => r.GetByStatusByClientId(USERID, statussen), Times.Once);
         }
 
         [Fact]
         public void Index_NoContracts_ReturnsNoContracts()
         {
-            _mockContractRepository.Setup(r => r.GetAllByClientId("bff6a934 - 0dca - 4965 - b9fc - onbestaande id"))
+            _mockContractRepository.Setup(r => r.GetAllByClientId("bff6a934 - 0dca - 4965 - b9fc - onbestaande id")) //wat is hier het nut? Als we geen contracten willen linken aan ons userid waarom moeten we dan contracten linken aan een niet geburikt id?
                 .Returns(_contracts);
             var result = _contractController.Index();
             var viewResult = Assert.IsType<ViewResult>(result);
@@ -80,26 +90,29 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
 
         #region == Create Methodes ==
         [Fact]
-        public void CreateHttpGet_Contract_NoActiveContracts_PassesDetailsOfANewContractInEditViewModelToView()
+        public void CreateHttpGet_Contract_NoActiveContracts_PassesDetailsOfExpiredContractInEditViewModelToView()
         {
             //_mockUserManager.Setup(u => u.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns(USERID); //dit werkt niet, volgens mij wordt dat toch nooit opgeroepen
-            _mockContractRepository.Setup(p => p.GetAllByClientId(null)).Returns(new List<Contract>() { _contract2 });
+            _mockContractRepository.Setup(p => p.GetAllByClientId(USERID)).Returns(new List<Contract>() { _contractNietActief, _contractAfgelopen });
 
             var result = Assert.IsType<ViewResult>(_contractController.Create());
             var contractVm = Assert.IsType<EditViewModel>(result.Model);
 
-            Assert.Equal(_contract2.Doorlooptijd, contractVm.Doorlooptijd);
-            //_mockContractRepository.Verify(mock => mock.GetAllByClientId(null), Times.Once);
+            Assert.Equal(_contractAfgelopen.Doorlooptijd, contractVm.Doorlooptijd);
+           _mockContractRepository.Verify(mock => mock.GetAllByClientId(USERID), Times.Once);
         }
         [Fact]
         public void CreateHttpGet_ActiveContract_PassesNoDetailsOfANewTicketInEditViewModelToView()
         {
-            _mockContractRepository.Setup(p => p.GetAllByClientId("bff6a934 - 0dca - 4965 - b9fc - 91c3290792c8")).Returns(_contracts);
-
+            //Arrange
+            _mockContractRepository.Setup(p => p.GetAllByClientId(USERID)).Returns(_contracts);
+            //Act
             var result = Assert.IsType<ViewResult>(_contractController.Create());
+            //Assert
             var contractVm = Assert.IsType<EditViewModel>(result.Model);
             Assert.Equal(0, contractVm.Doorlooptijd);
-            _mockContractRepository.Verify(mock => mock.GetAllByClientId("bff6a934 - 0dca - 4965 - b9fc - 91c3290792c8"), Times.Once);
+            //Verify
+            _mockContractRepository.Verify(mock => mock.GetAllByClientId(USERID), Times.Once);
 
         }
 
@@ -147,14 +160,14 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
         [Fact]
         public void CreateHttpPost_ModelStateErrors_DoesNotChangeNorPersistContract()
         {
-            var contractVm = new EditViewModel(_contract1);
+            var contractVm = new EditViewModel(_contractActief);
             _contractController.ModelState.AddModelError("", "Any error");
 
             _contractController.Create(contractVm);
 
-            Assert.Equal(_contract1.ContractType, contractVm.ContractType);
-            Assert.Equal(_contract1.StartDatum, contractVm.Startdatum);
-            Assert.Equal(_contract1.Doorlooptijd, contractVm.Doorlooptijd);
+            Assert.Equal(_contractActief.ContractType, contractVm.ContractType);
+            Assert.Equal(_contractActief.StartDatum, contractVm.Startdatum);
+            Assert.Equal(_contractActief.Doorlooptijd, contractVm.Doorlooptijd);
             _mockContractRepository.Verify(m => m.Add(It.IsNotNull<Contract>()), Times.Never);
             _mockContractRepository.Verify(m => m.SaveChanges(), Times.Never);
         }

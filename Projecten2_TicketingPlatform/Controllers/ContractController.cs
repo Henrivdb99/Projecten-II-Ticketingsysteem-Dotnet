@@ -29,7 +29,7 @@ namespace Projecten2_TicketingPlatform.Controllers
             }else
             if (contractStatus == ContractStatus.Alle)
             {
-                contracten = _contractRepository.GetByStatusByClientId(_userManager.GetUserId(User), new List<ContractStatus> { ContractStatus.Actief, ContractStatus.Afgelopen, ContractStatus.InBehandeling, ContractStatus.NietActief, ContractStatus.Stopgezet });
+                contracten = _contractRepository.GetAllByClientId(_userManager.GetUserId(User));
             }
             else
             {
