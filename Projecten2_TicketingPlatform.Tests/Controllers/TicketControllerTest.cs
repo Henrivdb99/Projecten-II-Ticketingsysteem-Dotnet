@@ -92,6 +92,29 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
             _mockContractRepository.Verify(mocks => mocks.HasActiveContracts(USERID), Times.Once);
 
         }
+
+        [Fact]
+        public void CreateHttpPost_ValidTicketFromSupportManager_AddsNewTicketToRepositoryAndRedirectsToIndex()
+        {
+            _mockTicketRepository.Setup(p => p.Add(It.IsNotNull<Ticket>()));
+            _mockContractRepository.Setup(m => m.HasActiveContracts(USERID)).Returns(true);
+
+
+            var ticketVm = new EditViewModel()
+            {
+                KlantId = "bff6a934 - 0dca - 4965 - b9fc - 91c3290792c8",
+                Titel = "Fout2098 Fase7",
+                Omschrijving = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                TypeTicket = 1
+            };
+            var result = Assert.IsType<RedirectToActionResult>(_ticketController.Create(ticketVm));
+
+            Assert.Equal("Index", result.ActionName);
+            _mockTicketRepository.Verify(m => m.Add(It.IsNotNull<Ticket>()), Times.Once);
+            _mockTicketRepository.Verify(m => m.SaveChanges(), Times.Once);
+            _mockContractRepository.Verify(mocks => mocks.HasActiveContracts(USERID), Times.Once);
+
+        }
         [Fact]
         public void CreateHttpPost_InvalidTicket_DoesNotCreateNorPersistsTicketAndRedirectsToActionIndex()
         {
