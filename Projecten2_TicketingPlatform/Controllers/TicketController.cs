@@ -185,11 +185,11 @@ namespace Projecten2_TicketingPlatform.Controllers
         } 
         #endregion
 
-        public IActionResult Details(int ticketId)
+        /*public IActionResult Details(int ticketId)
         {
             Ticket ticket = _ticketRepository.GetById(ticketId);
             return View(ticket);
-        }
+        }*/
 
         private SelectList TicketTypesAsSelectList(int selected = 0)
         {

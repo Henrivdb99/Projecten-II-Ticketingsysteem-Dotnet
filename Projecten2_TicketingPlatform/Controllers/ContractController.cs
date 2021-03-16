@@ -78,13 +78,13 @@ namespace Projecten2_TicketingPlatform.Controllers
                     {
                         _contractRepository.Add(contract);
                         _contractRepository.SaveChanges();
-                        TempData["Succes"] = "Aanmaken contract gelukt!";
+                        TempData["Succes"] = "Aanvragen contract gelukt!";
 
                     }
                 }
                 catch (ArgumentException ae)
                 {
-                    TempData["FoutMelding"] = "Aanmaken contract mislukt. " + ae.Message;
+                    TempData["FoutMelding"] = "Aanvragen contract mislukt. " + ae.Message;
                 }
                 return RedirectToAction(nameof(Index));
 
