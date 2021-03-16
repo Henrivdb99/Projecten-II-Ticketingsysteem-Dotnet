@@ -28,26 +28,55 @@ namespace Projecten2_TicketingPlatform.Controllers
         public IActionResult Index(TicketStatus ticketStatus = TicketStatus.Standaard)
         {
             IEnumerable<Ticket> tickets;
-            if (ticketStatus == TicketStatus.Standaard) {
-                tickets = _ticketRepository.GetAllByClientIdByTicketStatus(_userManager.GetUserId(User), 
-                    new List<TicketStatus> { TicketStatus.Aangemaakt, TicketStatus.InBehandeling });
-            } else
-            if (ticketStatus == TicketStatus.Alle)
+            if (User.IsInRole("supportmanager"))
             {
-                tickets = _ticketRepository.GetAllByClientId(_userManager.GetUserId(User));
+                if (ticketStatus == TicketStatus.Standaard)
+                {
+                    tickets = _ticketRepository.GetAllByTicketStatus(new List<TicketStatus> { TicketStatus.Aangemaakt, TicketStatus.InBehandeling });
+                }
+                else
+                if (ticketStatus == TicketStatus.Alle)
+                {
+                    tickets = _ticketRepository.GetAll();
+                }
+                else
+                {
+                    tickets = _ticketRepository.GetAllByTicketStatus(new List<TicketStatus> { ticketStatus });
+                }
+                if (tickets.Count() == 0)
+                {
+                    if (!ticketStatus.Equals(TicketStatus.Standaard))
+                    {
+                        TempData["Waarschuwing"] = $"Er zijn geen tickets met status {ticketStatus.GetDisplayAttributeFrom(typeof(TicketStatus))}";
+                    }
+                }
             }
             else
             {
-                tickets = _ticketRepository.GetAllByClientIdByTicketStatus(_userManager.GetUserId(User),
-                    new List<TicketStatus> {  ticketStatus });
-            }
-            if (tickets.Count() == 0)
-            {
-                if (!ticketStatus.Equals(TicketStatus.Standaard))
+                if (ticketStatus == TicketStatus.Standaard) 
                 {
-                    TempData["Waarschuwing"] = $"Uw account beschikt niet over tickets met status {ticketStatus.GetDisplayAttributeFrom(typeof(TicketStatus))}";
+                    tickets = _ticketRepository.GetAllByClientIdByTicketStatus(_userManager.GetUserId(User), 
+                        new List<TicketStatus> { TicketStatus.Aangemaakt, TicketStatus.InBehandeling });
+                } 
+                else
+                if (ticketStatus == TicketStatus.Alle)
+                {
+                    tickets = _ticketRepository.GetAllByClientId(_userManager.GetUserId(User));
+                }
+                else
+                {
+                    tickets = _ticketRepository.GetAllByClientIdByTicketStatus(_userManager.GetUserId(User),
+                        new List<TicketStatus> {  ticketStatus });
+                }
+                if (tickets.Count() == 0)
+                {
+                    if (!ticketStatus.Equals(TicketStatus.Standaard))
+                    {
+                        TempData["Waarschuwing"] = $"Uw account beschikt niet over tickets met status {ticketStatus.GetDisplayAttributeFrom(typeof(TicketStatus))}";
+                    }
                 }
             }
+            
             ViewData["TicketStatussen"] = new SelectList(new List<TicketStatus> { TicketStatus.Aangemaakt, TicketStatus.InBehandeling, TicketStatus.Afgehandeld, TicketStatus.Geannuleerd, TicketStatus.WachtenOpInformatieKlant, TicketStatus.InformatieKlantOntvangen, TicketStatus.InDevelopment });
             return View(tickets);
         }
