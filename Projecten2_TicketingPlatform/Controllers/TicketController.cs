@@ -54,16 +54,16 @@ namespace Projecten2_TicketingPlatform.Controllers
         #region == Create Methodes ==
         public IActionResult Create()
         {
-            if (!_contractRepository.HasActiveContracts(_userManager.GetUserId(User)))
-            {
-                TempData["Waarschuwing"] = $"Uw account beschikt niet over actieve contracten";
-                return RedirectToAction("Index");
-            }
-            else
+           if (_contractRepository.HasActiveContracts(_userManager.GetUserId(User)) || User.IsInRole("supportmanager"))
             {
                 ViewData["IsEdit"] = false;
                 ViewData["TicketType"] = TicketTypesAsSelectList();
-                return View("Edit", new EditViewModel());
+                return View("Edit", new EditViewModel()); 
+            }
+            else
+            {                
+                TempData["Waarschuwing"] = $"Uw account beschikt niet over actieve contracten";
+                return RedirectToAction("Index");
             }
 
 
@@ -75,7 +75,12 @@ namespace Projecten2_TicketingPlatform.Controllers
             {
                 try
                 {
-                    if (!_contractRepository.HasActiveContracts(_userManager.GetUserId(User)))
+                    string klantId = _userManager.GetUserId(User);
+                    if (ticketVm.KlantId != "" && ticketVm.KlantId != null)
+                    {
+                        klantId = ticketVm.KlantId;
+                    }
+                    if (!_contractRepository.HasActiveContracts(klantId))
                     {
                         throw new ArgumentException("Dit account heeft geen actieve contracten.");
                     }
@@ -89,7 +94,7 @@ namespace Projecten2_TicketingPlatform.Controllers
                             TypeTicket = ticketVm.TypeTicket,
                             /*ticketVm.Technieker, ticketVm.Opmerkingen,*/
                             Bijlage = ticketVm.Bijlage,
-                            KlantId = _userManager.GetUserId(User), //!!!!!
+                            KlantId = klantId,
                             Status = TicketStatus.Aangemaakt
                         };
 

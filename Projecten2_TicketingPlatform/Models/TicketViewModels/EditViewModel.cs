@@ -9,6 +9,8 @@ namespace Projecten2_TicketingPlatform.Models.TicketViewModels
 {
     public class EditViewModel
     {
+        public string KlantId { get; set; }
+
         [Required(ErrorMessage = "U moet een startdatum kiezen.")]
         [DataType(DataType.Date)]
         [Display(Name = "Datum aanmaken")]
@@ -32,6 +34,7 @@ namespace Projecten2_TicketingPlatform.Models.TicketViewModels
 
         public EditViewModel(Ticket ticket) : this()
         {
+            KlantId = ticket.KlantId;
             DatumAanmaken = ticket.DatumAanmaken;
             Titel = ticket.Titel;
             Omschrijving = ticket.Omschrijving;
