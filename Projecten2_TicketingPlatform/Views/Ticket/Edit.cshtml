@@ -14,12 +14,12 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Titel" class="control-label"></label>
-                <input asp-for="Titel" class="form-control" />
+                <input asp-for="Titel" class="form-control" readonly= "@ViewData["IsEdit"]"/>
                 <span asp-validation-for="Titel" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="DatumAanmaken" class="control-label"></label>
-                <input asp-for="DatumAanmaken" class="form-control" />
+                <input asp-for="DatumAanmaken" class="form-control" readonly= "@ViewData["IsEdit"]"/>
                 <span asp-validation-for="DatumAanmaken" class="text-danger"></span>
             </div>
             <div class="form-group">
