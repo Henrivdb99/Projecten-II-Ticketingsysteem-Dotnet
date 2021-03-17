@@ -13,11 +13,13 @@ namespace Projecten2_TicketingPlatform.Controllers
     public class ContractController : Controller
     {
         private readonly IContractRepository _contractRepository;
+        private readonly IContractTypeRepository _contractTypeRepository;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public ContractController(IContractRepository contractRepository, UserManager<IdentityUser> userManager)
+        public ContractController(IContractRepository contractRepository, UserManager<IdentityUser> userManager, IContractTypeRepository contractTypeRepository)
         {
             _contractRepository = contractRepository;
+            _contractTypeRepository = contractTypeRepository;
             _userManager = userManager;
         }
         public IActionResult Index(ContractEnContractTypeStatus contractStatus = ContractEnContractTypeStatus.Standaard)
@@ -48,6 +50,7 @@ namespace Projecten2_TicketingPlatform.Controllers
             IEnumerable<Contract> contracten = _contractRepository.GetAllByClientId(_userManager.GetUserId(User));
             IEnumerable<Contract> afgelopenContracten = contracten.Where(c => c.ContractStatus.Equals(ContractEnContractTypeStatus.Afgelopen));
 
+            ViewData["contractTypes"] = new SelectList(_contractTypeRepository.GetAll(), nameof(ContractType.ContractTypeId), nameof(ContractType.Naam));
             //als er al een contract
             if (contracten.Any(c=> c.ContractStatus.Equals(ContractEnContractTypeStatus.Actief) || c.ContractStatus.Equals(ContractEnContractTypeStatus.InBehandeling) ) || contracten.Count() == 0 || afgelopenContracten.Count() == 0)
             {
@@ -89,6 +92,7 @@ namespace Projecten2_TicketingPlatform.Controllers
                 return RedirectToAction(nameof(Index));
 
             }
+            ViewData["contractTypes"] = new SelectList(_contractTypeRepository.GetAll(), nameof(ContractType.ContractTypeId), nameof(ContractType.Naam));
             return View("Create", contractVm);
 
         }
