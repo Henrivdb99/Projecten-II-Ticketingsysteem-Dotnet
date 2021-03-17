@@ -68,12 +68,11 @@ namespace Projecten2_TicketingPlatform.Controllers
             {
                 try
                 {
-                    //Een klant kan per contracttype maar één contract met de status “in behandeling” of  “actief” hebben 
                     Contract contract = new Contract(contractVm.Startdatum, _contractTypeRepository.GetById(contractVm.ContractType), contractVm.Doorlooptijd, _userManager.GetUserId(User));
 
                     IEnumerable<Contract> contracten = _contractRepository.GetByStatusByClientId(_userManager.GetUserId(User), new List<ContractEnContractTypeStatus> { ContractEnContractTypeStatus.Actief, ContractEnContractTypeStatus.InBehandeling });
-
-                    if (contracten.Any(c => c.ContractType.ContractTypeId == contractVm.ContractType))
+                    //Een klant kan per contracttype maar één contract met de status “in behandeling” of  “actief” hebben 
+                    if (contracten.Any(c => c.ContractType.ContractTypeId == contractVm.ContractType)) 
                     {
                         throw new ArgumentException("Er is al een contract van dit type in behandeling");
                     }

@@ -17,6 +17,7 @@ namespace Projecten2_TicketingPlatform.Tests.Data
         public DummyApplicationDbContext()
         {
             Contract24_7 = new ContractType("Contract24/7", ContractEnContractTypeStatus.Actief, ManierVanAanmakenTicket.Applicatie, TijdstipTicketAanmaken.Altijd, 1, 10, 100);
+
             ContractWerkuren = new ContractType("ContractWerkuren", ContractEnContractTypeStatus.Actief, ManierVanAanmakenTicket.Applicatie, TijdstipTicketAanmaken.TijdensWerkdagen, 1, 10, 100);
 
             Ticket = new Ticket("Ticket20", TicketStatus.Aangemaakt, DateTime.Today, "Ik heb een probleem", "1", "bff6a934 - 0dca - 4965 - b9fc - 91c3290792c8", "Jan de technieker", null, null);
