@@ -61,7 +61,7 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
         public void Index_ReturnsAViewResult_WithAListOfContracts()
         {
             //Arrange
-            List<ContractStatus> statussen = new List<ContractStatus> { ContractStatus.Actief, ContractStatus.InBehandeling };
+            List<ContractEnContractTypeStatus> statussen = new List<ContractEnContractTypeStatus> { ContractEnContractTypeStatus.Actief, ContractEnContractTypeStatus.InBehandeling };
             _mockContractRepository.Setup(r => r.GetByStatusByClientId(USERID, statussen))
                 .Returns(_contracts);
             //Act
@@ -122,7 +122,7 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
         public void CreateHttpPost_ValidTicket_AddsNewContractToRepositoryAndRedirectsToIndex()
         {
             _mockContractRepository.Setup(p => p.Add(It.IsNotNull<Contract>()));
-            _mockContractRepository.Setup(p => p.GetByStatusByClientId(It.IsNotNull<string>(), new List<ContractStatus> { ContractStatus.Actief, ContractStatus.InBehandeling }))
+            _mockContractRepository.Setup(p => p.GetByStatusByClientId(It.IsNotNull<string>(), new List<ContractEnContractTypeStatus> { ContractEnContractTypeStatus.Actief, ContractEnContractTypeStatus.InBehandeling }))
                 .Returns(_contracts);
             var contractVm = new EditViewModel()
             {
@@ -133,7 +133,7 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
             var result = Assert.IsType<RedirectToActionResult>(_contractController.Create(contractVm));
             Assert.Equal("Index", result.ActionName);
             _mockContractRepository.Verify(m => m.Add(It.IsNotNull<Contract>()), Times.Once);
-            _mockContractRepository.Verify(m => m.GetByStatusByClientId(It.IsNotNull<string>(), new List<ContractStatus> { ContractStatus.Actief, ContractStatus.InBehandeling }), Times.Once);
+            _mockContractRepository.Verify(m => m.GetByStatusByClientId(It.IsNotNull<string>(), new List<ContractEnContractTypeStatus> { ContractEnContractTypeStatus.Actief, ContractEnContractTypeStatus.InBehandeling }), Times.Once);
             _mockContractRepository.Verify(m => m.SaveChanges(), Times.Once);
         }
 
@@ -142,7 +142,7 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
         public void CreateHttpPost_InvalidContract_DoesNotCreateNorPersistsContractAndRedirectsToActionIndex()
         {
             _mockContractRepository.Setup(p => p.Add(It.IsNotNull<Contract>()));
-            _mockContractRepository.Setup(p => p.GetByStatusByClientId(It.IsNotNull<string>(), new List<ContractStatus> { ContractStatus.Actief, ContractStatus.InBehandeling }))
+            _mockContractRepository.Setup(p => p.GetByStatusByClientId(It.IsNotNull<string>(), new List<ContractEnContractTypeStatus> { ContractEnContractTypeStatus.Actief, ContractEnContractTypeStatus.InBehandeling }))
                 .Returns(_contracts);
             var contractVm = new EditViewModel()
             {
@@ -176,10 +176,10 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
         public void CreateHttpPost_DomainErrors_AlreadyAnActiveContractsSameType_DoesNotPersistContract()
         {
             //dit zorgt ervoor dat er geen contracten van type1 mogen gemaakt worden
-            _contracts.Add(new Contract(DateTime.Now, "1", 1, "bff6a934 - 0dca - 4965 - b9fc - 91c3290792c8", ContractStatus.InBehandeling));
+            _contracts.Add(new Contract(DateTime.Now, "1", 1, "bff6a934 - 0dca - 4965 - b9fc - 91c3290792c8", ContractEnContractTypeStatus.InBehandeling));
 
             _mockContractRepository.Setup(p => p.Add(It.IsNotNull<Contract>()));
-            _mockContractRepository.Setup(p => p.GetByStatusByClientId(It.IsNotNull<string>(), new List<ContractStatus> { ContractStatus.Actief, ContractStatus.InBehandeling }))
+            _mockContractRepository.Setup(p => p.GetByStatusByClientId(It.IsNotNull<string>(), new List<ContractEnContractTypeStatus> { ContractEnContractTypeStatus.Actief, ContractEnContractTypeStatus.InBehandeling }))
                 .Returns(_contracts);
             var contractVm = new EditViewModel()
             {
@@ -190,7 +190,7 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
             var result = Assert.IsType<RedirectToActionResult>(_contractController.Create(contractVm));
             Assert.Equal("Index", result.ActionName);
             _mockContractRepository.Verify(m => m.Add(It.IsNotNull<Contract>()), Times.Never);
-            _mockContractRepository.Verify(m => m.GetByStatusByClientId(It.IsNotNull<string>(), new List<ContractStatus> { ContractStatus.Actief, ContractStatus.InBehandeling }), Times.Once);
+            _mockContractRepository.Verify(m => m.GetByStatusByClientId(It.IsNotNull<string>(), new List<ContractEnContractTypeStatus> { ContractEnContractTypeStatus.Actief, ContractEnContractTypeStatus.InBehandeling }), Times.Once);
             _mockContractRepository.Verify(m => m.SaveChanges(), Times.Never);
         }
 

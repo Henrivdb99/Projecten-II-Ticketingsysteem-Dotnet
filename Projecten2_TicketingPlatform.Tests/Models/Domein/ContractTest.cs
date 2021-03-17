@@ -39,7 +39,7 @@ namespace Projecten2_TicketingPlatform.Tests.Models.Domein
             //Act
             contract.ZetStop();
             //Assert
-            Assert.Equal(ContractStatus.Stopgezet, contract.ContractStatus);
+            Assert.Equal(ContractEnContractTypeStatus.Stopgezet, contract.ContractStatus);
         }
 
     }
