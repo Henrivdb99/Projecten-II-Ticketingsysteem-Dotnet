@@ -12,6 +12,6 @@ namespace Projecten2_TicketingPlatform.Models.Domein
         bool HasActiveContracts(string clientId);
         void Add(Contract contract);
         void SaveChanges();
-        IEnumerable<Contract> GetByStatusByClientId(string clientId, IEnumerable<ContractStatus> contractStatuses);
+        IEnumerable<Contract> GetByStatusByClientId(string clientId, IEnumerable<ContractEnContractTypeStatus> contractStatuses);
     }
 }

@@ -9,7 +9,7 @@
     <div class="form-inline">
         <div class="form-group">
             <label for="contractStatus"></label>
-            <select id="contractStatus" name="contractStatus" asp-items="Html.GetEnumSelectList<ContractStatus>()" class="form-control" onchange="this.form.submit()">
+            <select id="contractStatus" name="contractStatus" asp-items="Html.GetEnumSelectList<ContractEnContractTypeStatus>()" class="form-control" onchange="this.form.submit()">
                 <option selected="selected" value="">-- Contract status --</option>
             </select>
         </div>
@@ -57,7 +57,7 @@
                 @Html.DisplayFor(modelItem => item.ContractStatus)
             </td>
             <td>
-                @if (!(item.ContractStatus == ContractStatus.Stopgezet || item.ContractStatus == ContractStatus.NietActief || item.ContractStatus == ContractStatus.Afgelopen))
+                @if (!(item.ContractStatus == ContractEnContractTypeStatus.Stopgezet || item.ContractStatus == ContractEnContractTypeStatus.NietActief || item.ContractStatus == ContractEnContractTypeStatus.Afgelopen))
                 {
                     <span><a asp-controller="Contract" asp-action="Annuleer" asp-route-contractId="@item.ContractId">Stopzetten</a></span>
                 }

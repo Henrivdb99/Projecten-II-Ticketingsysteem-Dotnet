@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Projecten2_TicketingPlatform
 { 
-    public enum ContractStatus
+    public enum ContractEnContractTypeStatus
     {
         [Display(Name = "In behandeling")]
         InBehandeling,
