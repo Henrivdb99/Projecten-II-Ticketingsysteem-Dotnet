@@ -127,7 +127,7 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
             var contractVm = new EditViewModel()
             {
                 Startdatum = DateTime.Today,
-                ContractType = "3",
+                ContractType = _dummyContext.Contract24_7,
                 Doorlooptijd = 2
             };
             var result = Assert.IsType<RedirectToActionResult>(_contractController.Create(contractVm));
@@ -147,7 +147,7 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
             var contractVm = new EditViewModel()
             {
                 Startdatum = DateTime.Today,
-                ContractType = "3",
+                ContractType = _dummyContext.Contract24_7,
                 Doorlooptijd = 20000 //fout
             };
             var result = Assert.IsType<RedirectToActionResult>(_contractController.Create(contractVm));
@@ -176,7 +176,7 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
         public void CreateHttpPost_DomainErrors_AlreadyAnActiveContractsSameType_DoesNotPersistContract()
         {
             //dit zorgt ervoor dat er geen contracten van type1 mogen gemaakt worden
-            _contracts.Add(new Contract(DateTime.Now, "1", 1, "bff6a934 - 0dca - 4965 - b9fc - 91c3290792c8", ContractEnContractTypeStatus.InBehandeling));
+            _contracts.Add(new Contract(DateTime.Now, _dummyContext.Contract24_7, 1, "bff6a934 - 0dca - 4965 - b9fc - 91c3290792c8", ContractEnContractTypeStatus.InBehandeling));
 
             _mockContractRepository.Setup(p => p.Add(It.IsNotNull<Contract>()));
             _mockContractRepository.Setup(p => p.GetByStatusByClientId(It.IsNotNull<string>(), new List<ContractEnContractTypeStatus> { ContractEnContractTypeStatus.Actief, ContractEnContractTypeStatus.InBehandeling }))
@@ -184,7 +184,7 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
             var contractVm = new EditViewModel()
             {
                 Startdatum = DateTime.Today,
-                ContractType = "1",
+                ContractType = _dummyContext.Contract24_7,
                 Doorlooptijd = 2
             };
             var result = Assert.IsType<RedirectToActionResult>(_contractController.Create(contractVm));
