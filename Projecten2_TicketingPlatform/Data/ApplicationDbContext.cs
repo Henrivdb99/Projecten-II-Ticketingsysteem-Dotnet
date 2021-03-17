@@ -9,6 +9,7 @@ namespace Projecten2_TicketingPlatform.Data
     {
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<Contract> Contracten { get; set; }
+        public DbSet<ContractType> ContractTypes { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

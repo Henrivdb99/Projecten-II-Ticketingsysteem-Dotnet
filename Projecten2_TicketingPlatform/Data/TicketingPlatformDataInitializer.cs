@@ -42,7 +42,8 @@ namespace Projecten2_TicketingPlatform.Data
                
                    ContractType contract24_7= new ContractType("Contract24/7", ContractEnContractTypeStatus.Actief, ManierVanAanmakenTicket.EmailEnTelefonischEnApplicatie, TijdstipTicketAanmaken.Altijd, 1, 10, 100);
                    ContractType contractWerkuren= new ContractType("ContractWerkuren", ContractEnContractTypeStatus.Actief, ManierVanAanmakenTicket.EmailEnTelefonischEnApplicatie, TijdstipTicketAanmaken.TijdensWerkdagen, 1, 10, 100);
-            
+                _dbcontext.ContractTypes.Add(contract24_7);
+                _dbcontext.ContractTypes.Add(contractWerkuren);
 
                 var contractenVoorKlant = new List<Contract>
                 {
