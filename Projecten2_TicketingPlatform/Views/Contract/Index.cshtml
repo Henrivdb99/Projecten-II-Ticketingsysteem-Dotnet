@@ -45,7 +45,7 @@
                 @Html.DisplayFor(modelItem => item.ContractId)
             </td>
             <td>
-                @item.ContractType.Naam
+                @Html.DisplayFor(modelItem => item.ContractType.Naam)
             </td>
             <td>
                 @(item.StartDatum.ToString("dd/MM/yyyy"))
