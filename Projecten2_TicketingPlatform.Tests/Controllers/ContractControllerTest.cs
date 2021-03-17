@@ -52,7 +52,7 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
             _mockContractTypeRepository = new Mock<IContractTypeRepository>();
             _contracts = new List<Contract>() { _contractActief, _contractNietActief };
 
-            _contractController = new ContractController(_mockContractRepository.Object, _mockUserManager.Object)
+            _contractController = new ContractController(_mockContractRepository.Object, _mockUserManager.Object, _mockContractTypeRepository.Object)
             {
                 TempData = new Mock<ITempDataDictionary>().Object
             };
@@ -130,7 +130,7 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
             var contractVm = new EditViewModel()
             {
                 Startdatum = DateTime.Today,
-                ContractType = _dummyContext.Contract24_7,
+                ContractType = 1,
                 Doorlooptijd = 2
             };
             var result = Assert.IsType<RedirectToActionResult>(_contractController.Create(contractVm));
@@ -148,10 +148,12 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
             _mockContractRepository.Setup(p => p.Add(It.IsNotNull<Contract>()));
             _mockContractRepository.Setup(p => p.GetByStatusByClientId(It.IsNotNull<string>(), new List<ContractEnContractTypeStatus> { ContractEnContractTypeStatus.Actief, ContractEnContractTypeStatus.InBehandeling }))
                 .Returns(_contracts);
+            _mockContractTypeRepository.Setup(p => p.GetById(It.IsNotNull<int>())).Returns(_dummyContext.Contract24_7);
+
             var contractVm = new EditViewModel()
             {
                 Startdatum = DateTime.Today,
-                ContractType = _dummyContext.Contract24_7,
+                ContractType = 1,
                 Doorlooptijd = 20000 //fout
             };
             var result = Assert.IsType<RedirectToActionResult>(_contractController.Create(contractVm));
@@ -169,7 +171,7 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
 
             _contractController.Create(contractVm);
 
-            Assert.Equal(_contractActief.ContractType, contractVm.ContractType);
+            Assert.Equal(_contractActief.ContractType.ContractTypeId, contractVm.ContractType);
             Assert.Equal(_contractActief.StartDatum, contractVm.Startdatum);
             Assert.Equal(_contractActief.Doorlooptijd, contractVm.Doorlooptijd);
             _mockContractRepository.Verify(m => m.Add(It.IsNotNull<Contract>()), Times.Never);
@@ -185,10 +187,12 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
             _mockContractRepository.Setup(p => p.Add(It.IsNotNull<Contract>()));
             _mockContractRepository.Setup(p => p.GetByStatusByClientId(It.IsNotNull<string>(), new List<ContractEnContractTypeStatus> { ContractEnContractTypeStatus.Actief, ContractEnContractTypeStatus.InBehandeling }))
                 .Returns(_contracts);
+            _mockContractTypeRepository.Setup(p => p.GetById(It.IsNotNull<int>())).Returns(_dummyContext.Contract24_7);
+
             var contractVm = new EditViewModel()
             {
                 Startdatum = DateTime.Today,
-                ContractType = _dummyContext.Contract24_7,
+                ContractType = 1,
                 Doorlooptijd = 2
             };
             var result = Assert.IsType<RedirectToActionResult>(_contractController.Create(contractVm));
