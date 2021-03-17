@@ -25,7 +25,7 @@ namespace Projecten2_TicketingPlatform.Data.Repositories
 
         public IEnumerable<Contract> GetAllByClientId(string klantId)
         {
-            return _contracten.Where(t => t.ClientId.Equals(klantId)).OrderByDescending(c => c.EindDatum).AsNoTracking().ToList();
+            return _contracten.Where(t => t.ClientId.Equals(klantId)).Include(c=> c.ContractType).OrderByDescending(c => c.EindDatum).AsNoTracking().ToList();
         }
 
         public bool HasActiveContracts(string klantId)
