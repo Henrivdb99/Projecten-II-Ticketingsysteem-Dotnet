@@ -19,6 +19,7 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
     {
         private readonly ContractController _contractController;
         private readonly Mock<IContractRepository> _mockContractRepository;
+        private readonly Mock<IContractTypeRepository> _mockContractTypeRepository;
         private readonly Contract _contractActief;
         private readonly Contract _contractNietActief;
         private readonly Contract _contractAfgelopen;
@@ -48,6 +49,7 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
 
 
             _mockContractRepository = new Mock<IContractRepository>();
+            _mockContractTypeRepository = new Mock<IContractTypeRepository>();
             _contracts = new List<Contract>() { _contractActief, _contractNietActief };
 
             _contractController = new ContractController(_mockContractRepository.Object, _mockUserManager.Object)
@@ -124,6 +126,7 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
             _mockContractRepository.Setup(p => p.Add(It.IsNotNull<Contract>()));
             _mockContractRepository.Setup(p => p.GetByStatusByClientId(It.IsNotNull<string>(), new List<ContractEnContractTypeStatus> { ContractEnContractTypeStatus.Actief, ContractEnContractTypeStatus.InBehandeling }))
                 .Returns(_contracts);
+            _mockContractTypeRepository.Setup(p => p.GetById(It.IsNotNull<int>())).Returns(_dummyContext.Contract24_7);
             var contractVm = new EditViewModel()
             {
                 Startdatum = DateTime.Today,
@@ -132,6 +135,7 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
             };
             var result = Assert.IsType<RedirectToActionResult>(_contractController.Create(contractVm));
             Assert.Equal("Index", result.ActionName);
+            _mockContractTypeRepository.Verify(m => m.GetById(It.IsNotNull<int>()), Times.Once);
             _mockContractRepository.Verify(m => m.Add(It.IsNotNull<Contract>()), Times.Once);
             _mockContractRepository.Verify(m => m.GetByStatusByClientId(It.IsNotNull<string>(), new List<ContractEnContractTypeStatus> { ContractEnContractTypeStatus.Actief, ContractEnContractTypeStatus.InBehandeling }), Times.Once);
             _mockContractRepository.Verify(m => m.SaveChanges(), Times.Once);
