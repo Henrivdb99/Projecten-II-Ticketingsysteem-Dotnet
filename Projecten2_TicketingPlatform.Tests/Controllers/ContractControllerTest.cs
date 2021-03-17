@@ -23,15 +23,15 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
         private readonly Contract _contractActief;
         private readonly Contract _contractNietActief;
         private readonly Contract _contractAfgelopen;
-        private readonly DummyApplicationDbContext _dummyContext;
+        private readonly DummyApplicationDbContext _dummyContext = new DummyApplicationDbContext();
         private readonly List<Contract> _contracts;
         private readonly Mock<UserManager<IdentityUser>> _mockUserManager;
-
-        public static readonly string USERID = "bff6a934 - 0dca - 4965 - b9fc - 91c3290792c8";
+        private readonly string _userId; //"bff6a934 - 0dca - 4965 - b9fc - 91c3290792c8"
 
         public ContractControllerTest()
         {
-            _dummyContext = new DummyApplicationDbContext();
+            _userId = _dummyContext.UserId;
+
             _contractActief = _dummyContext.ContractActief;
             _contractNietActief = _dummyContext.ContractNietActief;
             _contractAfgelopen = _dummyContext.ContractAfgelopen;
@@ -41,11 +41,11 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
                 .ReturnsAsync(new IdentityUser()
                 {
                     UserName = "test@email.com",
-                    Id = USERID
+                    Id = _userId
                 }) ;
 
             _mockUserManager = new Mock<UserManager<IdentityUser>>(store.Object, null, null, null, null, null, null, null, null);
-            _mockUserManager.Setup(mum => mum.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns(USERID); //It.IsAny zal eignelijk altijd null zijn
+            _mockUserManager.Setup(mum => mum.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns(_userId); //It.IsAny zal eignelijk altijd null zijn
 
 
             _mockContractRepository = new Mock<IContractRepository>();
@@ -64,7 +64,7 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
         {
             //Arrange
             List<ContractEnContractTypeStatus> statussen = new List<ContractEnContractTypeStatus> { ContractEnContractTypeStatus.Actief, ContractEnContractTypeStatus.InBehandeling };
-            _mockContractRepository.Setup(r => r.GetByStatusByClientId(USERID, statussen))
+            _mockContractRepository.Setup(r => r.GetByStatusByClientId(_userId, statussen))
                 .Returns(_contracts);
             //Act
             var result = _contractController.Index();
@@ -74,7 +74,7 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
                 viewResult.ViewData.Model);
             Assert.Equal(2, model.Count());
             //Verify
-            _mockContractRepository.Verify(r => r.GetByStatusByClientId(USERID, statussen), Times.Once);
+            _mockContractRepository.Verify(r => r.GetByStatusByClientId(_userId, statussen), Times.Once);
         }
 
         [Fact]
@@ -95,26 +95,26 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
         public void CreateHttpGet_Contract_NoActiveContracts_PassesDetailsOfExpiredContractInEditViewModelToView()
         {
             //_mockUserManager.Setup(u => u.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns(USERID); //dit werkt niet, volgens mij wordt dat toch nooit opgeroepen
-            _mockContractRepository.Setup(p => p.GetAllByClientId(USERID)).Returns(new List<Contract>() { _contractNietActief, _contractAfgelopen });
+            _mockContractRepository.Setup(p => p.GetAllByClientId(_userId)).Returns(new List<Contract>() { _contractNietActief, _contractAfgelopen });
 
             var result = Assert.IsType<ViewResult>(_contractController.Create());
             var contractVm = Assert.IsType<EditViewModel>(result.Model);
 
             Assert.Equal(_contractAfgelopen.Doorlooptijd, contractVm.Doorlooptijd);
-           _mockContractRepository.Verify(mock => mock.GetAllByClientId(USERID), Times.Once);
+           _mockContractRepository.Verify(mock => mock.GetAllByClientId(_userId), Times.Once);
         }
         [Fact]
         public void CreateHttpGet_ActiveContract_PassesNoDetailsOfANewTicketInEditViewModelToView()
         {
             //Arrange
-            _mockContractRepository.Setup(p => p.GetAllByClientId(USERID)).Returns(_contracts);
+            _mockContractRepository.Setup(p => p.GetAllByClientId(_userId)).Returns(_contracts);
             //Act
             var result = Assert.IsType<ViewResult>(_contractController.Create());
             //Assert
             var contractVm = Assert.IsType<EditViewModel>(result.Model);
             Assert.Equal(0, contractVm.Doorlooptijd);
             //Verify
-            _mockContractRepository.Verify(mock => mock.GetAllByClientId(USERID), Times.Once);
+            _mockContractRepository.Verify(mock => mock.GetAllByClientId(_userId), Times.Once);
 
         }
 
@@ -130,7 +130,7 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
             var contractVm = new EditViewModel()
             {
                 Startdatum = DateTime.Today,
-                ContractType = 1,
+                ContractTypeId = 1,
                 Doorlooptijd = 2
             };
             var result = Assert.IsType<RedirectToActionResult>(_contractController.Create(contractVm));
@@ -153,7 +153,7 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
             var contractVm = new EditViewModel()
             {
                 Startdatum = DateTime.Today,
-                ContractType = 1,
+                ContractTypeId = 1,
                 Doorlooptijd = 20000 //fout
             };
             var result = Assert.IsType<RedirectToActionResult>(_contractController.Create(contractVm));
@@ -171,7 +171,7 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
 
             _contractController.Create(contractVm);
 
-            Assert.Equal(_contractActief.ContractType.ContractTypeId, contractVm.ContractType);
+            Assert.Equal(_contractActief.ContractType.ContractTypeId, contractVm.ContractTypeId);
             Assert.Equal(_contractActief.StartDatum, contractVm.Startdatum);
             Assert.Equal(_contractActief.Doorlooptijd, contractVm.Doorlooptijd);
             _mockContractRepository.Verify(m => m.Add(It.IsNotNull<Contract>()), Times.Never);
@@ -183,7 +183,7 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
         {
             //Arrange
             //dit zorgt ervoor dat er geen contracten van type1 mogen gemaakt worden
-            _contracts.Add(new Contract(DateTime.Now, _dummyContext.Contract24_7, 1, USERID, ContractEnContractTypeStatus.InBehandeling));
+            _contracts.Add(new Contract(DateTime.Now, _dummyContext.Contract24_7, 1, _userId, ContractEnContractTypeStatus.InBehandeling));
 
             _mockContractRepository.Setup(p => p.GetByStatusByClientId(It.IsNotNull<string>(), new List<ContractEnContractTypeStatus> { ContractEnContractTypeStatus.Actief, ContractEnContractTypeStatus.InBehandeling }))
                 .Returns(_contracts);
@@ -193,7 +193,7 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
             var contractVm = new EditViewModel()
             {
                 Startdatum = DateTime.Today,
-                ContractType = 0, //0 omdat het contracttype uit de dummy nog geen id heeft.
+                ContractTypeId = 0, //0 omdat het contracttype uit de dummy nog geen id heeft.
                 Doorlooptijd = 2
             };
             //Act

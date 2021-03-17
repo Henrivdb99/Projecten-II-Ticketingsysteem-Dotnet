@@ -8,7 +8,7 @@ namespace Projecten2_TicketingPlatform.Models.ContractViewModels
     {
         [Required(ErrorMessage = "U moet een type kiezen.")]
         [Display(Name = "Contract type")]
-        public int ContractType { get; set; }
+        public int ContractTypeId { get; set; }
         [Required]
         [DataType(DataType.Date)]
         public DateTime Startdatum { get; set; } = DateTime.Today;
@@ -20,7 +20,7 @@ namespace Projecten2_TicketingPlatform.Models.ContractViewModels
         }
         public EditViewModel(Contract contract):this()
         {
-            ContractType = contract.ContractType.ContractTypeId;
+            ContractTypeId = contract.ContractType.ContractTypeId;
             Startdatum = contract.StartDatum;
             Doorlooptijd = contract.Doorlooptijd;
         }
