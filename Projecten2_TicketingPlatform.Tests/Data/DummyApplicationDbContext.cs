@@ -14,6 +14,7 @@ namespace Projecten2_TicketingPlatform.Tests.Data
         public ContractType Contract24_7 { get; set; }
         public ContractType ContractWerkuren { get; set; }
         public string UserId { get; set; }
+        public KnowledgeBase KnowledgeBase { get; }
 
         public DummyApplicationDbContext()
         {
@@ -27,6 +28,8 @@ namespace Projecten2_TicketingPlatform.Tests.Data
             ContractActief = new Contract(DateTime.Today, Contract24_7, 2, UserId, ContractEnContractTypeStatus.Actief);
             ContractNietActief = new Contract(DateTime.Today.AddDays(400), Contract24_7, 1, UserId, ContractEnContractTypeStatus.NietActief);
             ContractAfgelopen = new Contract(DateTime.Today.AddDays(-300), Contract24_7, 1, UserId, ContractEnContractTypeStatus.Afgelopen);
+            
+            KnowledgeBase = new KnowledgeBase("Vaakvoorkomend probleem 4", "Oplossing 4", DateTime.Today);
         }
     }
 }
