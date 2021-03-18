@@ -284,6 +284,27 @@ namespace Projecten2_TicketingPlatform.Data.Migrations
                     b.ToTable("ContractTypes");
                 });
 
+            modelBuilder.Entity("Projecten2_TicketingPlatform.Models.Domein.KnowledgeBase", b =>
+                {
+                    b.Property<int>("KnowledgeBaseId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DatumToevoegen")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Omschrijving")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Titel")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("KnowledgeBaseId");
+
+                    b.ToTable("KnowledgeBase");
+                });
+
             modelBuilder.Entity("Projecten2_TicketingPlatform.Models.Domein.Ticket", b =>
                 {
                     b.Property<int>("Ticketid")

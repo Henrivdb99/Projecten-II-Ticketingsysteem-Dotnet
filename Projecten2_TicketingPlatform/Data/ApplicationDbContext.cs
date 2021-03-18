@@ -23,7 +23,7 @@ namespace Projecten2_TicketingPlatform.Data
             builder.ApplyConfiguration(new ContractTypeConfiguration());
             builder.ApplyConfiguration(new ContractConfiguration());
             builder.ApplyConfiguration(new ContractTypeConfiguration());
-
+            builder.ApplyConfiguration(new KnowledgeBaseConfiguration());
 
         }
     }

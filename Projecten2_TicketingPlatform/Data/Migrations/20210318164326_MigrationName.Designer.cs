@@ -10,7 +10,7 @@ using Projecten2_TicketingPlatform.Data;
 namespace Projecten2_TicketingPlatform.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210318133948_MigrationName")]
+    [Migration("20210318164326_MigrationName")]
     partial class MigrationName
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -284,6 +284,27 @@ namespace Projecten2_TicketingPlatform.Data.Migrations
                     b.HasKey("ContractTypeId");
 
                     b.ToTable("ContractTypes");
+                });
+
+            modelBuilder.Entity("Projecten2_TicketingPlatform.Models.Domein.KnowledgeBase", b =>
+                {
+                    b.Property<int>("KnowledgeBaseId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DatumToevoegen")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Omschrijving")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Titel")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("KnowledgeBaseId");
+
+                    b.ToTable("KnowledgeBase");
                 });
 
             modelBuilder.Entity("Projecten2_TicketingPlatform.Models.Domein.Ticket", b =>

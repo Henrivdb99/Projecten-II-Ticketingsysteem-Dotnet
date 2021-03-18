@@ -21,7 +21,8 @@ namespace Projecten2_TicketingPlatform.Data
         public async Task InitializeData()
         {
             //_dbcontext.Database.EnsureDeleted();
-            if (false)//if (_dbcontext.Database.EnsureCreated())
+            /*
+            if (false)//if (_dbcontext.Database.EnsureCreated()) GEVAARLIJKE CODE, NIET RUNNEN OF WE HEBBEN REDUNDANTE DATA!!!!!!
             {
                await InitializeUsers();
                 
@@ -47,6 +48,10 @@ namespace Projecten2_TicketingPlatform.Data
                 _dbcontext.ContractTypes.Add(contractWerkuren);
                 _dbcontext.ContractTypes.Add(contract24_7Email);
 
+                foreach (Contract c  in _dbcontext.Contracten)
+                {
+                    _dbcontext.Contracten.Remove(c);
+                }
 
                 var contractenVoorKlant = new List<Contract>
                 {
@@ -80,7 +85,7 @@ namespace Projecten2_TicketingPlatform.Data
 
 
                 _dbcontext.SaveChanges();
-            }
+            }*/
         }
 
         private async Task InitializeUsers()

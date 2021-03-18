@@ -58,13 +58,13 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
         [Fact]
         public void CreateHttpGet_ActiefContract_PassesDetailsOfANewTicketInEditViewModelToView()
         {
-            _mockContractRepository.Setup(m => m.HasActiveContracts(_userId)).Returns(true); 
+            _mockContractRepository.Setup(m => m.IsAllowedToCreateTickets(_userId)).Returns(true); 
 
             var result = Assert.IsType<ViewResult>(_ticketController.Create());
 
             var ticketVm = Assert.IsType<EditViewModel>(result.Model);
             Assert.Null(ticketVm.Titel);
-            _mockContractRepository.Verify(mocks => mocks.HasActiveContracts(_userId), Times.Once);
+            _mockContractRepository.Verify(mocks => mocks.IsAllowedToCreateTickets(_userId), Times.Once);
 
         }
         //public void CreateHttpGet_NietActiefContract_PassesNoDetailsOfANewTicketInEditViewModelToView()
@@ -75,7 +75,7 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
         public void CreateHttpPost_ValidTicket_AddsNewTicketToRepositoryAndRedirectsToIndex()
         {
             _mockTicketRepository.Setup(p => p.Add(It.IsNotNull<Ticket>()));
-            _mockContractRepository.Setup(m => m.HasActiveContracts(_userId)).Returns(true); 
+            _mockContractRepository.Setup(m => m.IsAllowedToCreateTickets(_userId)).Returns(true); 
 
 
             var ticketVm = new EditViewModel()
@@ -89,7 +89,7 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
             Assert.Equal("Index", result.ActionName);
             _mockTicketRepository.Verify(m => m.Add(It.IsNotNull<Ticket>()), Times.Once);
             _mockTicketRepository.Verify(m => m.SaveChanges(), Times.Once);
-            _mockContractRepository.Verify(mocks => mocks.HasActiveContracts(_userId), Times.Once);
+            _mockContractRepository.Verify(mocks => mocks.IsAllowedToCreateTickets(_userId), Times.Once);
 
         }
 
@@ -97,7 +97,7 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
         public void CreateHttpPost_ValidTicketFromSupportManager_AddsNewTicketToRepositoryAndRedirectsToIndex()
         {
             _mockTicketRepository.Setup(p => p.Add(It.IsNotNull<Ticket>()));
-            _mockContractRepository.Setup(m => m.HasActiveContracts(_userId)).Returns(true);
+            _mockContractRepository.Setup(m => m.IsAllowedToCreateTickets(_userId)).Returns(true);
 
 
             var ticketVm = new EditViewModel()
@@ -112,7 +112,7 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
             Assert.Equal("Index", result.ActionName);
             _mockTicketRepository.Verify(m => m.Add(It.IsNotNull<Ticket>()), Times.Once);
             _mockTicketRepository.Verify(m => m.SaveChanges(), Times.Once);
-            _mockContractRepository.Verify(mocks => mocks.HasActiveContracts(_userId), Times.Once);
+            _mockContractRepository.Verify(mocks => mocks.IsAllowedToCreateTickets(_userId), Times.Once);
 
         }
         [Fact]
