@@ -39,8 +39,8 @@ namespace Projecten2_TicketingPlatform.Data.Repositories
                 return true;
             else
                 return false; */
-
-            return (_contracten.Where(t => t.ClientId.Equals(klantId)).Any(t => t.ContractStatus.Equals(ContractEnContractTypeStatus.Actief)));
+            IEnumerable<ManierVanAanmakenTicket> applicatieStatussen = new List<ManierVanAanmakenTicket> { ManierVanAanmakenTicket.Applicatie, ManierVanAanmakenTicket.EmailEnApplicatie, ManierVanAanmakenTicket.EmailEnTelefonischEnApplicatie, ManierVanAanmakenTicket.TelefonischEnApplicatie };
+            return (_contracten.Where(t => t.ClientId.Equals(klantId)).Any(t => t.ContractStatus.Equals(ContractEnContractTypeStatus.Actief) && applicatieStatussen.Contains(t.ContractType.ManierVanAanmakenTicket)));
 
         }
 

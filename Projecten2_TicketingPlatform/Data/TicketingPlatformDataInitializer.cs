@@ -39,11 +39,14 @@ namespace Projecten2_TicketingPlatform.Data
             };
 
                 _dbcontext.Tickets.AddRange(tickets);
-               
-                   ContractType contract24_7= new ContractType("Contract24/7", ContractEnContractTypeStatus.Actief, ManierVanAanmakenTicket.EmailEnTelefonischEnApplicatie, TijdstipTicketAanmaken.Altijd, 1, 10, 100);
-                   ContractType contractWerkuren= new ContractType("ContractWerkuren", ContractEnContractTypeStatus.Actief, ManierVanAanmakenTicket.EmailEnTelefonischEnApplicatie, TijdstipTicketAanmaken.TijdensWerkdagen, 1, 10, 100);
+
+                ContractType contract24_7Email = new ContractType("Email Contract 24/7", ContractEnContractTypeStatus.Actief, ManierVanAanmakenTicket.EmailEnTelefonischEnApplicatie, TijdstipTicketAanmaken.Altijd, 1, 10, 100);
+                ContractType contract24_7 = new ContractType("Applicatie Contract 24/7", ContractEnContractTypeStatus.Actief, ManierVanAanmakenTicket.EmailEnTelefonischEnApplicatie, TijdstipTicketAanmaken.Altijd, 1, 10, 100);
+                   ContractType contractWerkuren= new ContractType("Applicatie Contract Werkuren", ContractEnContractTypeStatus.Actief, ManierVanAanmakenTicket.EmailEnTelefonischEnApplicatie, TijdstipTicketAanmaken.TijdensWerkdagen, 1, 10, 100);
                 _dbcontext.ContractTypes.Add(contract24_7);
                 _dbcontext.ContractTypes.Add(contractWerkuren);
+                _dbcontext.ContractTypes.Add(contract24_7Email);
+
 
                 var contractenVoorKlant = new List<Contract>
                 {
@@ -53,7 +56,9 @@ namespace Projecten2_TicketingPlatform.Data
                     new Contract(DateTime.Today.AddMonths(-28), contract24_7, 2, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105", ContractEnContractTypeStatus.Afgelopen),
                     new Contract(DateTime.Today.AddMonths(-3), contractWerkuren, 2, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105", ContractEnContractTypeStatus.Actief),
                     new Contract(DateTime.Today.AddYears(-4), contract24_7, 3, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105",ContractEnContractTypeStatus.Afgelopen),
-                    new Contract(DateTime.Today.AddMonths(-4), contract24_7,  3, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105",ContractEnContractTypeStatus.NietActief)
+                    new Contract(DateTime.Today.AddMonths(-4), contract24_7,  3, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105",ContractEnContractTypeStatus.NietActief),
+                    new Contract(DateTime.Today.AddMonths(-4), contract24_7Email,  3, "210771fc - 5d15 - 4e7c - a902 - a3a2fd4e2815",ContractEnContractTypeStatus.Actief)
+
                 };
                 _dbcontext.Contracten.AddRange(contractenVoorKlant);
 
