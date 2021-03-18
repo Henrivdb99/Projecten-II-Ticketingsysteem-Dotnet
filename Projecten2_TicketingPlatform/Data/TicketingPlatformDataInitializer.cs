@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿/*using Microsoft.AspNetCore.Identity;
 using Projecten2_TicketingPlatform.Models.Domein;
 using System;
 using System.Collections.Generic;
@@ -21,11 +21,11 @@ namespace Projecten2_TicketingPlatform.Data
         public async Task InitializeData()
         {
             //_dbcontext.Database.EnsureDeleted();
-            /*
+
             if (false)//if (_dbcontext.Database.EnsureCreated()) GEVAARLIJKE CODE, NIET RUNNEN OF WE HEBBEN REDUNDANTE DATA!!!!!!
             {
-               await InitializeUsers();
-                
+                await InitializeUsers();
+
                 ////Nog aan te vullen verdere data later in project.
                 var tickets = new List<Ticket>
             {
@@ -43,12 +43,12 @@ namespace Projecten2_TicketingPlatform.Data
 
                 ContractType contract24_7Email = new ContractType("Email Contract 24/7", ContractEnContractTypeStatus.Actief, ManierVanAanmakenTicket.EmailEnTelefonischEnApplicatie, TijdstipTicketAanmaken.Altijd, 1, 10, 100);
                 ContractType contract24_7 = new ContractType("Applicatie Contract 24/7", ContractEnContractTypeStatus.Actief, ManierVanAanmakenTicket.EmailEnTelefonischEnApplicatie, TijdstipTicketAanmaken.Altijd, 1, 10, 100);
-                   ContractType contractWerkuren= new ContractType("Applicatie Contract Werkuren", ContractEnContractTypeStatus.Actief, ManierVanAanmakenTicket.EmailEnTelefonischEnApplicatie, TijdstipTicketAanmaken.TijdensWerkdagen, 1, 10, 100);
+                ContractType contractWerkuren = new ContractType("Applicatie Contract Werkuren", ContractEnContractTypeStatus.Actief, ManierVanAanmakenTicket.EmailEnTelefonischEnApplicatie, TijdstipTicketAanmaken.TijdensWerkdagen, 1, 10, 100);
                 _dbcontext.ContractTypes.Add(contract24_7);
                 _dbcontext.ContractTypes.Add(contractWerkuren);
                 _dbcontext.ContractTypes.Add(contract24_7Email);
 
-                foreach (Contract c  in _dbcontext.Contracten)
+                foreach (Contract c in _dbcontext.Contracten)
                 {
                     _dbcontext.Contracten.Remove(c);
                 }
@@ -85,7 +85,7 @@ namespace Projecten2_TicketingPlatform.Data
 
 
                 _dbcontext.SaveChanges();
-            }*/
+            }
         }
 
         private async Task InitializeUsers()
@@ -117,3 +117,4 @@ namespace Projecten2_TicketingPlatform.Data
         }
     }
 }
+*/
