@@ -33,14 +33,19 @@ namespace Projecten2_TicketingPlatform.Data.Repositories
             return _contracten.Where(t => t.ClientId.Equals(klantId)).Where(p => contractStatuses.Contains(p.ContractStatus)).Include(c => c.ContractType).OrderByDescending(p => p.EindDatum).AsNoTracking().ToList();
         }
 
-        public bool HasActiveContracts(string klantId)
+        public bool IsAllowedToCreateTickets(string klantId)
         {
             /*if (_contracten.Where(t => t.ClientId.Equals(klantId)).Where(t => t.ContractStatus.Equals(ContractEnContractTypeStatus.Actief)).Count() != 0)
                 return true;
             else
                 return false; */
             IEnumerable<ManierVanAanmakenTicket> applicatieStatussen = new List<ManierVanAanmakenTicket> { ManierVanAanmakenTicket.Applicatie, ManierVanAanmakenTicket.EmailEnApplicatie, ManierVanAanmakenTicket.EmailEnTelefonischEnApplicatie, ManierVanAanmakenTicket.TelefonischEnApplicatie };
-            return (_contracten.Where(t => t.ClientId.Equals(klantId)).Any(t => t.ContractStatus.Equals(ContractEnContractTypeStatus.Actief) && applicatieStatussen.Contains(t.ContractType.ManierVanAanmakenTicket)));
+            return _contracten
+                .Where(t => t.ClientId.Equals(klantId))
+                .Any(
+                    t => (t.ContractStatus.Equals(ContractEnContractTypeStatus.Actief) 
+                    && applicatieStatussen.Contains(t.ContractType.ManierVanAanmakenTicket))
+                 );
 
         }
 
