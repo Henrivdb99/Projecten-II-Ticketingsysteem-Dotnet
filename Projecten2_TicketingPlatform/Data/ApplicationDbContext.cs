@@ -19,7 +19,10 @@ namespace Projecten2_TicketingPlatform.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.ApplyConfiguration(new TicketConfiguration());
+            builder.ApplyConfiguration(new ContractTypeConfiguration());
+            builder.ApplyConfiguration(new ContractConfiguration());
+            builder.ApplyConfiguration(new ContractTypeConfiguration());
+
 
         }
     }

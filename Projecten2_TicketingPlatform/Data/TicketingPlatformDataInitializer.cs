@@ -21,9 +21,9 @@ namespace Projecten2_TicketingPlatform.Data
         public async Task InitializeData()
         {
             //_dbcontext.Database.EnsureDeleted();
-            //if (_dbcontext.Database.EnsureCreated())
+            if (false)//if (_dbcontext.Database.EnsureCreated())
             {
-               // await InitializeUsers();
+               await InitializeUsers();
                 
                 ////Nog aan te vullen verdere data later in project.
                 var tickets = new List<Ticket>
