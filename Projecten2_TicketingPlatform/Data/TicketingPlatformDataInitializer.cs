@@ -57,7 +57,21 @@ namespace Projecten2_TicketingPlatform.Data
                 };
                 _dbcontext.Contracten.AddRange(contractenVoorKlant);
 
+                var knowledgdeBases = new List<KnowledgeBase>
+            {
+                     new KnowledgeBase("Hoe kan ik me aanmelden?","Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", DateTime.Today),
+                     new KnowledgeBase("Hoe kan ik mijn wachtwoord aanpassen?","Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", DateTime.Today),
+                     new KnowledgeBase("Wat doe ik bij Error 5038","Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", DateTime.Today),
+                     new KnowledgeBase("Vaakvoorkomend probleem 4","Oplossing 4", DateTime.Today),
+                     new KnowledgeBase("Vaakvoorkomend probleem 5","Oplossing 5", DateTime.Today),
+                     new KnowledgeBase("Vaakvoorkomend probleem 6","Oplossing 6", DateTime.Today),
+                     new KnowledgeBase("Vaakvoorkomend probleem 7","Oplossing 7", DateTime.Today),
+                     new KnowledgeBase("Vaakvoorkomend probleem 8","Oplossing 8", DateTime.Today),
+                     new KnowledgeBase("Vaakvoorkomend probleem 9","Oplossing 9", DateTime.Today),
+                     new KnowledgeBase("Vaakvoorkomend probleem 10","Oplossing 10", DateTime.Today),
+            };
 
+                _dbcontext.KnowledgeBase.AddRange(knowledgdeBases);
 
 
                 _dbcontext.SaveChanges();
