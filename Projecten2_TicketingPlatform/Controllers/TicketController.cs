@@ -83,7 +83,7 @@ namespace Projecten2_TicketingPlatform.Controllers
         #region == Create Methodes ==
         public IActionResult Create()
         {
-           if (_contractRepository.HasActiveContracts(_userManager.GetUserId(User)) || User.IsInRole("supportmanager"))
+           if (_contractRepository.IsAllowedToCreateTickets(_userManager.GetUserId(User)) || User.IsInRole("supportmanager"))
             {
                 ViewData["IsEdit"] = false;
                 ViewData["TicketType"] = TicketTypesAsSelectList();
@@ -109,7 +109,7 @@ namespace Projecten2_TicketingPlatform.Controllers
                     {
                         klantId = ticketVm.KlantId;
                     }
-                    if (!_contractRepository.HasActiveContracts(klantId))
+                    if (!_contractRepository.IsAllowedToCreateTickets(klantId))
                     {
                         throw new ArgumentException("Dit account heeft geen actieve contracten.");
                     }

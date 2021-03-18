@@ -39,11 +39,14 @@ namespace Projecten2_TicketingPlatform.Data
             };
 
                 _dbcontext.Tickets.AddRange(tickets);
-               
-                   ContractType contract24_7= new ContractType("Contract24/7", ContractEnContractTypeStatus.Actief, ManierVanAanmakenTicket.EmailEnTelefonischEnApplicatie, TijdstipTicketAanmaken.Altijd, 1, 10, 100);
-                   ContractType contractWerkuren= new ContractType("ContractWerkuren", ContractEnContractTypeStatus.Actief, ManierVanAanmakenTicket.EmailEnTelefonischEnApplicatie, TijdstipTicketAanmaken.TijdensWerkdagen, 1, 10, 100);
+
+                ContractType contract24_7Email = new ContractType("Email Contract 24/7", ContractEnContractTypeStatus.Actief, ManierVanAanmakenTicket.EmailEnTelefonischEnApplicatie, TijdstipTicketAanmaken.Altijd, 1, 10, 100);
+                ContractType contract24_7 = new ContractType("Applicatie Contract 24/7", ContractEnContractTypeStatus.Actief, ManierVanAanmakenTicket.EmailEnTelefonischEnApplicatie, TijdstipTicketAanmaken.Altijd, 1, 10, 100);
+                   ContractType contractWerkuren= new ContractType("Applicatie Contract Werkuren", ContractEnContractTypeStatus.Actief, ManierVanAanmakenTicket.EmailEnTelefonischEnApplicatie, TijdstipTicketAanmaken.TijdensWerkdagen, 1, 10, 100);
                 _dbcontext.ContractTypes.Add(contract24_7);
                 _dbcontext.ContractTypes.Add(contractWerkuren);
+                _dbcontext.ContractTypes.Add(contract24_7Email);
+
 
                 var contractenVoorKlant = new List<Contract>
                 {
@@ -53,11 +56,27 @@ namespace Projecten2_TicketingPlatform.Data
                     new Contract(DateTime.Today.AddMonths(-28), contract24_7, 2, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105", ContractEnContractTypeStatus.Afgelopen),
                     new Contract(DateTime.Today.AddMonths(-3), contractWerkuren, 2, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105", ContractEnContractTypeStatus.Actief),
                     new Contract(DateTime.Today.AddYears(-4), contract24_7, 3, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105",ContractEnContractTypeStatus.Afgelopen),
-                    new Contract(DateTime.Today.AddMonths(-4), contract24_7,  3, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105",ContractEnContractTypeStatus.NietActief)
+                    new Contract(DateTime.Today.AddMonths(-4), contract24_7,  3, "210771fc - 21f2 - 47e4 - a902 - 986e2d199105",ContractEnContractTypeStatus.NietActief),
+                    new Contract(DateTime.Today.AddMonths(-4), contract24_7Email,  3, "210771fc - 5d15 - 4e7c - a902 - a3a2fd4e2815",ContractEnContractTypeStatus.Actief)
+
                 };
                 _dbcontext.Contracten.AddRange(contractenVoorKlant);
 
+                var knowledgdeBases = new List<KnowledgeBase>
+            {
+                     new KnowledgeBase("Hoe kan ik me aanmelden?","Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", DateTime.Today),
+                     new KnowledgeBase("Hoe kan ik mijn wachtwoord aanpassen?","Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", DateTime.Today),
+                     new KnowledgeBase("Wat doe ik bij Error 5038","Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", DateTime.Today),
+                     new KnowledgeBase("Vaakvoorkomend probleem 4","Oplossing 4", DateTime.Today),
+                     new KnowledgeBase("Vaakvoorkomend probleem 5","Oplossing 5", DateTime.Today),
+                     new KnowledgeBase("Vaakvoorkomend probleem 6","Oplossing 6", DateTime.Today),
+                     new KnowledgeBase("Vaakvoorkomend probleem 7","Oplossing 7", DateTime.Today),
+                     new KnowledgeBase("Vaakvoorkomend probleem 8","Oplossing 8", DateTime.Today),
+                     new KnowledgeBase("Vaakvoorkomend probleem 9","Oplossing 9", DateTime.Today),
+                     new KnowledgeBase("Vaakvoorkomend probleem 10","Oplossing 10", DateTime.Today),
+            };
 
+                _dbcontext.KnowledgeBase.AddRange(knowledgdeBases);
 
 
                 _dbcontext.SaveChanges();
