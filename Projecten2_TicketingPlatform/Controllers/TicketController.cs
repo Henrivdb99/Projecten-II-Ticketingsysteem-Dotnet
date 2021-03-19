@@ -129,7 +129,7 @@ namespace Projecten2_TicketingPlatform.Controllers
 
                         _ticketRepository.Add(ticket);
                         _ticketRepository.SaveChanges();
-                        TempData["FoutMelding"] = "Aanmaken ticket gelukt!";
+                        TempData["Succes"] = "Aanmaken ticket gelukt!";
                     }
                 }
                 catch (ArgumentException ae)
