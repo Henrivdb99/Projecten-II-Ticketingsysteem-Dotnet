@@ -7,7 +7,7 @@
 <h1>@ViewData["Title"]</h1><br />
 <form asp-controller="KnowledgeBase" asp-action="Index" class="form-inline my-2 my-lg-0">
     <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="SearchString">
-    <button class="btn btn-primary my-2 my-sm-0" type="submit">Zoek</button>
+    <button class="btn btn-primary" type="submit">Zoek</button>
 </form><br />
 <table class="table table-striped ">   
     <tbody>
@@ -16,7 +16,7 @@
         {
             <tr>
                 <td data-toggle="collapse" href="#collapse_@collapseId" role="button" aria-expanded="false" style="cursor: pointer;" >
-                    @Html.DisplayFor(modelItem => item.Titel)
+                    <h6>@Html.DisplayFor(modelItem => item.Titel)</h6> 
                 </td>                
             </tr>
             <tr>
