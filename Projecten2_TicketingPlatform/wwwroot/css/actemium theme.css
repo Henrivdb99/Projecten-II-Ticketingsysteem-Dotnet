@@ -76,7 +76,6 @@ hr {
 h1, h2, h3, h4, h5, h6 {
     margin-top: 0;
     margin-bottom: .5rem;
-    color: #054487
 }
 
 p {
@@ -332,15 +331,18 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
 h1, .h1 {
     margin-top: 15px;
-    font-size: 2.5rem
+    font-size: 2.5rem;
+    color: #054487
 }
 
 h2, .h2 {
-    font-size: 2rem
+    font-size: 2rem;
+    color: #054487
 }
 
 h3, .h3 {
-    font-size: 1.75rem
+    font-size: 1.75rem;
+    color: #054487
 }
 
 h4, .h4 {
@@ -348,11 +350,13 @@ h4, .h4 {
 }
 
 h5, .h5 {
-    font-size: 1.25rem
+    font-size: 1.25rem;
+    color: #054487
 }
 
 h6, .h6 {
-    font-size: 1rem
+    font-size: 1rem;
+    color: #054487
 }
 
 .lead {
@@ -1247,7 +1251,9 @@ textarea.form-control {
     font-size: 1rem;
     line-height: 1.5;
     border-radius: .25rem;
-    transition: color 0.15s ease-in-out,background-color 0.15s ease-in-out,border-color 0.15s ease-in-out,box-shadow 0.15s ease-in-out
+    transition: color 0.15s ease-in-out,background-color 0.15s ease-in-out,border-color 0.15s ease-in-out,box-shadow 0.15s ease-in-out;
+    white-space: nowrap;
+    overflow: hidden
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1564,7 +1570,7 @@ a.btn.disabled, fieldset:disabled a.btn {
 }
 
     .btn-outline-primary:hover {
-        color: #fff;
+        color: #fff !important;
         background-color: #054487;
         border-color: #054487
     }
@@ -1822,7 +1828,8 @@ a.btn.disabled, fieldset:disabled a.btn {
     padding: .5rem 1rem;
     font-size: 1.25rem;
     line-height: 1.5;
-    border-radius: .3rem
+    border-radius: .3rem;
+    height: 120px
 }
 
 .btn-sm, .btn-group-sm > .btn {
@@ -2805,7 +2812,7 @@ input[type="submit"].btn-block, input[type="reset"].btn-block, input[type="butto
 }
 
 .nav {
-    display: flex;
+    display: inline-block;
     flex-wrap: wrap;
     padding-left: 0;
     margin-bottom: 0;
