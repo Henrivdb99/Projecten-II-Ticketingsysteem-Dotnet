@@ -109,7 +109,7 @@ namespace Projecten2_TicketingPlatform.Controllers
                     {
                         klantId = ticketVm.KlantId;
                     }
-                    if (IsAllowedToCreateTickets(klantId))
+                    if (!IsAllowedToCreateTickets(klantId))
                     {
                         throw new ArgumentException("Dit account heeft geen actieve contracten.");
                     }
@@ -246,3 +246,11 @@ namespace Projecten2_TicketingPlatform.Controllers
         }
     }
 }
+/*IEnumerable<ManierVanAanmakenTicket> applicatieStatussen = new List<ManierVanAanmakenTicket> { ManierVanAanmakenTicket.Applicatie, ManierVanAanmakenTicket.EmailEnApplicatie, ManierVanAanmakenTicket.EmailEnTelefonischEnApplicatie, ManierVanAanmakenTicket.TelefonischEnApplicatie };
+return _contracten
+    .Where(t => t.ClientId.Equals(klantId))
+    .Any(
+        t => (t.ContractStatus.Equals(ContractEnContractTypeStatus.Actief)
+        && applicatieStatussen.Contains(t.ContractType.ManierVanAanmakenTicket))
+     );*/
+
