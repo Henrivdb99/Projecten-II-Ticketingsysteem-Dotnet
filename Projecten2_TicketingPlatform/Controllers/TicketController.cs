@@ -83,7 +83,7 @@ namespace Projecten2_TicketingPlatform.Controllers
         #region == Create Methodes ==
         public IActionResult Create()
         {
-           if (_contractRepository.IsAllowedToCreateTickets(_userManager.GetUserId(User)) || User.IsInRole("supportmanager"))
+           if (IsAllowedToCreateTickets(_userManager.GetUserId(User)) || User.IsInRole("supportmanager"))
             {
                 ViewData["IsEdit"] = false;
                 ViewData["TicketType"] = TicketTypesAsSelectList();
@@ -109,7 +109,7 @@ namespace Projecten2_TicketingPlatform.Controllers
                     {
                         klantId = ticketVm.KlantId;
                     }
-                    if (!_contractRepository.IsAllowedToCreateTickets(klantId))
+                    if (IsAllowedToCreateTickets(klantId))
                     {
                         throw new ArgumentException("Dit account heeft geen actieve contracten.");
                     }
@@ -234,6 +234,15 @@ namespace Projecten2_TicketingPlatform.Controllers
             };
 
             return new SelectList(newList, "Value", "Text", selected); ;
+        }
+
+        private bool IsAllowedToCreateTickets(string klantId) {
+            IEnumerable<ManierVanAanmakenTicket> applicatieStatussen = new List<ManierVanAanmakenTicket> { ManierVanAanmakenTicket.Applicatie, ManierVanAanmakenTicket.EmailEnApplicatie, ManierVanAanmakenTicket.EmailEnTelefonischEnApplicatie, ManierVanAanmakenTicket.TelefonischEnApplicatie };
+            return _contractRepository.GetAllByClientId(klantId)
+                .Any(
+                    t => (t.ContractStatus.Equals(ContractEnContractTypeStatus.Actief)
+                    && applicatieStatussen.Contains(t.ContractType.ManierVanAanmakenTicket))
+                 );
         }
     }
 }

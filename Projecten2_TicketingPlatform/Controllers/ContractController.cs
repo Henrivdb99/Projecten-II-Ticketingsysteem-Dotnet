@@ -24,18 +24,18 @@ namespace Projecten2_TicketingPlatform.Controllers
         }
         public IActionResult Index(ContractEnContractTypeStatus contractStatus = ContractEnContractTypeStatus.Standaard)
         {
-            IEnumerable<Contract> contracten;
-            if (contractStatus== ContractEnContractTypeStatus.Standaard)
-            {
-                contracten = _contractRepository.GetByStatusByClientId(_userManager.GetUserId(User), new List<ContractEnContractTypeStatus> { ContractEnContractTypeStatus.Actief, ContractEnContractTypeStatus.InBehandeling } );
-            }else
+            IEnumerable<Contract> contracten = _contractRepository.GetAllByClientId(_userManager.GetUserId(User));
             if (contractStatus == ContractEnContractTypeStatus.Alle)
             {
-                contracten = _contractRepository.GetAllByClientId(_userManager.GetUserId(User));
+                //geen gefilter, alle contracten meegeven
+            }
+            else if (contractStatus== ContractEnContractTypeStatus.Standaard)
+            {
+                contracten = FilterContractenOpStatussen(contracten, new List<ContractEnContractTypeStatus> { ContractEnContractTypeStatus.Actief, ContractEnContractTypeStatus.InBehandeling } );
             }
             else
             {
-                contracten = _contractRepository.GetByStatusByClientId(_userManager.GetUserId(User), new List<ContractEnContractTypeStatus> { contractStatus });
+                contracten = FilterContractenOpStatussen((contracten), new List<ContractEnContractTypeStatus> { contractStatus });
             }
             if (contracten.Count() == 0)
             {
@@ -70,7 +70,8 @@ namespace Projecten2_TicketingPlatform.Controllers
                 {
                     Contract contract = new Contract(contractVm.Startdatum, _contractTypeRepository.GetById(contractVm.ContractTypeId), contractVm.Doorlooptijd, _userManager.GetUserId(User));
 
-                    IEnumerable<Contract> contracten = _contractRepository.GetByStatusByClientId(_userManager.GetUserId(User), new List<ContractEnContractTypeStatus> { ContractEnContractTypeStatus.Actief, ContractEnContractTypeStatus.InBehandeling });
+                    IEnumerable<Contract> contracten = _contractRepository.GetAllByClientId(_userManager.GetUserId(User));
+                    contracten = FilterContractenOpStatussen(contracten, new List<ContractEnContractTypeStatus> { ContractEnContractTypeStatus.Actief, ContractEnContractTypeStatus.InBehandeling });
                     //Een klant kan per contracttype maar één contract met de status “in behandeling” of  “actief” hebben 
                     if (contracten.Any(c => c.ContractType.ContractTypeId == contractVm.ContractTypeId)) 
                     {
@@ -120,5 +121,15 @@ namespace Projecten2_TicketingPlatform.Controllers
         }
         #endregion
 
+        #region === Private ===
+
+        private IEnumerable<Contract> FilterContractenOpStatussen(IEnumerable<Contract> contracten, IEnumerable<ContractEnContractTypeStatus> contractStatuses)
+        {
+            return contracten.Where(p => contractStatuses.Contains(p.ContractStatus)).OrderByDescending(p => p.EindDatum).ToList();
+        }
+
+        #endregion
     }
+
+
 }
