@@ -8,10 +8,24 @@ namespace Projecten2_TicketingPlatform.Models.Domein
     public class Contract
     {
         private int _doorlooptijd;
+        private ContractType _contractType;
 
         public int ContractId { get; set; }
         public DateTime StartDatum { get; set; }
-        public ContractType ContractType { get; set; }
+        public ContractType ContractType {
+            get => _contractType;
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentException("ContractType mag niet leeg zijn");
+                }
+                else
+                {
+                    _contractType = value;
+                }
+            }
+        }
         public DateTime EindDatum { get; set; }
         public string ClientId { get; set; }
         //public int Doorlooptijd { get; set; }
