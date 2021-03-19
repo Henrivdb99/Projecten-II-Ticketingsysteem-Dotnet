@@ -23,6 +23,7 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
         private readonly Ticket _ticket;
         private readonly DummyApplicationDbContext _dummyContext = new DummyApplicationDbContext();
         private readonly int _onbestaandeId;
+        private readonly List<Contract> _contracts;
         private readonly Mock<UserManager<IdentityUser>> _mockUserManager;
         private readonly Mock<IContractRepository> _mockContractRepository;
         private readonly string _userId; //"bff6a934 - 0dca - 4965 - b9fc - 91c3290792c8"
@@ -35,6 +36,11 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
             _mockTicketRepository.Setup(p => p.GetById(1)).Returns(_dummyContext.Ticket);
             _ticket = _dummyContext.Ticket;
             _onbestaandeId = 9999;
+            _contracts = new List<Contract>
+            {
+                _dummyContext.ContractActief,
+                _dummyContext.ContractNietActief
+            };
             var store = new Mock<IUserStore<IdentityUser>>();
             store.Setup(x => x.FindByIdAsync("123", CancellationToken.None))
                 .ReturnsAsync(new IdentityUser()
@@ -58,13 +64,15 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
         [Fact]
         public void CreateHttpGet_ActiefContract_PassesDetailsOfANewTicketInEditViewModelToView()
         {
-            _mockContractRepository.Setup(m => m.IsAllowedToCreateTickets(_userId)).Returns(true); 
+            _mockContractRepository.Setup(r => r.GetAllByClientId(_userId))
+                .Returns(_contracts); //1 actief en 1 niet actief
 
             var result = Assert.IsType<ViewResult>(_ticketController.Create());
 
             var ticketVm = Assert.IsType<EditViewModel>(result.Model);
             Assert.Null(ticketVm.Titel);
-            _mockContractRepository.Verify(mocks => mocks.IsAllowedToCreateTickets(_userId), Times.Once);
+
+            _mockContractRepository.Verify(mock => mock.GetAllByClientId(_userId), Times.Once);
 
         }
         //public void CreateHttpGet_NietActiefContract_PassesNoDetailsOfANewTicketInEditViewModelToView()
@@ -74,9 +82,8 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
         [Fact]
         public void CreateHttpPost_ValidTicket_AddsNewTicketToRepositoryAndRedirectsToIndex()
         {
-            _mockTicketRepository.Setup(p => p.Add(It.IsNotNull<Ticket>()));
-            _mockContractRepository.Setup(m => m.IsAllowedToCreateTickets(_userId)).Returns(true); 
-
+            _mockContractRepository.Setup(r => r.GetAllByClientId(_userId))
+                .Returns(_contracts); //1 actief en 1 niet actief
 
             var ticketVm = new EditViewModel()
             {
@@ -87,18 +94,18 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
             var result = Assert.IsType<RedirectToActionResult>(_ticketController.Create(ticketVm));
 
             Assert.Equal("Index", result.ActionName);
+            _mockContractRepository.Verify(mock => mock.GetAllByClientId(_userId), Times.Once);
             _mockTicketRepository.Verify(m => m.Add(It.IsNotNull<Ticket>()), Times.Once);
             _mockTicketRepository.Verify(m => m.SaveChanges(), Times.Once);
-            _mockContractRepository.Verify(mocks => mocks.IsAllowedToCreateTickets(_userId), Times.Once);
+           
 
         }
 
         [Fact]
         public void CreateHttpPost_ValidTicketFromSupportManager_AddsNewTicketToRepositoryAndRedirectsToIndex()
         {
-            _mockTicketRepository.Setup(p => p.Add(It.IsNotNull<Ticket>()));
-            _mockContractRepository.Setup(m => m.IsAllowedToCreateTickets(_userId)).Returns(true);
-
+            _mockContractRepository.Setup(r => r.GetAllByClientId(_userId))
+                 .Returns(_contracts); //1 actief en 1 niet actief
 
             var ticketVm = new EditViewModel()
             {
@@ -112,7 +119,7 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
             Assert.Equal("Index", result.ActionName);
             _mockTicketRepository.Verify(m => m.Add(It.IsNotNull<Ticket>()), Times.Once);
             _mockTicketRepository.Verify(m => m.SaveChanges(), Times.Once);
-            _mockContractRepository.Verify(mocks => mocks.IsAllowedToCreateTickets(_userId), Times.Once);
+            _mockContractRepository.Verify(mock => mock.GetAllByClientId(_userId), Times.Once);
 
         }
         [Fact]

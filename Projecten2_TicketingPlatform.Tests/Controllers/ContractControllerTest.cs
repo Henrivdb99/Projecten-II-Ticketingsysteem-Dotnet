@@ -26,6 +26,7 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
         private readonly DummyApplicationDbContext _dummyContext = new DummyApplicationDbContext();
         private readonly List<Contract> _contracts;
         private readonly Mock<UserManager<IdentityUser>> _mockUserManager;
+        private readonly IEnumerable<ContractEnContractTypeStatus> _statussen;
         private readonly string _userId; //"bff6a934 - 0dca - 4965 - b9fc - 91c3290792c8"
 
         public ContractControllerTest()
@@ -51,6 +52,7 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
             _mockContractRepository = new Mock<IContractRepository>();
             _mockContractTypeRepository = new Mock<IContractTypeRepository>();
             _contracts = new List<Contract>() { _contractActief, _contractNietActief };
+            _statussen = new List<ContractEnContractTypeStatus> { ContractEnContractTypeStatus.Actief, ContractEnContractTypeStatus.InBehandeling };
 
             _contractController = new ContractController(_mockContractRepository.Object, _mockUserManager.Object, _mockContractTypeRepository.Object)
             {
@@ -60,21 +62,39 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
         #region == Index Methodes ==
 
         [Fact]
-        public void Index_ReturnsAViewResult_WithAListOfContracts()
+        public void IndexAlle_ReturnsAViewResult_WithAListOfContracts()
         {
             //Arrange
             List<ContractEnContractTypeStatus> statussen = new List<ContractEnContractTypeStatus> { ContractEnContractTypeStatus.Actief, ContractEnContractTypeStatus.InBehandeling };
-            _mockContractRepository.Setup(r => r.GetByStatusByClientId(_userId, statussen))
-                .Returns(_contracts);
+            _mockContractRepository.Setup(r => r.GetAllByClientId(_userId))
+                .Returns(_contracts); //1 actief en 1 niet actief
             //Act
-            var result = _contractController.Index();
+            var result = _contractController.Index(ContractEnContractTypeStatus.Alle);
             //Assert
             var viewResult = Assert.IsType<ViewResult>(result);
             var model = Assert.IsAssignableFrom<IEnumerable<Contract>>(
                 viewResult.ViewData.Model);
             Assert.Equal(2, model.Count());
             //Verify
-            _mockContractRepository.Verify(r => r.GetByStatusByClientId(_userId, statussen), Times.Once);
+            _mockContractRepository.Verify(r => r.GetAllByClientId(_userId), Times.Once);
+        }
+
+        [Fact]
+        public void Index_ReturnsAViewResult_WithAListOfContracts()
+        {
+            //Arrange
+            List<ContractEnContractTypeStatus> statussen = new List<ContractEnContractTypeStatus> { ContractEnContractTypeStatus.Actief, ContractEnContractTypeStatus.InBehandeling };
+            _mockContractRepository.Setup(r => r.GetAllByClientId(_userId))
+                .Returns(_contracts); //1 actief en 1 niet actief
+            //Act
+            var result = _contractController.Index(); //enkel de actieve en degene in behandeling
+            //Assert
+            var viewResult = Assert.IsType<ViewResult>(result);
+            var model = Assert.IsAssignableFrom<IEnumerable<Contract>>(
+                viewResult.ViewData.Model);
+            Assert.Single(model); // er zal slechts 1 getoon worden namelijk het actieve contract
+            //Verify
+            _mockContractRepository.Verify(r => r.GetAllByClientId(_userId), Times.Once);
         }
 
         [Fact]
@@ -124,7 +144,7 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
         public void CreateHttpPost_ValidTicket_AddsNewContractToRepositoryAndRedirectsToIndex()
         {
             _mockContractRepository.Setup(p => p.Add(It.IsNotNull<Contract>()));
-            _mockContractRepository.Setup(p => p.GetByStatusByClientId(It.IsNotNull<string>(), new List<ContractEnContractTypeStatus> { ContractEnContractTypeStatus.Actief, ContractEnContractTypeStatus.InBehandeling }))
+            _mockContractRepository.Setup(p => p.GetAllByClientId(It.IsNotNull<string>()))
                 .Returns(_contracts);
             _mockContractTypeRepository.Setup(p => p.GetById(It.IsNotNull<int>())).Returns(_dummyContext.Contract24_7);
             var contractVm = new EditViewModel()
@@ -137,7 +157,7 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
             Assert.Equal("Index", result.ActionName);
             _mockContractTypeRepository.Verify(m => m.GetById(It.IsNotNull<int>()), Times.Once);
             _mockContractRepository.Verify(m => m.Add(It.IsNotNull<Contract>()), Times.Once);
-            _mockContractRepository.Verify(m => m.GetByStatusByClientId(It.IsNotNull<string>(), new List<ContractEnContractTypeStatus> { ContractEnContractTypeStatus.Actief, ContractEnContractTypeStatus.InBehandeling }), Times.Once);
+            _mockContractRepository.Verify(m => m.GetAllByClientId(It.IsNotNull<string>()), Times.Once);
             _mockContractRepository.Verify(m => m.SaveChanges(), Times.Once);
         }
 
@@ -146,7 +166,7 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
         public void CreateHttpPost_InvalidContract_DoesNotCreateNorPersistsContractAndRedirectsToActionIndex()
         {
             _mockContractRepository.Setup(p => p.Add(It.IsNotNull<Contract>()));
-            _mockContractRepository.Setup(p => p.GetByStatusByClientId(It.IsNotNull<string>(), new List<ContractEnContractTypeStatus> { ContractEnContractTypeStatus.Actief, ContractEnContractTypeStatus.InBehandeling }))
+            _mockContractRepository.Setup(p => p.GetAllByClientId(It.IsNotNull<string>()))
                 .Returns(_contracts);
             _mockContractTypeRepository.Setup(p => p.GetById(It.IsNotNull<int>())).Returns(_dummyContext.Contract24_7);
 
@@ -185,7 +205,7 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
             //dit zorgt ervoor dat er geen contracten van type1 mogen gemaakt worden
             _contracts.Add(new Contract(DateTime.Now, _dummyContext.Contract24_7, 1, _userId, ContractEnContractTypeStatus.InBehandeling));
 
-            _mockContractRepository.Setup(p => p.GetByStatusByClientId(It.IsNotNull<string>(), new List<ContractEnContractTypeStatus> { ContractEnContractTypeStatus.Actief, ContractEnContractTypeStatus.InBehandeling }))
+            _mockContractRepository.Setup(p => p.GetAllByClientId(It.IsNotNull<string>()))
                 .Returns(_contracts);
             _mockContractTypeRepository.Setup(p => p.GetById(It.IsNotNull<int>()))
                 .Returns(_dummyContext.Contract24_7);
@@ -201,7 +221,7 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
             //Assert
             Assert.Equal("Index", result.ActionName);
             //Verify
-            _mockContractRepository.Verify(m => m.GetByStatusByClientId(It.IsNotNull<string>(), new List<ContractEnContractTypeStatus> { ContractEnContractTypeStatus.Actief, ContractEnContractTypeStatus.InBehandeling }), Times.Once);
+            _mockContractRepository.Verify(m => m.GetAllByClientId(It.IsNotNull<string>()), Times.Once);
             _mockContractTypeRepository.Verify(m => m.GetById(It.IsNotNull<int>()), Times.Once);
 
             _mockContractRepository.Verify(m => m.Add(It.IsNotNull<Contract>()), Times.Never);
