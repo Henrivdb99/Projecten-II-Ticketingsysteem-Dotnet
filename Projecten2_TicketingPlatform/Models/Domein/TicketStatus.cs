@@ -9,20 +9,20 @@ namespace Projecten2_TicketingPlatform
 {
     public enum TicketStatus
     {
-        Aangemaakt,
+        Aangemaakt, //0
         [Display(Name ="In behandeling")]
-        InBehandeling,
-        Afgehandeld,
-        Geannuleerd,
+        InBehandeling, //1           
+        Afgehandeld, //2
+        Geannuleerd, //3
         [Display(Name = "Wachten op informatie klant")]
-        WachtenOpInformatieKlant,
+        WachtenOpInformatieKlant, //4
         [Display(Name = "Informatie klant ontvangen")]
-        InformatieKlantOntvangen,
+        InformatieKlantOntvangen, //5
         [Display(Name = "In development")]
-        InDevelopment,
-        Standaard,
+        InDevelopment, //6
+        Standaard, //7
         [Display(Name = "Alle tickets")]
-        Alle
+        Alle //8
     }
 }
 
