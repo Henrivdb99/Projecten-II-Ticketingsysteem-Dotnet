@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -53,14 +54,14 @@ namespace Projecten2_TicketingPlatform.Models.Domein
         public string KlantId { get; set; }
         public string TechniekerId { get; set; }
         public string Opmerkingen { get; set; }
-        public string Bijlage { get; set; }
+        public IFormFile Bijlage { get; set; }
 
         /*public Klant Klant { get; set; }*/
         public Ticket()
         {
 
         }
-        public Ticket(string titel, TicketStatus ticketStatus, DateTime date, string omschrijving, string typeTicket, string klantId, string techniekerId = "Geen technieker", string opmerkingen = "Geen opmerkingen", string bijlage = "Geen Bijlage")
+        public Ticket(string titel, TicketStatus ticketStatus, DateTime date, string omschrijving, string typeTicket, string klantId, string techniekerId = "Geen technieker", string opmerkingen = "Geen opmerkingen", IFormFile bijlage = null)
         {
             Titel = titel;
             Status = ticketStatus;

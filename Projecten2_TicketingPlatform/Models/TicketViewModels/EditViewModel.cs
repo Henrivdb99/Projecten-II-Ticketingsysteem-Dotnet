@@ -1,4 +1,5 @@
-﻿using Projecten2_TicketingPlatform.Models.Domein;
+﻿using Microsoft.AspNetCore.Http;
+using Projecten2_TicketingPlatform.Models.Domein;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -26,7 +27,7 @@ namespace Projecten2_TicketingPlatform.Models.TicketViewModels
         [Display(Name = "Type")]
         public int TypeTicket { get; set; }
 
-        public string Bijlage { get; set; }
+        public IFormFile Bijlage { get; set; }
 
         public EditViewModel()
         {

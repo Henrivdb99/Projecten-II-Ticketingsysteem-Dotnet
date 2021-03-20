@@ -15,6 +15,9 @@ namespace Projecten2_TicketingPlatform.Data.Mappers
             builder.ToTable("Ticket");
             builder.HasKey(t => t.Ticketid);
 
+            builder.Property(
+                t => t.Bijlage.ToString());
+
         }
     }
 }

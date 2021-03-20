@@ -49,8 +49,8 @@ namespace Projecten2_TicketingPlatform
             });
             services.AddRazorPages();
 
-/*            services.AddScoped<TicketingPlatformDataInitializer>();
-*/            services.AddScoped<ITicketRepository, TicketRepository>();
+            services.AddScoped<TicketingPlatformDataInitializer>();
+            services.AddScoped<ITicketRepository, TicketRepository>();
             services.AddScoped<IContractRepository, ContractRepository>();
             services.AddScoped<IContractTypeRepository, ContractTypeRepository>();
             services.AddScoped<IKnowledgeBaseRepository, KnowledgeBaseRepository>();
@@ -66,7 +66,7 @@ namespace Projecten2_TicketingPlatform
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env/*, TicketingPlatformDataInitializer ticketingPlatformDataInitializer*/)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, TicketingPlatformDataInitializer ticketingPlatformDataInitializer)
         {
             if (env.IsDevelopment())
             {
@@ -98,7 +98,7 @@ namespace Projecten2_TicketingPlatform
                 endpoints.MapRazorPages();
             });
 
-/*            ticketingPlatformDataInitializer.InitializeData().Wait();
-*/        }
+            ticketingPlatformDataInitializer.InitializeData().Wait();
+        }
     }
 }

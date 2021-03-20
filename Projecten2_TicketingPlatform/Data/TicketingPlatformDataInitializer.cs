@@ -1,4 +1,4 @@
-﻿/*using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Projecten2_TicketingPlatform.Models.Domein;
 using System;
 using System.Collections.Generic;
@@ -20,9 +20,9 @@ namespace Projecten2_TicketingPlatform.Data
 
         public async Task InitializeData()
         {
-            //_dbcontext.Database.EnsureDeleted();
+            _dbcontext.Database.EnsureDeleted();
 
-            if (false)//if (_dbcontext.Database.EnsureCreated()) GEVAARLIJKE CODE, NIET RUNNEN OF WE HEBBEN REDUNDANTE DATA!!!!!!
+            if (_dbcontext.Database.EnsureCreated()) 
             {
                 await InitializeUsers();
 
@@ -117,4 +117,3 @@ namespace Projecten2_TicketingPlatform.Data
         }
     }
 }
-*/
