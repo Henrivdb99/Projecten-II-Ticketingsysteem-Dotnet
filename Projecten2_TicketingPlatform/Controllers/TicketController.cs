@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Projecten2_TicketingPlatform.Models.Domein;
 using Projecten2_TicketingPlatform.Models.TicketViewModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -16,12 +18,14 @@ namespace Projecten2_TicketingPlatform.Controllers
         private readonly ITicketRepository _ticketRepository;
         private readonly IContractRepository _contractRepository;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly IHostingEnvironment _hosting;
 
-        public TicketController(ITicketRepository ticketRepository, IContractRepository contractRepository, UserManager<IdentityUser> userManager)
+        public TicketController(ITicketRepository ticketRepository, IContractRepository contractRepository, UserManager<IdentityUser> userManager, IHostingEnvironment hosting)
         {
             _ticketRepository = ticketRepository;
             _contractRepository = contractRepository;
             _userManager = userManager;
+            _hosting = hosting;
         }
     
 
@@ -104,6 +108,18 @@ namespace Projecten2_TicketingPlatform.Controllers
             {
                 try
                 {
+                    string bestandsNaam = null;
+                    if (ticketVm.Bijlage != null)
+                    {
+                        string uploadFolder = Path.Combine(_hosting.WebRootPath, "bijlagen");
+                        //guid zorgt ervoor dat de bestandsnaam uniek is
+                        bestandsNaam = Guid.NewGuid().ToString() + "_" + ticketVm.Bijlage.FileName;
+                        string filePath = Path.Combine(uploadFolder, bestandsNaam);
+                        
+                        ticketVm.Bijlage.CopyTo(new FileStream(filePath, FileMode.Create));
+                    }
+
+
                     string klantId = _userManager.GetUserId(User);
                     if (ticketVm.KlantId != "" && ticketVm.KlantId != null)
                     {
@@ -122,7 +138,7 @@ namespace Projecten2_TicketingPlatform.Controllers
                             Omschrijving = ticketVm.Omschrijving,
                             TypeTicket = ticketVm.TypeTicket,
                             /*ticketVm.Technieker, ticketVm.Opmerkingen,*/
-                            Bijlage = "niks",
+                            Bijlage = bestandsNaam,
                             KlantId = klantId,
                             Status = TicketStatus.Aangemaakt
                         };
