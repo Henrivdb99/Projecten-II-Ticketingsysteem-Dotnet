@@ -108,18 +108,6 @@ namespace Projecten2_TicketingPlatform.Controllers
             {
                 try
                 {
-                    string bestandsNaam = null;
-                    if (ticketVm.Bijlage != null)
-                    {
-                        string uploadFolder = Path.Combine(_hosting.WebRootPath, "bijlagen");
-                        //guid zorgt ervoor dat de bestandsnaam uniek is
-                        bestandsNaam = Guid.NewGuid().ToString() + "_" + ticketVm.Bijlage.FileName;
-                        string filePath = Path.Combine(uploadFolder, bestandsNaam);
-                        
-                        ticketVm.Bijlage.CopyTo(new FileStream(filePath, FileMode.Create));
-                    }
-
-
                     string klantId = _userManager.GetUserId(User);
                     if (ticketVm.KlantId != "" && ticketVm.KlantId != null)
                     {
@@ -131,6 +119,18 @@ namespace Projecten2_TicketingPlatform.Controllers
                     }
                     else
                     {
+                        string bestandsNaam = null;
+                        if (ticketVm.Bijlage != null)
+                        {
+                            string uploadFolder = Path.Combine(_hosting.WebRootPath, "bijlagen");
+                            //guid zorgt ervoor dat de bestandsnaam uniek is
+                            bestandsNaam = Guid.NewGuid().ToString() + "_" + ticketVm.Bijlage.FileName;
+                            string filePath = Path.Combine(uploadFolder, bestandsNaam);
+
+                            ticketVm.Bijlage.CopyTo(new FileStream(filePath, FileMode.Create));
+                        }
+
+
                         Ticket ticket = new Ticket
                         {
                             DatumAanmaken = ticketVm.DatumAanmaken,
@@ -178,6 +178,7 @@ namespace Projecten2_TicketingPlatform.Controllers
             {
                 try
                 {
+
                     Ticket ticket = _ticketRepository.GetById(ticketId);
                     if (ticket == null)
                         return new NotFoundResult();
@@ -186,7 +187,33 @@ namespace Projecten2_TicketingPlatform.Controllers
                     ticket.Omschrijving = ticketVm.Omschrijving;
                     ticket.TypeTicket = ticketVm.TypeTicket;
                     /*ticketVm.Technieker, ticketVm.Opmerkingen,*/
-                    ticket.Bijlage = "niks";
+
+                    string bestandsNaam = null;
+                    if (ticketVm.Bijlage != null)
+                    {
+                        string uploadFolder = Path.Combine(_hosting.WebRootPath, "bijlagen");
+                        //guid zorgt ervoor dat de bestandsnaam uniek is
+                        bestandsNaam = Guid.NewGuid().ToString() + "_" + ticketVm.Bijlage.FileName;
+                        string filePath = Path.Combine(uploadFolder, bestandsNaam);
+
+                        ticketVm.Bijlage.CopyTo(new FileStream(filePath, FileMode.Create));
+                        //oude bijlage verwijderen:
+                        if (ticket.Bijlage != null)
+                        {
+                            /*
+                            string teVerwijderenFilePath = Path.Combine(uploadFolder, bestandsNaam);
+                            if ((System.IO.File.Exists(teVerwijderenFilePath)))
+                            {
+                                System.IO.File.Delete(teVerwijderenFilePath);
+                            } */
+                        }
+                    }
+
+
+                    ticket.Bijlage = bestandsNaam;
+
+
+
                     //ticket.KlantId = _userManager.GetUserId(User); //niet nodig denk ik, verandert niet
                     ticket.Status = TicketStatus.Aangemaakt; 
                     _ticketRepository.SaveChanges();
