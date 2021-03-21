@@ -54,7 +54,7 @@ namespace Projecten2_TicketingPlatform.Models.Domein
         public string KlantId { get; set; }
         public string TechniekerId { get; set; }
         public string Opmerkingen { get; set; }
-        public IFormFile Bijlage { get; set; }
+        public string Bijlage { get; set; }
 
         /*public Klant Klant { get; set; }*/
         public Ticket()
@@ -71,7 +71,7 @@ namespace Projecten2_TicketingPlatform.Models.Domein
             KlantId = klantId;
             TechniekerId = techniekerId;
             Opmerkingen = opmerkingen;
-            Bijlage = bijlage;
+            Bijlage = "niks";
         }
 
         //Nice to have

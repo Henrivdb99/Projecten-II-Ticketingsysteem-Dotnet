@@ -122,7 +122,7 @@ namespace Projecten2_TicketingPlatform.Controllers
                             Omschrijving = ticketVm.Omschrijving,
                             TypeTicket = ticketVm.TypeTicket,
                             /*ticketVm.Technieker, ticketVm.Opmerkingen,*/
-                            Bijlage = ticketVm.Bijlage,
+                            Bijlage = "niks",
                             KlantId = klantId,
                             Status = TicketStatus.Aangemaakt
                         };
@@ -170,7 +170,7 @@ namespace Projecten2_TicketingPlatform.Controllers
                     ticket.Omschrijving = ticketVm.Omschrijving;
                     ticket.TypeTicket = ticketVm.TypeTicket;
                     /*ticketVm.Technieker, ticketVm.Opmerkingen,*/
-                    ticket.Bijlage = ticketVm.Bijlage;
+                    ticket.Bijlage = "niks";
                     //ticket.KlantId = _userManager.GetUserId(User); //niet nodig denk ik, verandert niet
                     ticket.Status = TicketStatus.Aangemaakt; 
                     _ticketRepository.SaveChanges();

@@ -42,7 +42,7 @@ namespace Projecten2_TicketingPlatform.Models.TicketViewModels
             TypeTicket = ticket.TypeTicket;
             /*Technieker = ticket.Technieker;
             Opmerkingen = ticket.Opmerkingen;*/
-            Bijlage = ticket.Bijlage;
+            Bijlage = null;//ticket.Bijlage;
         }
     }
 }
