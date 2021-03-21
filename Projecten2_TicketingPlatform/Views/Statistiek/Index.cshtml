@@ -1,19 +1,7 @@
-﻿@*@using System.Web.Helpers;
-
+﻿
 @{
     ViewData["Title"] = "Statistieken";
 }
 
 <h1>@ViewData["Title"]</h1>
-<div id="chartdiv" style="width: 600px; height: 350px;">
-</div>
-
-@{
-    var myChart = new Chart(width: 600, height: 400)
-        .AddTitle("Chart Title")
-        .AddSeries(
-            name: "Employee",
-            xValue: new[] { "Peter", "Andrew", "Julie", "Mary", "Dave" },
-            yValues: new[] { "2", "6", "4", "5", "3" })
-        .Write();
-}*@
+<iframe width="1140" height="550" src="https://app.powerbi.com/reportEmbed?reportId=fe1a0918-4c40-4799-96b5-d3b1d9582c9d&autoAuth=true&ctid=5cf7310e-091a-4bc5-acd7-26c721d4cccd&config=eyJjbHVzdGVyVXJsIjoiaHR0cHM6Ly93YWJpLW5vcnRoLWV1cm9wZS1yZWRpcmVjdC5hbmFseXNpcy53aW5kb3dzLm5ldC8ifQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>
