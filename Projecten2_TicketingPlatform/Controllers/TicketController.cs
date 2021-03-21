@@ -281,11 +281,12 @@ namespace Projecten2_TicketingPlatform.Controllers
 
         private bool IsAllowedToCreateTickets(string klantId) {
             IEnumerable<ManierVanAanmakenTicket> applicatieStatussen = new List<ManierVanAanmakenTicket> { ManierVanAanmakenTicket.Applicatie, ManierVanAanmakenTicket.EmailEnApplicatie, ManierVanAanmakenTicket.EmailEnTelefonischEnApplicatie, ManierVanAanmakenTicket.TelefonischEnApplicatie };
-            return _contractRepository.GetAllByClientId(klantId)
-                .Any(
-                    t => (t.ContractStatus.Equals(ContractEnContractTypeStatus.Actief)
-                    && applicatieStatussen.Contains(t.ContractType.ManierVanAanmakenTicket))
-                 );
+            IEnumerable<Contract> contracts = _contractRepository.GetAllByClientId(klantId);
+
+            IEnumerable<Contract> actieveContracten = contracts.Where(t => t.ContractStatus.Equals(ContractEnContractTypeStatus.Actief));
+            bool HeeftApplicatieContractMetMinimaleDoorlooptijd = actieveContracten.Any(t => applicatieStatussen.Contains(t.ContractType.ManierVanAanmakenTicket) && t.ContractType.MinimaleDoorlooptijd <= t.Doorlooptijd);
+
+            return HeeftApplicatieContractMetMinimaleDoorlooptijd;
         }
     }
 }
