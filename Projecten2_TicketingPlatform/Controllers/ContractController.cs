@@ -68,7 +68,12 @@ namespace Projecten2_TicketingPlatform.Controllers
             {
                 try
                 {
-                    Contract contract = new Contract(contractVm.Startdatum, _contractTypeRepository.GetById(contractVm.ContractTypeId), contractVm.Doorlooptijd, _userManager.GetUserId(User));
+                    ContractType ct = _contractTypeRepository.GetById(contractVm.ContractTypeId);
+                    if (contractVm.Doorlooptijd < ct.MinimaleDoorlooptijd)
+                    {
+                        throw new ArgumentException($"Het contract type {ct.Naam} vereist een minimale doorlooptijd van {ct.MinimaleDoorlooptijd} jaar.");
+                    }
+                    Contract contract = new Contract(contractVm.Startdatum, ct, contractVm.Doorlooptijd, _userManager.GetUserId(User));
 
                     IEnumerable<Contract> contracten = _contractRepository.GetAllByClientId(_userManager.GetUserId(User));
                     contracten = FilterContractenOpStatussen(contracten, new List<ContractEnContractTypeStatus> { ContractEnContractTypeStatus.Actief, ContractEnContractTypeStatus.InBehandeling });
