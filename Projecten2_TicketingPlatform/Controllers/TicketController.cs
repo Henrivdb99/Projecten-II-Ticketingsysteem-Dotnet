@@ -254,15 +254,25 @@ namespace Projecten2_TicketingPlatform.Controllers
             _ticketRepository.SaveChanges();
             TempData["Succes"] = "Ticket is geannuleerd";
             return RedirectToAction(nameof(Index));
-        } 
+        }
         #endregion
 
-        /*public IActionResult Details(int ticketId)
-        {
-            Ticket ticket = _ticketRepository.GetById(ticketId);
-            return View(ticket);
-        }*/
 
+        [HttpGet]
+        public ActionResult GetPdf(string filePath, string fileName)
+        {
+            try
+            {
+                Response.Headers.Add("Content-Disposition", String.Format("inline; filename = {0}", fileName));
+                return File(filePath, "application/pdf");
+            }
+            catch (Exception)
+            {
+                return NoContent();
+            }
+        }
+
+        #region == Private Methodes ==
         private SelectList TicketTypesAsSelectList(int selected = 0)
         {
             SelectListItem selListItem = new SelectListItem() { Value = "1", Text = "Productie geïmpacteerd" };
@@ -279,7 +289,8 @@ namespace Projecten2_TicketingPlatform.Controllers
             return new SelectList(newList, "Value", "Text", selected); ;
         }
 
-        private bool IsAllowedToCreateTickets(string klantId) {
+        private bool IsAllowedToCreateTickets(string klantId)
+        {
             IEnumerable<ManierVanAanmakenTicket> applicatieStatussen = new List<ManierVanAanmakenTicket> { ManierVanAanmakenTicket.Applicatie, ManierVanAanmakenTicket.EmailEnApplicatie, ManierVanAanmakenTicket.EmailEnTelefonischEnApplicatie, ManierVanAanmakenTicket.TelefonischEnApplicatie };
             IEnumerable<Contract> contracts = _contractRepository.GetAllByClientId(klantId);
 
@@ -287,7 +298,8 @@ namespace Projecten2_TicketingPlatform.Controllers
             bool HeeftApplicatieContractMetMinimaleDoorlooptijd = actieveContracten.Any(t => applicatieStatussen.Contains(t.ContractType.ManierVanAanmakenTicket) && t.ContractType.MinimaleDoorlooptijd <= t.Doorlooptijd);
 
             return HeeftApplicatieContractMetMinimaleDoorlooptijd;
-        }
+        } 
+        #endregion
     }
 }
 /*IEnumerable<ManierVanAanmakenTicket> applicatieStatussen = new List<ManierVanAanmakenTicket> { ManierVanAanmakenTicket.Applicatie, ManierVanAanmakenTicket.EmailEnApplicatie, ManierVanAanmakenTicket.EmailEnTelefonischEnApplicatie, ManierVanAanmakenTicket.TelefonischEnApplicatie };

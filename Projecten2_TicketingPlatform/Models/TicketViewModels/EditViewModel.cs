@@ -28,6 +28,7 @@ namespace Projecten2_TicketingPlatform.Models.TicketViewModels
         public int TypeTicket { get; set; }
 
         public IFormFile Bijlage { get; set; }
+        public string BijlagePad { get; private set; }
 
         public EditViewModel()
         {
@@ -42,7 +43,8 @@ namespace Projecten2_TicketingPlatform.Models.TicketViewModels
             TypeTicket = ticket.TypeTicket;
             /*Technieker = ticket.Technieker;
             Opmerkingen = ticket.Opmerkingen;*/
-            Bijlage = null;//ticket.Bijlage;
+            Bijlage = null;
+            BijlagePad = ticket.Bijlage;
         }
     }
 }

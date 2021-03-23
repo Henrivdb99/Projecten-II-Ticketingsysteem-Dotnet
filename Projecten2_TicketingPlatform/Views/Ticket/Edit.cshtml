@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = (bool)ViewData["IsEdit"] ? "Bewerk Ticket" : "Maak Ticket aan";
+    ViewData["Bijlage"] = @Model.BijlagePad ?? "Kies bestand..";
+
 }
 
 
@@ -56,7 +58,7 @@
                 <label asp-for="Bijlage" class="control-label"></label>
                 <div class="custom-file">
                     <input asp-for="Bijlage" class="form-control custom-file-input" />
-                    <label class="custom-file-label">Kies bestand...</label>
+                    <label class="custom-file-label">@ViewData["Bijlage"]</label>
                     @*<span asp-validation-for="Bijlage" class="text-danger"></span>*@
                 </div>
 
@@ -77,6 +79,7 @@
     <script>
             @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     </script>
+
 
     <script>
         $(document).ready(function () {

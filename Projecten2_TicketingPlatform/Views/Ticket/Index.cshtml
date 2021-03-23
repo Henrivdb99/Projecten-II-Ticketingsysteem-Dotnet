@@ -101,11 +101,35 @@
                                 <dt class="col-sm-2">
                                     @Html.DisplayNameFor(modelItem => item.Bijlage)
                                 </dt>
-                                <dd class="col-sm-10" >
+                                <dd class="col-sm-10">
                                     @{
-                                        var bijlagePad = "~/Bijlagen/" + (item.Bijlage ?? "geenBijlage.txt");
+                                        string bijlagePad = "~/Bijlagen/" + (item.Bijlage ?? "geenBijlage.txt");
+                                        string bijlageNaam = bijlagePad.Split('/').Last().Split('?').First();
+
                                     }
-                                    <img src="@bijlagePad" style="min-width: 18rem; max-width: 60%" alt=@item.Bijlage geen bijlage asp-append-version="true" />
+                                    @if (item.Bijlage is null)
+                                    {
+                                        <p>Geen bijlage</p>
+                                    }
+                                    else
+                                    @if (bijlageNaam.ToLower().EndsWith(".jpg") ||
+                                       bijlageNaam.ToLower().EndsWith(".jpeg") ||
+                                       bijlageNaam.ToLower().EndsWith(".pjpeg") ||
+                                       bijlageNaam.ToLower().EndsWith(".gif") ||
+                                       bijlageNaam.ToLower().EndsWith(".x-png") ||
+                                       bijlageNaam.ToLower().EndsWith(".png"))
+                                    {
+                                        <img src="@bijlagePad" style="min-width: 18rem; max-width: 60%" alt=@item.Bijlage geen bijlage asp-append-version="true" />
+                                    }
+                                    else @if (bijlagePad.ToLower().EndsWith(".pdf"))
+                                    {
+                                    <a asp-controller="Ticket" asp-action="GetPdf" asp-route-filepath="@bijlagePad" asp-route-filename="@item.Bijlage" target="_blank">@bijlageNaam</a>
+                                    }
+                                    else
+                                    {
+                                        <p>@bijlageNaam</p>
+                                    }
+
 
                                 </dd>
                             </dl>
