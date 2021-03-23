@@ -61,7 +61,7 @@ namespace Projecten2_TicketingPlatform.Models.Domein
         {
 
         }
-        public Ticket(string titel, TicketStatus ticketStatus, DateTime date, string omschrijving, string typeTicket, string klantId, string techniekerId = "Geen technieker", string opmerkingen = "Geen opmerkingen", IFormFile bijlage = null)
+        public Ticket(string titel, TicketStatus ticketStatus, DateTime date, string omschrijving, string typeTicket, string klantId, string techniekerId = "Geen technieker", string opmerkingen = "Geen opmerkingen", string bijlagePad = null)
         {
             Titel = titel;
             Status = ticketStatus;
@@ -71,7 +71,7 @@ namespace Projecten2_TicketingPlatform.Models.Domein
             KlantId = klantId;
             TechniekerId = techniekerId;
             Opmerkingen = opmerkingen;
-            Bijlage = "niks";
+            Bijlage = bijlagePad;
         }
 
         //Nice to have
