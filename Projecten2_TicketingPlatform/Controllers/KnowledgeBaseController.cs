@@ -24,6 +24,7 @@ namespace Projecten2_TicketingPlatform.Controllers
             {
                 knowledgeBases = knowledgeBases.Where(s => s.Titel.Contains(searchString));
             }
+            TempData["searchString"] = searchString;
             return View(knowledgeBases);
         }
     }

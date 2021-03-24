@@ -2,12 +2,13 @@
 
 @{
     ViewData["Title"] = "Knowledge base";
+    ViewData["SearchString"] = @TempData["SearchString"] ?? "Error2087";
 }
 
 <h1>@ViewData["Title"]</h1>    
     <form asp-controller="KnowledgeBase" asp-action="Index">
         <div class="input-group my-3" style="max-width: 400px">
-            <input class="form-control" type="text" placeholder="Error 2087" aria-label="Search" name="SearchString">
+            <input class="form-control" type="text" value=@ViewData["SearchString"] aria-label="Search" name="SearchString">
             <div class="input-group-append">
                 <button class="btn btn-secondary" type="submit">Zoek</button>
             </div>

@@ -81,7 +81,8 @@ namespace Projecten2_TicketingPlatform.Controllers
                     }
                 }
             }
-            
+
+            TempData["TicketStatus"] = ticketStatus.ToString();
             ViewData["TicketStatussen"] = new SelectList(new List<TicketStatus> { TicketStatus.Aangemaakt, TicketStatus.InBehandeling, TicketStatus.Afgehandeld, TicketStatus.Geannuleerd, TicketStatus.WachtenOpInformatieKlant, TicketStatus.InformatieKlantOntvangen, TicketStatus.InDevelopment });
             return View(tickets);
         }

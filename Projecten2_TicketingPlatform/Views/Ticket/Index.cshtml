@@ -12,7 +12,7 @@
         <div class="form-group">
             <label for="ticketStatus"></label>
             <select id="ticketStatus" name="ticketStatus" asp-items="Html.GetEnumSelectList<TicketStatus>()" class="form-control" onchange="this.form.submit()">
-                <option selected="selected" value="">-- Ticket status --</option>
+                <option selected="selected" value="">-- @TempData["TicketStatus"] --</option>
             </select>
         </div>
         <a asp-controller="Ticket" asp-action="Create" class="btn btn-secondary text-right ml-5">Nieuw Ticket</a>
@@ -110,7 +110,7 @@
                                     }
                                     @if (item.Bijlage is null)
                                     {
-                                        <p>Geen bijlage</p>
+                                        <p><i>Geen bijlage</i></p>
                                     }
                                     else
                                     @if (bijlageNaam.ToLower().EndsWith(".jpg") ||
