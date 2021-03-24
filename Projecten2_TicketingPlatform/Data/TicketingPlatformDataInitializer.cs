@@ -63,7 +63,7 @@ namespace Projecten2_TicketingPlatform.Data
                     new Contract( DateTime.Today.AddMonths(-8), contract24_7, 1, userId, ContractEnContractTypeStatus.InBehandeling),
                     new Contract(DateTime.Today.AddMonths(-26), contract24_7, 2, userId,ContractEnContractTypeStatus.Afgelopen),
                     new Contract(DateTime.Today.AddMonths(-28), contract24_7, 2, userId, ContractEnContractTypeStatus.Afgelopen),
-                    new Contract(DateTime.Today.AddMonths(-11).AddDays(-11), contractWerkuren, 2, userId, ContractEnContractTypeStatus.Actief),
+                    new Contract(DateTime.Today.AddMonths(-23).AddDays(-11), contractWerkuren, 2, userId, ContractEnContractTypeStatus.Actief),
                     new Contract(DateTime.Today.AddYears(-4), contract24_7, 3, userId,ContractEnContractTypeStatus.Afgelopen),
                     new Contract(DateTime.Today.AddMonths(-4), contract24_7,  3, userId,ContractEnContractTypeStatus.NietActief),
                     new Contract(DateTime.Today.AddMonths(-4), contract24_7Email,  3, "210771fc - 5d15 - 4e7c - a902 - a3a2fd4e2815",ContractEnContractTypeStatus.Actief)
