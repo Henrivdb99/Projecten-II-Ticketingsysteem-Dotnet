@@ -5209,6 +5209,7 @@ a.bg-danger:hover, a.bg-danger:focus, button.bg-danger:hover, button.bg-danger:f
 }
 
 .bg-light {
+    color: #054487;
     background-color: #e5eef9 !important
 }
 
