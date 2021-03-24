@@ -34,7 +34,7 @@ namespace Projecten2_TicketingPlatform
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                    Configuration.GetConnectionString("TickentingPlatformContext")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
                        
@@ -98,7 +98,7 @@ namespace Projecten2_TicketingPlatform
                 endpoints.MapRazorPages();
             });
 
-            ticketingPlatformDataInitializer.InitializeData().Wait();
+            //ticketingPlatformDataInitializer.InitializeData().Wait();
         }
     }
 }

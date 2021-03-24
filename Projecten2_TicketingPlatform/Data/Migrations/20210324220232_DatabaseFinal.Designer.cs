@@ -10,8 +10,8 @@ using Projecten2_TicketingPlatform.Data;
 namespace Projecten2_TicketingPlatform.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210318164326_MigrationName")]
-    partial class MigrationName
+    [Migration("20210324220232_DatabaseFinal")]
+    partial class DatabaseFinal
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -323,14 +323,23 @@ namespace Projecten2_TicketingPlatform.Data.Migrations
                     b.Property<string>("KlantId")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Kwaliteit")
+                        .HasColumnType("int");
+
                     b.Property<string>("Omschrijving")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Oplossing")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Opmerkingen")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
+
+                    b.Property<bool>("SupportNodig")
+                        .HasColumnType("bit");
 
                     b.Property<string>("TechniekerId")
                         .HasColumnType("nvarchar(max)");

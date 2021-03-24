@@ -20,11 +20,11 @@ namespace Projecten2_TicketingPlatform.Data
 
         public async Task InitializeData()
         {
-            _dbcontext.Database.EnsureDeleted();
+            //_dbcontext.Database.EnsureDeleted();
 
-            if (_dbcontext.Database.EnsureCreated()) 
+            if(false) //(_dbcontext.Database.EnsureCreated()) 
             {
-                await InitializeUsers();
+                //await InitializeUsers();
                 string userId = "210771fc - 21f2 - 47e4 - a902 - 986e2d199105";
                 string loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
                 ////Nog aan te vullen verdere data later in project.
