@@ -113,6 +113,7 @@ namespace Projecten2_TicketingPlatform.Controllers
                     string klantId = _userManager.GetUserId(User);
                     if (ticketVm.KlantId != "" && ticketVm.KlantId != null)
                     {
+                        ViewData["TicketType"] = TicketTypesAsSelectList();
                         klantId = ticketVm.KlantId;
                     }
                     if (!IsAllowedToCreateTickets(klantId))
