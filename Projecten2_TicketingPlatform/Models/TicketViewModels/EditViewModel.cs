@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Projecten2_TicketingPlatform.Models.Domein;
+using Projecten2_TicketingPlatform.Models.Extenties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -26,7 +27,7 @@ namespace Projecten2_TicketingPlatform.Models.TicketViewModels
         [Required(ErrorMessage = "U moet een type kiezen.")]
         [Display(Name = "Type")]
         public int TypeTicket { get; set; }
-
+        [AllowedExtensions(new string[] { ".jpg", ".jpeg", ".pjpeg", ".gif", ".x-png", ".png", ".pdf"})]
         public IFormFile Bijlage { get; set; }
         public string BijlagePad { get; private set; }
 

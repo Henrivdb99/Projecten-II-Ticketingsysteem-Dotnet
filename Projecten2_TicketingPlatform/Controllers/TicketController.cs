@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -119,17 +120,7 @@ namespace Projecten2_TicketingPlatform.Controllers
                     }
                     else
                     {
-                        string bestandsNaam = null;
-                        if (ticketVm.Bijlage != null)
-                        {
-                            string uploadFolder = Path.Combine(_hosting.WebRootPath, "bijlagen");
-                            //guid zorgt ervoor dat de bestandsnaam uniek is
-                            bestandsNaam = Guid.NewGuid().ToString() + "_" + ticketVm.Bijlage.FileName;
-                            string filePath = Path.Combine(uploadFolder, bestandsNaam);
-
-                            ticketVm.Bijlage.CopyTo(new FileStream(filePath, FileMode.Create));
-                        }
-
+                        string bestandsNaam = UploadBestand(ticketVm.Bijlage);
 
                         Ticket ticket = new Ticket
                         {
@@ -158,6 +149,7 @@ namespace Projecten2_TicketingPlatform.Controllers
             return View("Edit", ticketVm);
 
         }
+
         #endregion
 
         #region == Edit Methodes ==
@@ -188,31 +180,9 @@ namespace Projecten2_TicketingPlatform.Controllers
                     ticket.TypeTicket = ticketVm.TypeTicket;
                     /*ticketVm.Technieker, ticketVm.Opmerkingen,*/
 
-                    string bestandsNaam = null;
-                    if (ticketVm.Bijlage != null)
-                    {
-                        string uploadFolder = Path.Combine(_hosting.WebRootPath, "bijlagen");
-                        //guid zorgt ervoor dat de bestandsnaam uniek is
-                        bestandsNaam = Guid.NewGuid().ToString() + "_" + ticketVm.Bijlage.FileName;
-                        string filePath = Path.Combine(uploadFolder, bestandsNaam);
-
-                        ticketVm.Bijlage.CopyTo(new FileStream(filePath, FileMode.Create));
-                        //oude bijlage verwijderen:
-                        if (ticket.Bijlage != null)
-                        {
-                            /*
-                            string teVerwijderenFilePath = Path.Combine(uploadFolder, bestandsNaam);
-                            if ((System.IO.File.Exists(teVerwijderenFilePath)))
-                            {
-                                System.IO.File.Delete(teVerwijderenFilePath);
-                            } */
-                        }
-                    }
-
-
-                    ticket.Bijlage = bestandsNaam;
-
-
+                    string bestandsNaam = UploadBestand(ticketVm.Bijlage);
+                    if (bestandsNaam != null) 
+                        ticket.Bijlage = bestandsNaam;
 
                     //ticket.KlantId = _userManager.GetUserId(User); //niet nodig denk ik, verandert niet
                     ticket.Status = TicketStatus.Aangemaakt; 
@@ -298,7 +268,23 @@ namespace Projecten2_TicketingPlatform.Controllers
             bool HeeftApplicatieContractMetMinimaleDoorlooptijd = actieveContracten.Any(t => applicatieStatussen.Contains(t.ContractType.ManierVanAanmakenTicket) && t.ContractType.MinimaleDoorlooptijd <= t.Doorlooptijd);
 
             return HeeftApplicatieContractMetMinimaleDoorlooptijd;
-        } 
+        }
+
+        private string UploadBestand(IFormFile bijlage)
+        {
+            string bestandsNaam = null;
+            if (bijlage != null)
+            {
+                string uploadFolder = Path.Combine(_hosting.WebRootPath, "bijlagen");
+                //guid zorgt ervoor dat de bestandsnaam uniek is
+                bestandsNaam = Guid.NewGuid().ToString() + "_" + bijlage.FileName;
+                string filePath = Path.Combine(uploadFolder, bestandsNaam);
+
+                bijlage.CopyTo(new FileStream(filePath, FileMode.Create));
+            }
+
+            return bestandsNaam;
+        }
         #endregion
     }
 }
