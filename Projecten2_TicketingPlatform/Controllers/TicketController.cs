@@ -20,7 +20,7 @@ namespace Projecten2_TicketingPlatform.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IHostingEnvironment _hosting;
 
-        public TicketController(ITicketRepository ticketRepository, IContractRepository contractRepository, UserManager<IdentityUser> userManager, IHostingEnvironment hosting)
+        public TicketController(ITicketRepository ticketRepository, IContractRepository contractRepository, UserManager<IdentityUser> userManager, IHostingEnvironment hosting=null)
         {
             _ticketRepository = ticketRepository;
             _contractRepository = contractRepository;

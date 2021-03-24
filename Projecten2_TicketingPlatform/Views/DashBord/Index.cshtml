@@ -20,7 +20,12 @@
                         </svg>
                     </div>
                     <div class="media-body text-center mb-4">
-                        <h4 fill="currentColor">Contracten</h4>
+                        <h4 fill="currentColor">Contracten </h4>
+                        @{ if (TempData["ContractVerloopt"] != null)
+                            {
+                                <span class="badge bg-secondary">@TempData["ContractVerloopt"]</span>
+                            }
+                          }
                     </div>
                 </a>
             </div>
