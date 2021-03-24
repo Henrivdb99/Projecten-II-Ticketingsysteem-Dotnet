@@ -113,7 +113,6 @@ namespace Projecten2_TicketingPlatform.Controllers
                     string klantId = _userManager.GetUserId(User);
                     if (ticketVm.KlantId != "" && ticketVm.KlantId != null)
                     {
-                        ViewData["TicketType"] = TicketTypesAsSelectList();
                         klantId = ticketVm.KlantId;
                     }
                     if (!IsAllowedToCreateTickets(klantId))
@@ -148,6 +147,7 @@ namespace Projecten2_TicketingPlatform.Controllers
                 return RedirectToAction(nameof(Index)); 
             }
             ViewData["IsEdit"] = false;
+            ViewData["TicketType"] = TicketTypesAsSelectList();
             return View("Edit", ticketVm);
 
         }
