@@ -23,7 +23,7 @@ namespace Projecten2_TicketingPlatform.Models.Domein
                 _titel = value;
             }
         }
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        //[DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Ticketid { get; set; }
         public TicketStatus Status { get; set; }
         public DateTime DatumAanmaken {
