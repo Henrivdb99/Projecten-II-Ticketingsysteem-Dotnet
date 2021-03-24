@@ -71,7 +71,7 @@ namespace Projecten2_TicketingPlatform.Models.Domein
         public Ticket(string titel, TicketStatus ticketStatus, DateTime date, string omschrijving, string typeTicket, string klantId, string techniekerId = "Geen technieker", string opmerkingen = "Geen opmerkingen", string bijlagePad = null, int kwaliteit = 3, bool oplossing = false, bool supportNodig = false)
         {
             Titel = titel;
-            Ticketid = ticketId;
+            //Ticketid = ticketId;
             Status = ticketStatus;
             DatumAanmaken = date;
             Omschrijving = omschrijving;
@@ -83,6 +83,11 @@ namespace Projecten2_TicketingPlatform.Models.Domein
             Kwaliteit = kwaliteit;
             Oplossing = oplossing;
             SupportNodig = supportNodig;
+
+            //Nice to have
+            //public int Waardering { get; set; }
+            //public bool ViaKnowledgebase { get; set; }
+            //public bool SupportNodig { get; set; }
         }
     }
 }
