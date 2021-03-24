@@ -76,13 +76,12 @@ namespace Projecten2_TicketingPlatform.Data
                      new KnowledgeBase("Hoe kan ik me aanmelden?",loremIpsum, DateTime.Today),
                      new KnowledgeBase("Hoe kan ik mijn wachtwoord aanpassen?",loremIpsum, DateTime.Today),
                      new KnowledgeBase("Wat doe ik bij Error 5038",loremIpsum, DateTime.Today),
-                     new KnowledgeBase("Vaakvoorkomend probleem 4","Oplossing 4", DateTime.Today),
-                     new KnowledgeBase("Vaakvoorkomend probleem 5","Oplossing 5", DateTime.Today),
-                     new KnowledgeBase("Vaakvoorkomend probleem 6","Oplossing 6", DateTime.Today),
-                     new KnowledgeBase("Vaakvoorkomend probleem 7","Oplossing 7", DateTime.Today),
-                     new KnowledgeBase("Vaakvoorkomend probleem 8","Oplossing 8", DateTime.Today),
-                     new KnowledgeBase("Vaakvoorkomend probleem 9","Oplossing 9", DateTime.Today),
-                     new KnowledgeBase("Vaakvoorkomend probleem 10","Oplossing 10", DateTime.Today),
+                     new KnowledgeBase("Hoe annuleer ik een ticket?","Oplossing 4", DateTime.Today),
+                     new KnowledgeBase("Mijn nieuwe contract staat niet op actief","Oplossing 5", DateTime.Today),
+                     new KnowledgeBase("Ik kan mijn bijlage niet uploaden","Oplossing 6", DateTime.Today),
+                     new KnowledgeBase("Waar vind ik  mijn oude contracten terug?","Oplossing 7", DateTime.Today),
+                     new KnowledgeBase("Ik kan de naam van mijn ticket niet meer aanpassen","Oplossing 8", DateTime.Today),
+      
             };
 
                 _dbcontext.KnowledgeBase.AddRange(knowledgdeBases);
