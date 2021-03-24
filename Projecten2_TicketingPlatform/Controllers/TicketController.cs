@@ -149,6 +149,41 @@ namespace Projecten2_TicketingPlatform.Controllers
         }
 
         #endregion
+        public IActionResult Opvolging(int ticketId)
+        {
+            Ticket ticket = _ticketRepository.GetById(ticketId);
+            if (ticket == null)
+                return new NotFoundResult();
+            return View(new OpvolgingViewModel(ticket));
+        }
+        [HttpPost]
+        public IActionResult Opvolging(OpvolgingViewModel ticketVm, int ticketId)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+
+                    Ticket ticket = _ticketRepository.GetById(ticketId);
+                    if (ticket == null)
+                        return new NotFoundResult();
+                    ticket.Oplossing = ticketVm.Oplossing;
+                    ticket.Kwaliteit = ticketVm.Kwaliteit;
+                    ticket.SupportNodig = ticketVm.SupportNodig;
+                   
+                    _ticketRepository.SaveChanges();
+                    TempData["Succes"] = "Opvolging succesvol toegevoegd!";
+                }
+                catch (ArgumentException ae)
+                {
+                    TempData["FoutMelding"] = "Bewerken ticket mislukt. " + ae.Message;
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["IsEdit"] = true;
+            ViewData["TicketType"] = TicketTypesAsSelectList();
+            return View(ticketVm);
+        }
 
         #region == Delete Methodes ==
         public IActionResult Annuleer(int ticketId)
@@ -161,8 +196,6 @@ namespace Projecten2_TicketingPlatform.Controllers
             }
             return View(ticket);
         }
-
-
 
         [HttpPost]
         public IActionResult AnnuleerConfirmed(int ticketId)
@@ -181,6 +214,7 @@ namespace Projecten2_TicketingPlatform.Controllers
             return View(ticket);
         }
 
+        #region == Private Methodes ==
         private SelectList TicketTypesAsSelectList(int selected = 0)
         {
             SelectListItem selListItem = new SelectListItem() { Value = "1", Text = "Productie geïmpacteerd" };
@@ -196,5 +230,25 @@ namespace Projecten2_TicketingPlatform.Controllers
 
             return new SelectList(newList, "Value", "Text", selected); ;
         }
+        
+        private bool IsAllowedToCreateTickets(string klantId)
+        {
+            IEnumerable<ManierVanAanmakenTicket> applicatieStatussen = new List<ManierVanAanmakenTicket> { ManierVanAanmakenTicket.Applicatie, ManierVanAanmakenTicket.EmailEnApplicatie, ManierVanAanmakenTicket.EmailEnTelefonischEnApplicatie, ManierVanAanmakenTicket.TelefonischEnApplicatie };
+            IEnumerable<Contract> contracts = _contractRepository.GetAllByClientId(klantId);
+
+            IEnumerable<Contract> actieveContracten = contracts.Where(t => t.ContractStatus.Equals(ContractEnContractTypeStatus.Actief));
+            bool HeeftApplicatieContractMetMinimaleDoorlooptijd = actieveContracten.Any(t => applicatieStatussen.Contains(t.ContractType.ManierVanAanmakenTicket) && t.ContractType.MinimaleDoorlooptijd <= t.Doorlooptijd);
+
+            return HeeftApplicatieContractMetMinimaleDoorlooptijd;
+        } 
+        #endregion
     }
 }
+/*IEnumerable<ManierVanAanmakenTicket> applicatieStatussen = new List<ManierVanAanmakenTicket> { ManierVanAanmakenTicket.Applicatie, ManierVanAanmakenTicket.EmailEnApplicatie, ManierVanAanmakenTicket.EmailEnTelefonischEnApplicatie, ManierVanAanmakenTicket.TelefonischEnApplicatie };
+return _contracten
+    .Where(t => t.ClientId.Equals(klantId))
+    .Any(
+        t => (t.ContractStatus.Equals(ContractEnContractTypeStatus.Actief)
+        && applicatieStatussen.Contains(t.ContractType.ManierVanAanmakenTicket))
+     );*/
+

@@ -59,13 +59,16 @@ namespace Projecten2_TicketingPlatform.Models.Domein
         public string TechniekerId { get; set; }
         public string Opmerkingen { get; set; }
         public string Bijlage { get; set; }
+        public int Kwaliteit { get; set; }
+        public bool Oplossing { get; set; }
+        public bool SupportNodig { get; set; }
 
         /*public Klant Klant { get; set; }*/
         public Ticket()
         {
 
         }
-        public Ticket(string titel, int ticketId, TicketStatus ticketStatus, DateTime date, string omschrijving, string typeTicket, string klantId, string techniekerId = "Geen technieker", string opmerkingen = "Geen opmerkingen", string bijlage = "Geen Bijlage")
+        public Ticket(string titel, TicketStatus ticketStatus, DateTime date, string omschrijving, string typeTicket, string klantId, string techniekerId = "Geen technieker", string opmerkingen = "Geen opmerkingen", string bijlagePad = null, int kwaliteit = 3, bool oplossing = false, bool supportNodig = false)
         {
             Titel = titel;
             Ticketid = ticketId;
@@ -76,12 +79,10 @@ namespace Projecten2_TicketingPlatform.Models.Domein
             KlantId = klantId;
             TechniekerId = techniekerId;
             Opmerkingen = opmerkingen;
-            Bijlage = bijlage;
+            Bijlage = bijlagePad;
+            Kwaliteit = kwaliteit;
+            Oplossing = oplossing;
+            SupportNodig = supportNodig;
         }
-
-        //Nice to have
-        //public int Waardering { get; set; }
-        //public bool ViaKnowledgebase { get; set; }
-        //public bool SupportNodig { get; set; }
     }
 }

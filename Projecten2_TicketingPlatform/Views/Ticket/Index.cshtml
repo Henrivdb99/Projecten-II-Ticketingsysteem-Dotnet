@@ -50,6 +50,10 @@
                     @Html.DisplayFor(modelItem => item.Status)
                 </td>
                 <td style="text-align:right">
+                    @if ((item.Status == TicketStatus.Afgehandeld))
+                    {
+                        <span><a asp-controller="Ticket" asp-action="Opvolging" asp-route-ticketId="@item.Ticketid">Opvolgen</a> | </span>
+                    }
                     @if (!(item.Status == TicketStatus.Geannuleerd || item.Status == TicketStatus.Afgehandeld))
                     {<span><a asp-controller="Ticket" asp-action="Edit" asp-route-ticketId="@item.Ticketid">Bewerken</a> | </span>
                         <span><a asp-controller="Ticket" asp-action="Annuleer" asp-route-ticketId="@item.Ticketid">Annuleren</a> | </span>
