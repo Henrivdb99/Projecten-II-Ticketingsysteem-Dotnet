@@ -9,11 +9,11 @@
     <div class="form-inline">
         <div class="form-group">
             <label for="contractStatus"></label>
-            <select id="contractStatus" name="contractStatus" asp-items="Html.GetEnumSelectList<ContractStatus>()" class="form-control" onchange="this.form.submit()">
+            <select id="contractStatus" name="contractStatus" asp-items="Html.GetEnumSelectList<ContractEnContractTypeStatus>()" class="form-control" onchange="this.form.submit()">
                 <option selected="selected" value="">-- Contract status --</option>
             </select>
         </div>
-        <a asp-controller="Contract" asp-action="Create" class="btn btn-primary text-right ml-5">Nieuw Contract</a>
+        <a asp-controller="Contract" asp-action="Create" class="btn btn-secondary text-right ml-5">Nieuw Contract Aanvragen</a>
     </div><br />
 </form>
 <table class="table">
@@ -24,18 +24,18 @@
             </th>
 
             <th>
-                @Html.DisplayNameFor(model => model.ContractType)
+                Type Contract
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.StartDatum)
+                Start Datum
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EindDatum)
+                Eind Datum
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ContractStatus)
+                Status
             </th>
-            @*<th></th>*@
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -45,7 +45,7 @@
                 @Html.DisplayFor(modelItem => item.ContractId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ContractType)
+                @Html.DisplayFor(modelItem => item.ContractType.Naam)
             </td>
             <td>
                 @(item.StartDatum.ToString("dd/MM/yyyy"))
@@ -56,11 +56,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.ContractStatus)
             </td>
-            @*<td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>*@
+            <td>
+                @if (!(item.ContractStatus == ContractEnContractTypeStatus.Stopgezet || item.ContractStatus == ContractEnContractTypeStatus.NietActief || item.ContractStatus == ContractEnContractTypeStatus.Afgelopen))
+                {
+                    <span><a asp-controller="Contract" asp-action="Annuleer" asp-route-contractId="@item.ContractId">Stopzetten</a></span>
+                }
+            </td>
         </tr>
 }
     </tbody>

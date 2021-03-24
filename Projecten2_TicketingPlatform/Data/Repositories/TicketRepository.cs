@@ -28,6 +28,16 @@ namespace Projecten2_TicketingPlatform.Data.Repositories
             throw new NotImplementedException();
         }
 
+        public IEnumerable<Ticket> GetAll()
+        {
+            return _tickets.OrderBy(t => t.DatumAanmaken).AsNoTracking().ToList();
+        }
+
+        public IEnumerable<Ticket> GetAllByTicketStatus(IEnumerable<TicketStatus> ticketStatussen)
+        {
+            return _tickets.Where(t => ticketStatussen.Contains(t.Status)).OrderBy(t => t.DatumAanmaken).AsNoTracking().ToList();
+        }
+
         public IEnumerable<Ticket> GetAllByClientId(string klantId)
         {
             return _tickets.Where(t => t.KlantId.Equals(klantId)).OrderBy(t => t.DatumAanmaken).AsNoTracking().ToList();

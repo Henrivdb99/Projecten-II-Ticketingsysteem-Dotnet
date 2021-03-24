@@ -1,12 +1,17 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Moq;
 using Projecten2_TicketingPlatform.Controllers;
 using Projecten2_TicketingPlatform.Models.Domein;
 using Projecten2_TicketingPlatform.Models.TicketViewModels;
 using Projecten2_TicketingPlatform.Tests.Data;
 using System;
+using System.Collections.Generic;
 using System.Security.Claims;
+using System.Security.Principal;
+using System.Threading;
 using Xunit;
 
 namespace Projecten2_TicketingPlatform.Tests.Controllers
@@ -16,32 +21,59 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
         private readonly TicketController _ticketController;
         private readonly Mock<ITicketRepository> _mockTicketRepository;
         private readonly Ticket _ticket;
-        private readonly DummyApplicationDbContext _dummyContext;
+        private readonly DummyApplicationDbContext _dummyContext = new DummyApplicationDbContext();
         private readonly int _onbestaandeId;
-        private readonly Mock<UserManager<IdentityUser>> _mockUser;
+        private readonly List<Contract> _contracts;
+        private readonly Mock<UserManager<IdentityUser>> _mockUserManager;
+        private readonly Mock<IContractRepository> _mockContractRepository;
+        private readonly string _userId; //"bff6a934 - 0dca - 4965 - b9fc - 91c3290792c8"
 
         public TicketControllerTest()
         {
+            _userId = _dummyContext.UserId;
 
-            _dummyContext = new DummyApplicationDbContext();
             _mockTicketRepository = new Mock<ITicketRepository>();
             _mockTicketRepository.Setup(p => p.GetById(1)).Returns(_dummyContext.Ticket);
             _ticket = _dummyContext.Ticket;
             _onbestaandeId = 9999;
-            _mockUser = new Mock<UserManager<IdentityUser>>();
-            //_mockUser.Setup(p => p.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns("bff6a934 - 0dca - 4965 - b9fc - 91c3290792c8");
-            _ticketController = new TicketController(_mockTicketRepository.Object, _mockUser.Object);
+            _contracts = new List<Contract>
+            {
+                _dummyContext.ContractActief,
+                _dummyContext.ContractNietActief
+            };
+            var store = new Mock<IUserStore<IdentityUser>>();
+            store.Setup(x => x.FindByIdAsync("123", CancellationToken.None))
+                .ReturnsAsync(new IdentityUser()
+                {
+                    UserName = "test@email.com",
+                    Id = _userId
+                });
 
+            _mockUserManager = new Mock<UserManager<IdentityUser>>(store.Object, null, null, null, null, null, null, null, null);
+            _mockUserManager.Setup(mum => mum.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns(_userId); //It.IsAny zal eignelijk altijd null zijn
+            
+            _mockContractRepository = new Mock<IContractRepository>();
 
+            _ticketController = new TicketController(_mockTicketRepository.Object, _mockContractRepository.Object, _mockUserManager.Object)
+            {
+                TempData = new Mock<ITempDataDictionary>().Object
+            };
         }
         //Nog eventuele wijziging in verband met een actief of niet actief contract. Moet besproken worden waar dit wordt getest
         #region == Create Methodes ==
         [Fact]
         public void CreateHttpGet_ActiefContract_PassesDetailsOfANewTicketInEditViewModelToView()
         {
+            _mockContractRepository.Setup(r => r.GetAllByClientId(_userId))
+                .Returns(_contracts); //1 actief en 1 niet actief
+
             var result = Assert.IsType<ViewResult>(_ticketController.Create());
+
             var ticketVm = Assert.IsType<EditViewModel>(result.Model);
             Assert.Null(ticketVm.Titel);
+
+            _mockContractRepository.Verify(mock => mock.GetAllByClientId(_userId), Times.Once);
+
         }
         //public void CreateHttpGet_NietActiefContract_PassesNoDetailsOfANewTicketInEditViewModelToView()
         //{
@@ -50,7 +82,9 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
         [Fact]
         public void CreateHttpPost_ValidTicket_AddsNewTicketToRepositoryAndRedirectsToIndex()
         {
-            _mockTicketRepository.Setup(p => p.Add(It.IsNotNull<Ticket>()));
+            _mockContractRepository.Setup(r => r.GetAllByClientId(_userId))
+                .Returns(_contracts); //1 actief en 1 niet actief
+
             var ticketVm = new EditViewModel()
             {
                 Titel = "Fout2098 Fase7",
@@ -58,9 +92,35 @@ namespace Projecten2_TicketingPlatform.Tests.Controllers
                 TypeTicket = 1
             };
             var result = Assert.IsType<RedirectToActionResult>(_ticketController.Create(ticketVm));
+
+            Assert.Equal("Index", result.ActionName);
+            _mockContractRepository.Verify(mock => mock.GetAllByClientId(_userId), Times.Once);
+            _mockTicketRepository.Verify(m => m.Add(It.IsNotNull<Ticket>()), Times.Once);
+            _mockTicketRepository.Verify(m => m.SaveChanges(), Times.Once);
+           
+
+        }
+
+        [Fact]
+        public void CreateHttpPost_ValidTicketFromSupportManager_AddsNewTicketToRepositoryAndRedirectsToIndex()
+        {
+            _mockContractRepository.Setup(r => r.GetAllByClientId(_userId))
+                 .Returns(_contracts); //1 actief en 1 niet actief
+
+            var ticketVm = new EditViewModel()
+            {
+                KlantId = "bff6a934 - 0dca - 4965 - b9fc - 91c3290792c8",
+                Titel = "Fout2098 Fase7",
+                Omschrijving = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                TypeTicket = 1
+            };
+            var result = Assert.IsType<RedirectToActionResult>(_ticketController.Create(ticketVm));
+
             Assert.Equal("Index", result.ActionName);
             _mockTicketRepository.Verify(m => m.Add(It.IsNotNull<Ticket>()), Times.Once);
             _mockTicketRepository.Verify(m => m.SaveChanges(), Times.Once);
+            _mockContractRepository.Verify(mock => mock.GetAllByClientId(_userId), Times.Once);
+
         }
         [Fact]
         public void CreateHttpPost_InvalidTicket_DoesNotCreateNorPersistsTicketAndRedirectsToActionIndex()

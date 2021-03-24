@@ -25,27 +25,14 @@ namespace Projecten2_TicketingPlatform.Data.Repositories
 
         public IEnumerable<Contract> GetAllByClientId(string klantId)
         {
-            return _contracten.Where(t => t.ClientId.Equals(klantId)).OrderByDescending(c => c.EindDatum).AsNoTracking().ToList();
-        }
-
-        public bool HasActiveContracts(string klantId)
-        {
-            if (_contracten.Where(t => t.ClientId.Equals(klantId)).Where(t => t.ContractStatus.Equals(ContractStatus.Actief)).Count() != 0)
-                return true;
-            else
-                return false;
-
+            return _contracten.Where(t => t.ClientId.Equals(klantId)).Include(c=> c.ContractType).OrderByDescending(c => c.EindDatum).AsNoTracking().ToList();
         }
 
         public Contract GetById(int contractId)
         {
-            return _contracten.SingleOrDefault(c => c.ContractId == contractId);
+            return _contracten.Include(p=>p.ContractType).SingleOrDefault(c => c.ContractId == contractId);
         }
 
-        public IEnumerable<Contract> GetByStatusByClientId(string klantId, IEnumerable<ContractStatus> contractStatuses)
-        {
-            return _contracten.Where(t => t.ClientId.Equals(klantId)).Where(p => contractStatuses.Contains(p.ContractStatus)).OrderByDescending(p => p.EindDatum).AsNoTracking().ToList();
-        }
 
         public void SaveChanges()
         {

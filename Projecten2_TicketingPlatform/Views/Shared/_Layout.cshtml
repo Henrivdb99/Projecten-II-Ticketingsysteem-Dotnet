@@ -6,29 +6,28 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Projecten2_TicketingPlatform G23</title>
+    <title>Projecten2_TicketingPlatform G23</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/actemium theme.css" />
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-light">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Projecten2_TicketingPlatform G23</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Dashbord" asp-action="Index">
+                    <img src="~/images/actemium logo.png" height="30" alt="Actemium logo" /> 
+                </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <partial name="_LoginPartial" />
-                    <ul class="navbar-nav flex-grow-1">
-                        @*<li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>*@
+                    <ul class="navbar-nav flex-grow-1">                        
                         @if (SignInManager.IsSignedIn(User))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Dashbord" asp-action="Index">Dashbord</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Dashbord" asp-action="Index">Dashboard</a>
                             </li>
                         }
                     </ul>
@@ -38,28 +37,26 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
-            @if (TempData["GeenTickets"] != null)
+            @if (TempData["FoutMelding"] != null)
             {
-                <div class="alert alert-warning">@TempData["GeenTickets"]</div>
+                <div class="alert alert-danger">@TempData["FoutMelding"]</div>
             }
-            @if (TempData["GeenContracten"] != null)
+            @if (TempData["Waarschuwing"] != null)
             {
-                <div class="alert alert-warning">@TempData["GeenContracten"]</div>
+                <div class="alert alert-warning">@TempData["Waarschuwing"]</div>
             }
-            @if (TempData["Boodschap"] != null)
+            @if (TempData["Succes"] != null)
             {
-                <div class="alert alert-warning">@TempData["Boodschap"]</div>
+                <div class="alert alert-success">@TempData["Succes"]</div>
             }
-            @if (TempData["GeenActieveContracten"] != null)
-            {
-                <div class="alert alert-warning">@TempData["GeenActieveContracten"]</div>
-            }            @RenderBody()
+                
+            @RenderBody()
         </main>
     </div>
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2021 - Projecten2_TicketingPlatform 
+            &copy; 2021 - Manufacturing Assistance Platform - Projecten2_Groep23
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

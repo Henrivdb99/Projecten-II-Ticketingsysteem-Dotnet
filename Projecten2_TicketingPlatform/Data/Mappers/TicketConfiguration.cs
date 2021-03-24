@@ -8,12 +8,15 @@ using System.Threading.Tasks;
 
 namespace Projecten2_TicketingPlatform.Data.Mappers
 {
-    public class TicketConfiguration : IEntityTypeConfiguration<Ticket>
+    public class ContractTypeConfiguration : IEntityTypeConfiguration<Ticket>
     {
         public void Configure(EntityTypeBuilder<Ticket> builder)
         {
             builder.ToTable("Ticket");
             builder.HasKey(t => t.Ticketid);
+
+            builder.Property(
+                t => t.Bijlage);
 
         }
     }

@@ -52,6 +52,9 @@ namespace Projecten2_TicketingPlatform
             services.AddScoped<TicketingPlatformDataInitializer>();
             services.AddScoped<ITicketRepository, TicketRepository>();
             services.AddScoped<IContractRepository, ContractRepository>();
+            services.AddScoped<IContractTypeRepository, ContractTypeRepository>();
+            services.AddScoped<IKnowledgeBaseRepository, KnowledgeBaseRepository>();
+
 
             services.Configure<IdentityOptions>(options =>
             {
