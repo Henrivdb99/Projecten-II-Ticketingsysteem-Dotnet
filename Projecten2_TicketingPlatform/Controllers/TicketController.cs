@@ -229,6 +229,43 @@ namespace Projecten2_TicketingPlatform.Controllers
         }
         #endregion
 
+        #region == Opvolging Methodes ==
+        public IActionResult Opvolging(int ticketId)
+        {
+            Ticket ticket = _ticketRepository.GetById(ticketId);
+            if (ticket == null)
+                return new NotFoundResult();
+            return View(new OpvolgingViewModel(ticket));
+        }
+        [HttpPost]
+        public IActionResult Opvolging(OpvolgingViewModel ticketVm, int ticketId)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+
+                    Ticket ticket = _ticketRepository.GetById(ticketId);
+                    if (ticket == null)
+                        return new NotFoundResult();
+                    ticket.Oplossing = ticketVm.Oplossing;
+                    ticket.Kwaliteit = ticketVm.Kwaliteit;
+                    ticket.SupportNodig = ticketVm.SupportNodig;
+
+                    _ticketRepository.SaveChanges();
+                    TempData["Succes"] = "Opvolging succesvol toegevoegd!";
+                }
+                catch (ArgumentException ae)
+                {
+                    TempData["FoutMelding"] = "Bewerken ticket mislukt. " + ae.Message;
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["IsEdit"] = true;
+            ViewData["TicketType"] = TicketTypesAsSelectList();
+            return View(ticketVm);
+        } 
+        #endregion
 
         [HttpGet]
         public ActionResult GetPdf(string filePath, string fileName)
