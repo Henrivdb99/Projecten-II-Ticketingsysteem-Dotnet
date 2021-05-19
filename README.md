@@ -1,4 +1,4 @@
-# Recipe API - Monolithic Repository
+# TicketingPlatform
 
 ## Prerequisites
 
